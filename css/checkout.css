@@ -388,6 +388,28 @@ body {
     background: #15803d;
 }
 
+/* Transiciones sutiles del modal */
+.modal-view-initial {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modal-view-initial.fading-out {
+    opacity: 0;
+    transform: scale(0.94);
+    pointer-events: none;
+}
+
+.modal-view-success {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.modal-view-success.active {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
 /* Loader */
 #loaderSuperficialPro {
     display: none;

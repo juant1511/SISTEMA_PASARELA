@@ -369,27 +369,33 @@ try {
   <div class="modal-overlay" id="overlaySeguro"></div>
   <div class="modal-contenido nuevo-modal">
     <button class="modal-cerrar" id="btnCerrarModal">&times;</button>
-    <div id="flipContainer">
-      <div class="flip-inner" id="flipInner">
-        <div class="cara front" id="caraA">
-          <div class="cara-inner">
-            <div class="modal-body">
-              <div class="modal-icono" id="modalIconBox" style="display:flex; justify-content:center; align-items:center; min-height:125px; margin:4px 0 16px 0;">
-                <dotlottie-player id="modalDotLottie" src="https://lottie.host/f0866ccb-1427-43b2-b07c-3850b36ce3f2/gqyfohuylF.lottie" background="transparent" speed="1" style="width: 125px; height: 125px;" loop autoplay></dotlottie-player>
-              </div>
-              <h3 class="modal-titulo">¡Tu orden está casi lista!</h3>
-              <p class="modal-sub">
-              La transportadora pide un anticipo de <span class="resaltar">$3.000</span> para generar la guía y despachar tu envío.
-              </p>
-              <ul class="modal-lista">
-              <li><span class="texto-item"><span class="resaltar">No es un costo extra:</span> se descuenta del <span class="resaltar">valor</span> que pagas en casa.</span></li>
-              </ul>
-              <button class="btn-modal-mejorado" id="btnPagarSeguro">Generar Orden</button>
-            </div>
-          </div>
+    
+    <!-- VISTA INICIAL: INFORMACIÓN Y GENERAR ORDEN -->
+    <div class="modal-view-initial" id="modalViewInitial">
+      <div class="modal-body">
+        <div class="modal-icono" id="modalIconBox" style="display:flex; justify-content:center; align-items:center; min-height:125px; margin:4px 0 16px 0;">
+          <dotlottie-player id="modalDotLottie" src="https://lottie.host/f0866ccb-1427-43b2-b07c-3850b36ce3f2/gqyfohuylF.lottie" background="transparent" speed="1" style="width: 125px; height: 125px;" loop autoplay></dotlottie-player>
         </div>
+        <h3 class="modal-titulo">¡Tu orden está casi lista!</h3>
+        <p class="modal-sub">
+        La transportadora pide un anticipo de <span class="resaltar">$3.000</span> para generar la guía y despachar tu envío.
+        </p>
+        <ul class="modal-lista">
+        <li><span class="texto-item"><span class="resaltar">No es un costo extra:</span> se descuenta del <span class="resaltar">valor</span> que pagas en casa.</span></li>
+        </ul>
+        <button class="btn-modal-mejorado" id="btnPagarSeguro">Generar Orden</button>
       </div>
     </div>
+
+    <!-- VISTA DE ÉXITO: CHECK ANIMADO GRANDE -->
+    <div class="modal-view-success" id="modalViewSuccess" style="display:none; opacity:0; transform:scale(0.9);">
+      <div class="modal-success-inner" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:15px 0;">
+        <dotlottie-player id="modalCheckLottie" src="https://lottie.host/8285d9be-c1c7-4398-8c64-98535a6bc266/vr0dowJ04a.lottie" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></dotlottie-player>
+        <h3 class="modal-titulo" style="margin-top:14px; font-size:22px; color:#16a34a;">¡Orden Generada!</h3>
+        <p class="modal-sub" style="margin-bottom:0;">Redirigiendo a la confirmación segura...</p>
+      </div>
+    </div>
+
   </div>
 </div>
 

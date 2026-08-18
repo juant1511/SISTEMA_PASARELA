@@ -31,6 +31,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Modal Control
     function abrirModal() {
+        const viewInitial = document.getElementById('modalViewInitial');
+        const viewSuccess = document.getElementById('modalViewSuccess');
+        const btnCerrar = document.getElementById('btnCerrarModal');
+
+        if (viewInitial) {
+            viewInitial.style.display = 'block';
+            viewInitial.classList.remove('fading-out');
+        }
+        if (viewSuccess) {
+            viewSuccess.style.display = 'none';
+            viewSuccess.classList.remove('active');
+        }
+        if (btnCerrar) btnCerrar.style.display = 'block';
+        if (btnPagarSeguro) {
+            btnPagarSeguro.disabled = false;
+            btnPagarSeguro.style.opacity = '1';
+            btnPagarSeguro.textContent = 'Generar Orden';
+        }
+
         if (modalSeguro) modalSeguro.classList.add('activo');
     }
 
@@ -72,21 +91,40 @@ document.addEventListener('DOMContentLoaded', function () {
         btnPagarSeguro.addEventListener('click', function (e) {
             e.preventDefault();
             
-            // Estado visual de carga en el botón
+            // 1. Estado visual de carga en el botón
             btnPagarSeguro.disabled = true;
             btnPagarSeguro.style.opacity = '0.85';
             btnPagarSeguro.textContent = 'Generando orden...';
 
-            const player = document.getElementById('modalDotLottie');
-            if (player) {
-                player.src = 'https://lottie.host/f0866ccb-1427-43b2-b07c-3850b36ce3f2/gqyfohuylF.lottie';
-                try {
-                    player.stop();
-                    player.play();
-                } catch (err) {}
+            const viewInitial = document.getElementById('modalViewInitial');
+            const viewSuccess = document.getElementById('modalViewSuccess');
+            const checkLottie = document.getElementById('modalCheckLottie');
+            const btnCerrar = document.getElementById('btnCerrarModal');
+
+            if (btnCerrar) btnCerrar.style.display = 'none';
+
+            // 2. Desaparece el contenido de manera sutil
+            if (viewInitial) {
+                viewInitial.classList.add('fading-out');
             }
 
-            // Esperar que termine la animación completa antes de proceder
+            // 3. Muestra grande en el centro la animación de check
+            setTimeout(function () {
+                if (viewInitial) viewInitial.style.display = 'none';
+                if (viewSuccess) {
+                    viewSuccess.style.display = 'block';
+                    void viewSuccess.offsetWidth; // Forzar reflow para animación CSS
+                    viewSuccess.classList.add('active');
+                }
+                if (checkLottie) {
+                    try {
+                        checkLottie.stop();
+                        checkLottie.play();
+                    } catch (err) {}
+                }
+            }, 320);
+
+            // 4. Esperar que termine la animación de check antes de proceder al flujo normal
             setTimeout(function () {
                 cerrarModal();
                 if (typeof window.finalizarCompra === 'function') {
@@ -94,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     form.submit();
                 }
-            }, 2800);
+            }, 2600);
         });
     }
 });
