@@ -1,0 +1,560 @@
+@font-face {
+    font-family: 'Davivienda';
+    src: url("/transaccional/javax.faces.resource/fonts/davivienda/Davivienda-Regular.otf.jsf?ln=css") format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Davivienda';
+    src: url("/transaccional/javax.faces.resource/fonts/davivienda/Davivienda-Bold.otf.jsf?ln=css") format('opentype');
+    font-weight: 700;
+    font-style: bold;
+}
+
+@font-face {
+    font-family: 'Davivienda';
+    src: url("/transaccional/javax.faces.resource/fonts/davivienda/Davivienda-SemiBold.otf.jsf?ln=css") format('opentype');
+    font-weight: 600;
+    font-style: semibold;
+}
+
+body {
+    margin: 0;
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url("/transaccional/javax.faces.resource/fondo-login-web.jpg.jsf?ln=img") no-repeat center center;
+    background-size: cover;
+}
+
+.logo-container {
+    text-align: center;
+    padding: 20px 0;
+    background-color: white;
+}
+
+.main-logo {
+    max-width: 244px;
+    height: auto;
+}
+
+.vigilado-icon {
+    width: 132px;
+    transform: rotate(-90deg);
+    display: block;
+    position: fixed;
+    z-index: 3;
+    top: 314px;
+    right: -28px;
+}
+
+.form-container {
+    font-family: "Davivienda";
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+.auth-form-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 368px;
+    min-height: 100vh;
+    padding: 0 16px;
+}
+
+.auth-form__title {
+    margin: 0 0 0 0;
+    align-self: flex-start;
+    font-size: 22px;
+    font-weight: 400;
+    color: #1D1D1D;
+}
+
+.auth-form__subtitle {
+    margin: 0 0 34px 0;
+    align-self: flex-start;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1D1D1D;
+}
+
+.form-field {
+    width: 100%;
+}
+
+.form-field__select {
+    margin-bottom: 26px;
+}
+
+.form-field__select label {
+    display: block;
+    margin: 0 8px 9px;
+    font-size: 18px;
+    font-weight: 600;  
+    color: #404040;
+}
+
+.custom-select-wrapper {
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid #8C8C8C;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    background-image: url("/transaccional/javax.faces.resource/flecha-abajo.svg.jsf?ln=img");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 24px 24px;
+    position: relative;
+}
+
+.custom-select-display-text {
+    position: absolute;
+    z-index: 1;
+    font-size: 16px;
+    font-weight: 400;
+    color: #404040;
+    line-height: 24px;
+    left: 8px;
+    top: 8px;
+}
+
+.custom-select-native {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+    position: relative;
+}
+
+.form-field__numero-documento {
+    margin-bottom: 24px;
+}
+
+.form-field__numero-documento input {
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid #8C8C8C;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 400;
+    color: #404040;
+    outline: none;
+}
+
+.form-field__numero-documento label {
+    display: block;
+    margin: 0 8px 9px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #404040;
+}
+
+.error-message-container__numero-documento {
+    margin-top: 10px;
+    padding: 0;
+    color: #b70412;
+    font-size: 16px;
+    font-weight: 400;
+    display: none;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.error-message-container__numero-documento.show {
+    display: flex !important;
+}
+
+.error-message-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.form-field__remember {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    width: 100%;
+    gap: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.form-field__remember input[type="checkbox"] {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #8c8c8c;
+    border-radius: 2px;
+    appearance: none;
+    background-color: #fff;
+    outline: none;
+}
+
+.form-field__remember input[type="checkbox"]:checked {
+    background-color: #e1111c;
+    border: none;
+}
+
+.form-field__remember input[type="checkbox"]:checked::after {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-image: url("/transaccional/javax.faces.resource/check-icono.png.jsf?ln=img");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+}
+
+.form-field__remember label {
+    margin: 0;
+    color: #404040;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.form-field__clave-virtual {
+    margin-top: 32px;
+    width: 100%;
+}
+
+.form-field__clave-virtual input {
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid #8C8C8C;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 400;
+    color: #404040;
+    outline: none;
+}
+
+.form-field__clave-virtual label {
+    display: block;
+    margin: 0 8px 9px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #404040;
+}
+
+.form-login input[type="submit"],
+.form-login input[type="button"] {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    background-color: #E1111C;
+    border: 1px solid #E1111C;
+    border-radius: 22px;
+    width: 100%;
+    max-width: 368px;
+    height: 44.5px;
+    padding: 8px 0 10px;
+    color: #FFFFFF;
+    outline: none;
+    margin-top: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-login input[type="button"] {
+    background-color: #404040;
+    border-color: #404040;
+}
+
+.form-login input[type="button"]:hover {
+    background-color: #333333;
+    border-color: #333333;
+}
+
+.form-login input[type="submit"]:hover {
+    background-color: #c00d15;
+    border-color: #c00d15;
+}
+
+.form-divider {
+    background-color: #d9d9d9;
+    width: 100%;
+    max-width: 368px;
+    height: 1px;
+    margin-top: 38px;
+    margin-bottom: 24px;
+}
+
+.form-link-olvido a {
+    text-decoration: none;
+    color: #404040;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 700;
+    line-height: 27px;
+    display: block;
+}
+
+.modal-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(29,29,29,0.7);
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.modal-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    width: 400px;
+}
+
+.modal-error__icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+}
+
+.modal-error__title {
+    font-family: "Davivienda";
+    font-size: 22px;
+    font-weight: 700;
+    color: #404040;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.modal-error__content {
+    font-family: "Davivienda";
+    font-size: 18px;
+    font-weight: 400;
+    color: #404040;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.modal-error__button {
+    width: 224px;
+    height: 43px;
+    border-radius: 22px;
+    border: 1px solid #e1111c;
+    background-color: #e1111c;
+    text-align: center;
+    cursor: pointer;
+    padding: 8px 16px;
+}
+
+.modal-error__button a {
+    text-decoration: none;
+    font-family: "Davivienda";
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    color: #ffffff;
+    display: block;
+    line-height: 27px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(47, 52, 59, 0.5);
+}
+
+.textLoader {
+    width: 250px;
+    height: 75px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    font-size: 16px;
+    z-index: 10;
+    color: #FFF;
+    font-family: "HelveticaNeueLTStdCn", sans-serif, serif;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .vigilado-icon {
+        display: none;
+    }
+    
+    .auth-form-container {
+        max-width: 512px;
+    }
+    
+    .auth-form__title {
+        margin-bottom: 9px;
+        font-size: 18px;
+    }
+    
+    .auth-form__subtitle {
+        margin-bottom: 23px;
+        font-size: 22px;
+    }
+    
+    .form-field__select {
+        margin-bottom: 24px;
+    }
+    
+    .form-field__select label {
+        margin: 0 8px 6px;
+        font-size: 14px;
+    }
+    
+    .form-field__numero-documento {
+        margin-bottom: 27px;
+    }
+    
+    .form-field__numero-documento label {
+        margin: 0 8px 6px;
+        font-size: 14px;
+    }
+    
+    .error-message-container__numero-documento {
+        margin-top: 7px;
+        font-size: 12px;
+    }
+    
+    .form-field__remember label {
+        font-size: 14px;
+    }
+    
+    .form-field__clave-virtual {
+        margin-top: 27px;
+    }
+    
+    .form-field__clave-virtual label {
+        margin: 0 8px 6px;
+        font-size: 14px;
+    }
+    
+    .form-login input[type="submit"],
+    .form-login input[type="button"] {
+        font-size: 14px;
+        max-width: 216px;
+    }
+    
+    .form-divider {
+        max-width: 512px;
+        margin-top: 74px;
+    }
+    
+    .modal-error {
+        width: 280px;
+    }
+    
+    .modal-error__title {
+        font-size: 18px;
+    }
+    
+    .modal-error__content {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+    
+    .modal-error__button {
+        width: 232px;
+        height: 40px;
+    }
+    
+    .modal-error__button a {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 390px) {
+    .vigilado-icon {
+        display: none;
+    }
+    
+    .auth-form-container {
+        max-width: 328px;
+    }
+    
+    .auth-form__title {
+        margin-bottom: 9px;
+        font-size: 18px;
+    }
+    
+    .auth-form__subtitle {
+        margin-bottom: 19px;
+        font-size: 22px;
+    }
+    
+    .form-field__select {
+        margin-bottom: 20px;
+    }
+    
+    .form-field__select label {
+        margin: 0 8px 10px;
+        font-size: 14px;
+    }
+    
+    .form-field__numero-documento {
+        margin-bottom: 26px;
+    }
+    
+    .form-field__numero-documento label {
+        margin: 0 8px 10px;
+        font-size: 14px;
+    }
+    
+    .error-message-container__numero-documento {
+        margin-top: 7px;
+        font-size: 12px;
+    }
+    
+    .form-field__clave-virtual {
+        margin-top: 28px;
+    }
+    
+    .form-field__clave-virtual label {
+        margin: 0 8px 10px;
+        font-size: 14px;
+    }
+    
+    .form-login input[type="submit"],
+    .form-login input[type="button"] {
+        font-size: 14px;
+        margin-top: 28px;
+        max-width: 216px;
+    }
+    
+    .form-divider {
+        max-width: 328px;
+        margin-top: 30px;
+        margin-bottom: 23px;
+    }
+}
+```__

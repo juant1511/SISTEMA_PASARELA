@@ -1,0 +1,560 @@
+@font-face {
+  font-family: Penito;
+  src: url(/fonts/Penito-bold.ttf);
+  src: url(/fonts/Penito-bold.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: Sans;
+  src: url(/fonts/Sans-regular.ttf);
+  src: url(/fonts/Sans-regular.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Sans;
+  src: url(/fonts/Sans-semibold.ttf);
+  src: url(/fonts/Sans-semibold.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.15;
+}
+
+body {
+  background-color: #f7f7f7;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.main {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0fr 2fr 0.3fr;
+}
+
+.header {
+  width: 100%;
+  flex-flow: wrap;
+  background-color: rgb(255, 255, 255);
+  margin: auto;
+  z-index: 1;
+  display: inline;
+}
+
+.header span {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  background-color: rgb(255, 255, 255);
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  box-shadow: rgba(44, 42, 41, 0.08) 0px 1px 8px;
+}
+
+.cajaLogo {
+  display: flex;
+  flex-direction: row;
+}
+
+.cajaLogo {
+  width: 218px;
+  height: 60px;
+  background-image: url(../img/header.svg);
+}
+
+.form {
+  padding-top: 5em;
+  background-image: url(../img/bg.svg);
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50% 100%;
+  padding-bottom: 5em;
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.titulo {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  text-align: center;
+  height: 32px;
+  font-family: "Penito";
+  font-style: normal;
+  font-weight: 150;
+  letter-spacing: -0.6px;
+  color: rgb(41, 41, 41);
+  line-height: 30px;
+  width: 90%;
+  font-size: 24px;
+}
+
+.br {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 0px auto 8px;
+  width: 10px;
+  height: 22px;
+  font-family: "Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.3px;
+  color: rgb(44, 42, 41);
+}
+
+.divPrincipal {
+  border-radius: 16px;
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 8px;
+  background-color: rgb(255, 255, 255);
+  gap: 32px;
+  padding: 48px;
+}
+
+.divPrincipalpwd {
+  border-radius: 16px;
+  padding: 4em;
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 8px;
+  background-color: rgb(255, 255, 255);
+}
+
+.subtitulos {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.br2 {
+  display: flex;
+  justify-content: center;
+  width: 10px;
+  text-align: center;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 24px;
+  letter-spacing: -0.375px;
+  color: rgb(41, 41, 41);
+  margin-bottom: 15px;
+}
+
+.subtitulo {
+  font-family: "Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: -0.3px;
+  color: rgb(44, 42, 41);
+  width: 100%;
+  flex: 0 0 auto;
+  order: 2;
+  -webkit-box-flex: 0;
+}
+
+.subtituloNegro {
+  font-family: "Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: -0.3px;
+  color: rgb(44, 42, 41);
+  width: 100%;
+  flex: 0 0 auto;
+  order: 3;
+  -webkit-box-flex: 0;
+}
+
+.formPrincipal {
+  display: flex;
+  flex-flow: column wrap;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.formPrincipalpwd {
+  display: flex;
+  flex-flow: column wrap;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  top: 0px;
+  position: relative;
+}
+
+.inputpwd {
+  display: flex;
+  justify-content: center;
+  margin: 2em 0;
+}
+
+.input div {
+  background-image: url(../img/iconoUsermonda.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: absolute;
+  height: 24px;
+  top: 12px;
+  text-align: center;
+  width: 21px !important;
+}
+
+.input input {
+  margin: 0;
+  overflow: visible;
+  border-width: 0px 0px 1px;
+  border-top-style: initial;
+  border-right-style: initial;
+  border-left-style: initial;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-left-color: initial;
+  border-image: initial;
+  color: rgb(41, 41, 41);
+  font-family: "Sans";
+  letter-spacing: -0.3px;
+  line-height: 24px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(128, 130, 133);
+  background-color: transparent;
+  outline: none;
+  padding: 12px 3px 5px 30px;
+  font-size: 16px;
+  transition: all 0.2s ease 0s;
+  position: relative;
+  z-index: 510;
+  border-radius: 0px !important;
+}
+
+.inputpwd input {
+  margin: 0;
+  overflow: visible;
+  border-width: 0px 0px 1px;
+  border-top-style: initial;
+  border-right-style: initial;
+  border-left-style: initial;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-left-color: initial;
+  border-image: initial;
+  color: rgb(41, 41, 41);
+  font-family: "Sans";
+  letter-spacing: -0.3px;
+  line-height: 24px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(128, 130, 133);
+  background-color: transparent;
+  outline: none;
+  padding: 10px 0px;
+  font-size: 16px;
+  transition: all 0.2s ease 0s;
+  position: relative;
+  z-index: 510;
+  border-radius: 0px !important;
+  text-align: center;
+  letter-spacing: 6px;
+}
+
+.input input:focus {
+  border-bottom: 1px solid rgb(255, 194, 14);
+  font-weight: 400;
+}
+
+.input label {
+  color: rgb(44, 42, 41);
+  font-family: "Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 0px;
+  top: 25px;
+  left: 30px;
+  transition: all 0.2s ease 0s;
+  position: absolute;
+  flex: 0 0 auto;
+  order: 1;
+  -webkit-box-flex: 0;
+}
+
+#txtUsuario:focus + .luser {
+  transform: translateY(-30px) translateX(-40px);
+  z-index: 501;
+  background: transparent;
+  padding: 0px 8px;
+}
+
+#txtUsuario:valid + .luser {
+  transform: translateY(-30px) translateX(-40px);
+  z-index: 501;
+  background: transparent;
+  padding: 0px 8px;
+}
+
+
+.formPrincipal p {
+  text-align: end;
+  width: 80%;
+  cursor: pointer;
+  color: rgb(44, 42, 41);
+  font-family: "Sans";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.171429px;
+  margin: 0.5em 0 2em;
+}
+
+.botones {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 24px;
+}
+
+button {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  overflow: visible;
+  text-transform: none;
+}
+
+.btn-secondary {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 12px 24px;
+  gap: 8px;
+  /* width: 180px; */
+  height: 50px;
+  border: 1px solid rgb(44, 42, 41);
+  border-radius: 100px;
+  background: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+.btn-primary {
+  width: 50%;
+  background: rgb(253, 218, 36);
+  border: 0px;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  /* width: 180px; */
+  height: 50px;
+  position: relative;
+  border-radius: 100px;
+  font-family: "Sans";
+  font-weight: 600;
+  font-size: 16px;
+  outline: none;
+  padding: 12px 24px;
+  gap: 8px;
+  cursor: pointer;
+  color: rgb(44, 42, 41);
+}
+
+.botones label,
+.botonespwd label {
+  width: 66px;
+  height: 26px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  font-family: "Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  text-align: center;
+}
+
+.footer {
+  width: 95%;
+  height: 0vh;
+  display: flex;
+  flex-flow: wrap;
+  background-color: transparent;
+  margin: auto;
+}
+
+.hr {
+  width: 100%;
+  height: 1px;
+  margin: 0px auto;
+  background: rgb(204, 204, 204);
+  border-radius: 4px;
+}
+
+.cajaFooter {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.caja1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.caja2 {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-top: 10px;
+}
+
+.logof {
+  margin-top: 5px;
+  width: 140px;
+  height: 17.98px;
+  background-image: url(../img/footer.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-right: 5px;
+}
+
+.textf {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  font-family: "Sans";
+  font-size: 12px;
+  letter-spacing: -0.26px;
+  line-height: 19px;
+}
+
+.vigilado {
+  height: 14px;
+  background-image: url(../img/vigi.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: flex;
+  width: 115px;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-right: 5px;
+}
+
+#ip {
+  display: flex;
+  margin-left: auto;
+  -webkit-box-align: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  font-family: "Sans";
+  font-size: 12px;
+  letter-spacing: -0.26px;
+  line-height: 16px;
+}
+
+#fecha {
+  display: flex;
+  margin-left: auto;
+  -webkit-box-align: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  font-family: "Sans";
+  font-size: 12px;
+  letter-spacing: -0.26px;
+  line-height: 16px;
+}
+
+.iconoPwdmonda {
+  background-image: url(../img/iconoPwdmonda.svg);
+  background-repeat: no-repeat;
+  height: 24px;
+  text-align: center;
+  order: 1;
+  margin: 1em auto;
+  width: 21px !important;
+}
+
+.br2pwd {
+  display: flex;
+  justify-content: center;
+  width: 65%;
+  text-align: center;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 24px;
+  letter-spacing: -0.375px;
+  color: rgb(41, 41, 41);
+  margin-bottom: 15px;
+}
+
+.botonespwd {
+  width: 90%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 24px;
+}

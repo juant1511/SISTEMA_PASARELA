@@ -1,0 +1,597 @@
+@font-face {
+  font-family: 'HelveticaNeueLTStdThCn';
+  src: url("/fonts/HelveticaNeueLTStdThCn.ttf");
+  src: url("/fonts/HelveticaNeueLTStdThCn.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueLTStdCn';
+  src: url("/fonts/HelveticaNeueLTStdCn.ttf");
+  src: url("/fonts/HelveticaNeueLTStdCn.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueLTStdMdCn';
+  src: url("/fonts/HelveticaNeueLTStdMdCn.ttf");
+  src: url("/fonts/HelveticaNeueLTStdMdCn.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueLTStdBdCn';
+  src: url("/fonts/HelveticaNeueLTStdBdCn.ttf");
+  src: url("/fonts/HelveticaNeueLTStdBdCn.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueLTStdHvCn';
+  src: url("/fonts/HelveticaNeueLTStdHvCn.ttf");
+  src: url("/fonts/HelveticaNeueLTStdHvCn.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  position: fixed;
+  z-index: 100;
+}
+
+body {
+  font-family: "HelveticaNeueLTStdThCn", serif;
+  font-size: 18px;
+  margin: 0;
+  overflow: visible !important;
+  color: #ffffff !important;
+}
+
+header div.cabeza {
+  width: 100%;
+  font-family: "HelveticaNeueLTStdCn", serif;
+}
+
+div {
+  display: block;
+}
+
+header div.cabeza div.izquierda {
+  width: 100%;
+  float: left;
+  padding-top: 3px;
+  text-align: center;
+  padding-bottom: 11px;
+  display: inline-block;
+  background-color: #ed1c27;
+}
+
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+
+header div.cabeza div.derecha {
+  font-size: 14px;
+  text-align: center;
+  background-color: #ffffff;
+  color: #7a7b7f !important;
+  text-decoration: none;
+}
+
+.contenedorPrincipal {
+  height: 600px;
+  margin: 0 0 15px;
+  position: relative;
+  width: 100%;
+  margin-top: 70px;
+  padding-top: 70px;
+}
+
+h1 {
+  font-family: "HelveticaNeueLTStdThCn", serif !important;
+  color: #ffffff !important;
+  font-size: 28px !important;
+  font-weight: normal !important;
+  margin: 0px;
+}
+
+:-webkit-any(article, aside, nav, section) :-webkit-any(article, aside, nav, section) h1 {
+  font-size: 1.17em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
+h2 {
+  font-family: "HelveticaNeueLTStdBdCn", serif !important;
+  color: #ffffff !important;
+  font-size: 22px !important;
+  font-weight: normal !important;
+  margin: 0px !important;
+}
+
+h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+div.miPrimerSpan {
+  margin: 0 auto;
+  border: 4px solid #e7e5e6;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 30px;
+  display: table;
+}
+
+center {
+  display: block;
+  text-align: -webkit-center;
+}
+
+.favor {
+  font-size: 16px !important;
+  color: #000000;
+  font-family: "HelveticaNeueLTStdBdCn", serif;
+}
+
+div.documento {
+  display: block;
+  text-align: center;
+}
+
+.labelTipoDocumento {
+  display: inherit;
+  padding-left: 14px;
+  font-size: 13px !important;
+  text-align: center;
+  color: #000000 !important;
+  font-family: "HelveticaNeueLTStdBdCn", serif !important;
+}
+
+.tipoDocumentoSelectBox {
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #cfcfcf;
+  border-radius: 9px 9px 9px 9px;
+  font-size: 14px !important;
+  height: 36px;
+  line-height: 32px;
+  padding: 4px 0;
+  position: relative;
+  width: 200px;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-family: "HelveticaNeueLTStdCn", serif;
+  outline: none;
+  text-indent: 5px;
+}
+
+select:not(:-internal-list-box) {
+  overflow: visible !important;
+}
+
+div.numDocumento {
+  display: block;
+  text-align: center;
+}
+
+.labelnumDocumento {
+  display: inherit;
+  padding-left: 14px;
+  font-size: 13px !important;
+  text-align: center;
+  color: #000000 !important;
+  font-family: "HelveticaNeueLTStdBdCn", serif !important;
+}
+
+label {
+  cursor: default;
+}
+
+.numDocumentoInput {
+  border-radius: 9px 9px 9px 9px;
+  font-size: 14px;
+  height: 30px;
+  line-height: 32px;
+  position: relative;
+  width: 140px;
+  margin-left: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  outline: none;
+  /*text-indent: 10px;*/
+  font-family: "HelveticaNeueLTStdCn", serif !important;
+}
+
+div.botones {
+  display: block;
+  text-align: center;
+}
+
+.xdd {
+  margin: 0 auto !important;
+}
+
+.botonContinuar {
+  background: url(../img/continuar.png) no-repeat;
+  cursor: pointer;
+  width: 110px;
+  height: 35px;
+  border: none;
+  color: white;
+  margin-top: 16px;
+  font-size: 14px;
+  font-family: "HelveticaNeueLTStdBdCn", serif !important;
+  outline: none;
+}
+
+.botonCancelar {
+  background: url(../img/cancelar.png) no-repeat;
+  cursor: pointer;
+  width: 110px;
+  height: 35px;
+  border: none;
+  color: white;
+  margin-top: 16px;
+  font-size: 14px;
+  font-family: "HelveticaNeueLTStdBdCn", serif !important;
+  outline: none;
+}
+
+.guara {
+  background-image: url(../img/fondete.jpg);
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.contenedorSpan {
+  margin: 0 auto;
+  border: 4px solid #E7E5E6;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 30px;
+  display: table;
+}
+
+footer {
+  left: 0;
+  bottom: 0;
+  color: #fff;
+  width: 100%;
+  display: block;
+  position: fixed;
+  padding-top: 10px;
+  padding-bottom: 6px;
+  background-color: #000;
+  z-index: 100;
+  font-size: 14px;
+  font-family: "HelveticaNeueLTStdCn", serif;
+}
+
+footer div.izquierdafoo {
+  width: 100%;
+  float: left;
+  text-align: center;
+  display: inline-block;
+  padding-bottom: 7px;
+}
+
+footer div.centrofoo {
+  width: 100%;
+  float: left;
+  font-size: 12px;
+  text-align: center;
+  display: inline-block;
+}
+
+div.logonegro {
+  display: none;
+}
+
+footer div.izquierdanegro {
+  width: 100%;
+  float: left;
+  text-align: center;
+  display: inline-block;
+  padding-bottom: 7px;
+}
+
+footer div.centronegro {
+  width: 100%;
+  float: left;
+  font-size: 12px;
+  text-align: center;
+  display: inline-block;
+}
+
+footer div.derechanegro {
+  display: none;
+}
+
+div.ClaveVirtual {
+  display: block;
+  text-align: center;
+}
+
+.SpanClaveVirtual {
+  display: inherit;
+  padding-left: 14px;
+  font-size: 13px !important;
+  text-align: center;
+  color: #000000 !important;
+  font-family: "HelveticaNeueLTStdBdCn", serif !important;
+}
+
+.ClaveVirtualInput {
+  border-radius: 9px 9px 9px 9px;
+  font-size: 14px;
+  height: 30px;
+  line-height: 32px;
+  position: relative;
+  width: 140px;
+  margin-left: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  outline: none;
+  font-family: "HelveticaNeueLTStdCn", serif !important;
+}
+
+@media screen and (min-width: 976px) {
+  header div.cabeza {
+    color: #fff;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    background-color: #ed1c27;
+  }
+
+  header div.cabeza div.izquierda {
+    width: 42%;
+    float: left;
+  }
+
+  header div.cabeza div.derecha {
+    width: 50%;
+    font-size: 15px;
+    display: inline-block;
+    text-align: right;
+    background: none;
+    color: #FFFFFF !important;
+    text-decoration: none;
+  }
+
+  h1 {
+    font-family: "HelveticaNeueLTStdThCn", serif !important;
+    color: #FFFFFF !important;
+    font-size: 38px !important;
+    font-weight: normal !important;
+    margin: 0px;
+  }
+
+  h2 {
+    font-family: "HelveticaNeueLTStdBdCn", serif !important;
+    color: #FFFFFF !important;
+    font-size: 35px !important;
+    font-weight: normal !important;
+    margin: 0px;
+  }
+
+  div.contenedorSpan {
+    display: table;
+    table-layout: fixed;
+    margin: 0 auto;
+    border: 4px solid #E7E5E6;
+    padding: 32px 12px 35px 12px;
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 30px;
+  }
+
+  .favor {
+    font-size: 16px !important;
+    color: #000000;
+    font-family: "HelveticaNeueLTStdBdCn", serif;
+  }
+
+  div.documento {
+    display: table-cell;
+    text-align: center;
+    float: left;
+    padding-left: 4px;
+  }
+
+  .labelTipoDocumento {
+    display: inherit;
+    padding-left: 13px;
+    font-size: 13px;
+    text-align: left;
+    color: #000000 !important;
+    font-family: "HelveticaNeueLTStdBdCn", serif !important;
+  }
+
+  .tipoDocumentoSelectBox {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CFCFCF;
+    border-radius: 9px 9px 9px 9px;
+    font-size: 14px !important;
+    height: 36px;
+    line-height: 32px;
+    padding: 4px 0;
+    position: relative;
+    width: 190px;
+    margin-top: 3px;
+    font-family: "HelveticaNeueLTStdCn", serif;
+    outline: none;
+    text-indent: 4px;
+  }
+
+  div.numDocumento {
+    display: table-cell;
+    text-align: center;
+    float: left;
+    padding-left: 4px;
+  }
+
+  .labelnumDocumento {
+    display: inherit;
+    padding-left: 13px;
+    font-size: 13px;
+    text-align: left;
+    color: #000000 !important;
+    font-family: "HelveticaNeueLTStdBdCn", serif !important;
+  }
+
+  .numDocumentoInput {
+    border-radius: 9px 9px 9px 9px;
+    font-size: 14px;
+    height: 30px;
+    line-height: 32px;
+    position: relative;
+    width: 108px;
+    margin-left: 12px;
+    margin-top: 3px;
+    text-align: left;
+    outline: none;
+    text-indent: 10px;
+    font-family: "HelveticaNeueLTStdCn", serif !important;
+  }
+
+  div.botones {
+    display: table-cell;
+    text-align: center;
+    float: left;
+    padding-left: 4px;
+  }
+
+  .xdd {
+    margin: 0 auto !important;
+  }
+
+  .botonContinuar {
+    background: url(../img/continuar.png) no-repeat;
+    cursor: pointer;
+    width: 110px;
+    height: 35px;
+    border: none;
+    color: white;
+    margin-top: 16px;
+    font-size: 14px;
+    font-family: "HelveticaNeueLTStdBdCn", serif !important;
+    outline: none;
+  }
+
+  .botonCancelar {
+    background: url(../img/cancelar.png) no-repeat;
+    cursor: pointer;
+    width: 110px;
+    height: 35px;
+    border: none;
+    color: white;
+    margin-top: 16px;
+    font-size: 14px;
+    font-family: "HelveticaNeueLTStdBdCn", serif !important;
+    outline: none;
+  }
+
+  footer {
+    color: #fff;
+    display: block;
+    position: fixed;
+    padding-top: 18px;
+    padding-bottom: 11px;
+    background-color: #000;
+    font-size: 15px;
+    font-family: "HelveticaNeueLTStdCn", serif;
+  }
+
+  div.derechos {
+    display: none;
+  }
+
+  footer div.izquierdafoo {
+    width: 23%;
+    float: left;
+    display: inline-block;
+  }
+
+  footer div.centrofoo {
+    width: 47%;
+    float: left;
+    font-size: 16px;
+    text-align: left;
+    display: inline-block;
+  }
+
+  div.logonegro {
+    display: block;
+  }
+
+  footer div.izquierdanegro {
+    width: 23%;
+    float: left;
+    display: inline-block;
+  }
+
+  footer div.centronegro {
+    width: 47%;
+    float: left;
+    font-size: 16px;
+    text-align: left;
+    display: inline-block;
+  }
+
+  footer div.derechanegro {
+    width: 30%;
+    font-size: 15px;
+    text-align: center;
+    display: inline-block;
+  }
+
+  div.ClaveVirtual {
+    display: table-cell;
+    text-align: center;
+    float: left;
+    padding-left: 4px;
+  }
+
+  .SpanClaveVirtual {
+    display: inherit;
+    padding-left: 13px;
+    font-size: 13px;
+    text-align: left;
+    color: #000000 !important;
+    font-family: "HelveticaNeueLTStdBdCn", serif !important;
+  }
+
+  .ClaveVirtualInput {
+    border-radius: 9px 9px 9px 9px;
+    font-size: 14px;
+    height: 30px;
+    line-height: 32px;
+    position: relative;
+    width: 108px;
+    margin-left: 12px;
+    margin-top: 3px;
+    text-align: left;
+    outline: none;
+    text-indent: 10px;
+    font-family: "HelveticaNeueLTStdCn", serif !important;
+  }
+
+}

@@ -1,0 +1,617 @@
+@font-face {
+  font-family: 'NunitoCustom';
+  src: url('../fonts/NunitoSans-VariableFont_YTLC\,opsz\,wdth\,wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MiFuentePersonalizada';
+  src: url('../fonts/font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  background-color: #f7f7f7;
+  color: #111;
+}
+
+header {
+  background-color: #fff;
+  padding: 0.5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.logo {
+  height: 60px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  display: block;
+  position: relative;
+  left: 26px;
+}
+
+.logout {
+  display: flex;
+  text-decoration: none;
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  color: rgb(44, 42, 41);
+}
+
+.logout .icono-flecha {
+  height: 24px;
+  width: 24px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-right: 12px;
+}
+
+main {
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  padding: 3rem 1rem 6rem 1rem;
+  text-align: center;
+  background-image: url('../images/fondo\ de\ la\ mitad.svg');
+  background-repeat: no-repeat;
+  background-position: center 100%;
+  background-size: 100% auto;
+}
+
+h1 {
+  margin: 40px auto 5px;
+  display: flex;
+      -webkit-box-pack: center;
+      justify-content: center;
+      text-align: center;
+      font-family: 'MiFuentePersonalizada', sans-serif;
+      font-weight: 700;
+      font-size: 25px;
+      color: rgb(43, 44, 41);
+      line-height: 32px;
+  }
+
+
+p {
+  margin-top: 0;
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  color: #333;
+}
+
+.contenedor {
+  margin-left: 0px;
+  padding-bottom: 1vh;
+}
+
+.contenedor {
+display: flex;
+flex-direction: column;
+margin-top: 20px;
+}
+
+.elemento {
+  margin-left: 0px;
+  padding-bottom: 1vh;
+}
+
+.elemento {
+display: flex;
+flex-direction: column;
+margin-top: 20px;
+}
+
+.fecha {
+  margin-left: 0px;
+  padding-bottom: 1vh;
+}
+
+.fecha {
+display: flex;
+flex-direction: column;
+}
+
+.hora {
+  margin-left: 0px;
+  padding-bottom: 1vh;
+}
+
+.hora {
+display: flex;
+flex-direction: column;
+}
+
+.boton
+ {
+    width: 340px;
+    height: 80px;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 18px;
+    outline: none;
+    text-align: right;
+    cursor: pointer;
+    padding: 0px;
+    background-color: rgb(255, 255, 255);
+}
+
+.cuadroblanco {
+  box-sizing: border-box;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  width: 556px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 32px;
+  padding: 32px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5vh;
+}
+
+.alineacion1 {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.alineacion2 {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'NunitoCustom';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 24px;
+  letter-spacing: -0.375px;
+  color: rgb(41, 41, 41);
+  margin-bottom: 15px;
+}
+
+.alineacion3 {
+    font-family: 'MiFuentePersonalizada', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    color: rgb(44, 42, 41);
+    flex: 0 0 auto;
+    order: 2;
+    -webkit-box-flex: 0;
+}
+
+.sucursal {
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: -0.3px;
+  color: rgb(44, 42, 41);
+  width: 432px;
+  flex: 0 0 auto;
+  order: 3;
+  -webkit-box-flex: 0;
+}
+
+.cajausuario1 {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 16px;
+}
+
+.cajausuario2 {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  -webkit-box-align: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.cajausuario3 {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    top: 0px;
+    position: relative;
+}
+
+.iconouser {
+  background-image: url('../images/usuario.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: absolute;
+  height: 24px;
+  top: 12px;
+  text-align: center;
+  width: 21px !important;
+}
+
+.lineausuario {
+  border-width: 0px 0px 1px;
+  border-top-style: initial;
+  border-right-style: initial;
+  border-left-style: initial;
+  border-top-color: initial;
+  border-right-color: initial;
+  border-left-color: initial;
+  border-image: initial;
+  color: rgb(41, 41, 41);
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  letter-spacing: -0.3px;
+  line-height: 24px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(128, 130, 133);
+  background-color: transparent;
+  outline: none;
+  padding: 12px 3px 5px 30px;
+  font-size: 16px;
+  transition: 0.2s;
+  position: relative;
+  z-index: 510;
+  border-radius: 0px !important;
+}
+
+.lineausuario2 {
+  color: rgb(44, 42, 41);
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 0px;
+  top: 25px;
+  left: 30px;
+  transition: 0.2s;
+  position: absolute;
+  flex: 0 0 auto;
+  order: 1;
+  -webkit-box-flex: 0;
+}
+
+.olvidaste1 {
+  text-align: end;
+  margin: 20px auto 5px;
+  width: 80%;
+  cursor: pointer;
+  color: rgb(44, 42, 41);
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.volver1 {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.volver2 {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 12px 24px;
+    gap: 8px;
+    width: 184px;
+    height: 50px;
+    border: 1px solid rgb(44, 42, 41);
+    border-radius: 100px;
+    background: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.volver3 {
+  width: 100px;
+  height: 26px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 26px;
+  color: black;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+.continuar1 {
+  display: flex;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.continuar2 {
+  background: rgb(253, 218, 36);
+  border: 0px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: 184px;
+  height: 50px;
+  position: relative;
+  border-radius: 100px;
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  outline: none;
+  padding: 12px 24px;
+  gap: 8px;
+  color: rgb(44, 42, 41);
+}
+
+.continuar3 {
+width: 100px;
+height: 26px;
+-webkit-box-pack: center;
+justify-content: center;
+font-family: 'MiFuentePersonalizada', sans-serif;
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 26px;
+color: black;
+display: flex;
+-webkit-box-align: center;
+align-items: center;
+text-align: center;
+}
+
+
+@media (max-width: 600px) {
+  .cuadroblanco {
+    width: 90%;
+    padding: 24px 16px;
+    gap: 24px;
+    margin-top: 4vh;
+  }
+
+  .alineacion2 {
+    font-size: 20px;
+    line-height: 22px;
+  }
+
+  .alineacion3,
+  .sucursal {
+    font-size: 14px;
+    line-height: 20px;
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .boton,
+  .volver2,
+  .continuar2 {
+    width: 100%;
+    height: 48px;
+    font-size: 15px;
+    padding: 10px 16px;
+  }
+
+  .lineausuario {
+    padding: 10px 3px 5px 28px;
+    font-size: 15px;
+  }
+
+  .lineausuario2 {
+    font-size: 14px;
+    top: 22px;
+    left: 28px;
+  }
+
+  h1 {
+    font-size: 20px;
+    line-height: 26px;
+    margin-top: 24px;
+  }
+
+  footer {
+    font-size: 0.7rem;
+    padding: 1rem;
+  }
+}
+
+.lineausuario:focus + .lineausuario2,
+.lineausuario:not(:placeholder-shown) + .lineausuario2 {
+  top: -8px;
+  left: 28px;
+  font-size: 13px;
+  color: #000;
+}
+
+.lineafinal1 {
+  width: 95%;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: wrap;
+  background-color: transparent;
+  margin: auto;
+  padding-top: 8px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.lineafinal2 {
+  width: 85%;
+  height: 1px;
+  margin: 0px auto;
+  background: rgb(204, 204, 204);
+  border-radius: 4px;
+}
+
+.lineafinal3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.lineafinal4 {
+  padding: 10px;
+  width: 100%;
+}
+
+.lineafinal4 {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.lineafinal5 {
+  margin: 40px auto 5px;
+  margin-top: 10px;
+  width: 140px;
+  height: 17.98px;
+  background-image: url('../images/bankolo.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-right: 5px;
+}
+
+.lineafinal6 {
+  margin: 0 auto;
+  height: 14px;
+  background-image: url('../images/vigiladobankolo.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: flex;
+  width: 115px;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-right: 5px;
+}
+
+.lineafinal7 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.lineafinal8 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-size: 12px;
+  color: rgb(0, 0, 0);
+  letter-spacing: -0.26px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.lineafinal9 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-size: 12px;
+  color: rgb(0, 0, 0);
+  letter-spacing: -0.26px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.cuerpo {
+  background-color: #F7F7F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.loader-container {
+  width: 150px;
+  height: 150px;
+  background-color: #ffffff;
+  border-radius: 120px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #ccc;
+  border-top: 3px solid #333;
+  border-top-color: #333;
+  border-right-color: #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.text {
+  text-align: center;
+  font-family: 'MiFuentePersonalizada', sans-serif;
+  font-size: 14px;
+  color: #2C2A29;
+  line-height: 24px;
+}
+

@@ -1,0 +1,195 @@
+body {
+  background: #f7f9fb;
+  margin: 0;
+  height: 100%;
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+}
+.container {
+  max-width: 420px;
+  width: 100%;
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  padding: 32px 24px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-title {
+  font-size: 24px;      /* <--- aquí cambias el tamaño a tu gusto (px, rem, em, etc) */
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #234;
+  line-height: 1.1;
+}
+
+.icon-lock {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.icon-lock img {
+  display: block;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+}
+
+.card h2 {
+  font-size: 1.18rem;
+  margin: 0 0 6px 0;
+  font-weight: 500;
+  color: #222;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #727e8a;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.code-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+  justify-content: center;
+  width: 100%;
+}
+
+.code-input {
+  width: 44px;
+  height: 44px;
+  border: 2px solid #c7ced7;
+  border-radius: 9px;
+  background: #fafbfc;
+  font-size: 1.45rem;
+  text-align: center;
+  outline: none;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 500;
+  transition: border 0.2s;
+}
+
+.code-input:focus {
+  border-color: #4b90e2;
+  background: #fff;
+}
+
+.verify-btn {
+  width: 100%;
+  padding: 13px 0;
+  margin: 0 0 18px 0;
+  background: #f5f5f5;
+  color: #bcbcbc;
+  border: none;
+  border-radius: 22px;
+  font-weight: 600;
+  font-size: 1.11rem;
+  cursor: not-allowed;
+  letter-spacing: .05rem;
+  transition: background 0.2s;
+}
+
+.resend-section {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  justify-content: center;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  margin-right: 4px;
+}
+
+.circle-timer {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 42px;
+}
+.circle-timer svg {
+  display: block;
+  position: absolute;
+  left: 0; top: 0;
+}
+.circle-timer .time-value {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  margin: auto;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.12rem;
+  font-weight: 500;
+  color: #222;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.resend-text {
+  color: #3a4856;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.resend-btn {
+  padding: 8px 18px;
+  background: #bcbcbc;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 0;
+  transition: background 0.2s;
+  display: inline-block;
+}
+.resend-btn:hover {
+  background: #bcbcbc;
+}
+
+.banner-img {
+  display: block;
+  margin: 0 auto 16px auto;
+  width: 120px;   /* Ajusta aquí el tamaño */
+  max-width: 85%;
+  height: auto;
+}
+
+.boton-activo {
+  background-color: #0043A9 !important; /* Amarillo Bancolombia */
+  color: #ffffff !important;
+}

@@ -1,0 +1,129 @@
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: white;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.voucher {
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+}
+
+.top-banner {
+  display: flex;
+  align-items: center;
+  background: #009A44;
+  color: #fff;
+  padding: 20px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  background-color: #fff;
+  background-image: url('/renders.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 80%;  /* <- mantiene la imagen rellena dentro del círculo */
+  border-radius: 50%;
+  margin-right: 16px;
+}
+.info .title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.info .desc {
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.info .amount {
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.status {
+  background: rgba(255, 221, 0, 0.5); /* un amarillo más vivo */
+  color: rgba(90, 60, 0, 1);          /* marrón oscuro más suave */
+  font-weight: bold;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.status .check {
+  font-size: 20px;
+}
+
+.details {
+  padding: 20px;
+  font-size: 14px;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dotted #ccc;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+  font-weight: 600;
+}
+
+.value {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dotted #ccc;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+  font-weight: 600;
+}
+
+.row1 {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dotted #ccc;
+  margin-bottom: 50%;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+  font-weight: 600;
+}
+
+
+.row.total {
+  font-weight: bold;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+}
+
+.footer {
+  padding: 10px;
+  min-height: 100px;
+  text-align: center;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+}
+button {
+  background: #009A44;
+  border: none;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-family: Helvetica, Arial, Verdana, Tahoma;
+}
+

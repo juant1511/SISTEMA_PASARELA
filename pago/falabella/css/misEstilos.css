@@ -1,0 +1,250 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  height: 73px;
+}
+
+.headerO {
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1020;
+  transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header1 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.box {
+  align-items: center !important;
+}
+
+.box1 {
+  padding-right: 0 !important;
+}
+
+.box1 button {
+  display: inline-block;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  font-weight: 400;
+  color: var(--secondary);
+  background-color: transparent;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  font-family: pfbeausans;
+  padding: 0.6rem 1rem;
+  color: #3f3f3f;
+  cursor: pointer;
+  outline: none;
+}
+
+.box1 span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+}
+
+.box1 svg {
+  fill: currentColor;
+  display: block;
+  height: 1em;
+  width: 1em;
+  position: relative;
+  top: -0.125em;
+  height: 100%;
+  width: 100%;
+  position: static;
+}
+
+.box2 {
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.box2 img {
+  max-width: 102px;
+}
+
+.box3 {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.box3 a {
+  font-family: 'PF BeauSans Pro', sans-serif !important;
+  color: #fff;
+  background-color: #38a121;
+  border-color: #38a121;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  font-family: "bold";
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.aCerrar {
+  font-family: 'PF BeauSans Pro', sans-serif !important; /* Fallback a sans-serif por si acaso */
+  font-style: normal; /* Normal como ejemplo */
+  display: inline-block;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  font-weight: 400;
+  color: var(--secondary);
+  background-color: transparent;
+  margin-top: 1rem !important;
+  text-align: right !important;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  font-family: regular;
+  padding: 0.6rem 1rem;
+  color: #3f3f3f;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.aCerrar:hover {
+  color: inherit !important;
+}
+
+.card1 span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+}
+
+.formf {
+  display: flex;
+  flex-direction: column;
+}
+
+.formf form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.formf a {
+  color: #00943e;
+  text-decoration: none;
+  background-color: transparent;
+  margin-right: 1rem !important;
+  text-decoration: underline;
+  margin: 0.5rem 0;
+  align-self: center;
+  font-size: 1rem;
+}
+
+.formPrincipal select {
+  padding: 8px;
+  line-height: 14px;
+  appearance: none;
+  background-image: url(../img/down.svg);
+  background-repeat: no-repeat;
+  background-position: calc(100% - 20px) 50%;
+  padding-right: 45px;
+  height: 3.5rem;
+  max-width: unset;
+  min-width: unset;
+  width: 100%;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  padding-left: 1rem;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #ee98a9;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(220, 42, 77, 0.25);
+}
+
+.formPrincipal input {
+  padding: 8px;
+  line-height: 14px;
+  height: 3.5rem;
+  max-width: unset;
+  min-width: unset;
+  width: 100%;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  padding-left: 1rem;
+}
+
+.formPrincipal button {
+  font-family: 'PF BeauSans Pro', sans-serif !important;
+  display: inline-block;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  padding: 0.6rem 1rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  color: #fff;
+  background-color: #dc2a4d;
+  border-color: #dc2a4d;
+}
+
+.formPrincipal button:disabled {
+  opacity: 0.65;
+  color: #fff;
+  background-color: #dc2a4d;
+  border-color: #dc2a4d;
+}
+
+.footer img {
+  width: 100%;
+}

@@ -1,0 +1,127 @@
+@font-face {
+font-family: data-table;
+src: url(../fonts/data-table.93be7e0fc94594d266a2.ttf);
+src: url(../fonts/data-table.93be7e0fc94594d266a2.ttf) format("truetype");
+font-weight: 400;
+font-style: normal
+}
+
+@font-face {
+    font-family: icomoon;
+    src: url(../fonts/icomoon.0379b45c7aa1920aca20.ttf);
+    src: url(../fonts/icomoon.0379b45c7aa1920aca20.ttf) format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: block
+}
+
+@font-face {
+    font-family: Gelion;
+    src: url(../fonts/Letter_Omega_Typefoundry-Gelion_Bold.otf) format("opentype");
+    font-style: normal;
+    font-weight: 800
+}
+
+@font-face {
+    font-family: Gelion;
+    src: url(../fonts/Letter_Omega_Typefoundry-Gelion_Semi_Bold.otf) format("opentype");
+    font-style: normal;
+    font-weight: 600
+}
+
+@font-face {
+    font-family: Gelion;
+    src: url(../fonts/Letter_Omega_Typefoundry-Gelion_Medium.otf) format("opentype");
+    font-style: normal;
+    font-weight: 400
+}
+
+@font-face {
+    font-family: Gelion;
+    src: url(../fonts/Letter_Omega_Typefoundry-Gelion_Regular.otf) format("opentype");
+    font-style: normal;
+    font-weight: 300
+}
+
+@font-face {
+    font-family: Gelion;
+    src: url(../fonts/Letter_Omega_Typefoundry-Gelion_Light.otf) format("opentype");
+    font-style: normal;
+    font-weight: 200
+}
+
+@font-face {
+    font-family: Gelion;
+    src: url(../fonts/Letter_Omega_Typefoundry-Gelion_Thin.otf) format("opentype");
+    font-style: normal;
+    font-weight: 100
+}
+
+@font-face {
+    font-family: Gelion;
+    src: url(../fonts/Letter_Omega_Typefoundry-Gelion_Black.otf) format("opentype");
+    font-style: normal
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-Black.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 900
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-ExtraBold.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 800
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-Bold.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 700
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-SemiBold.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 600
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-Medium.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 500
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-Regular.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 400
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-Light.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 300
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-ExtraLight.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 200
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url(../fonts/Poppins-Thin.ttf) format("truetype");
+    font-style: normal;
+    font-weight: 100
+}
