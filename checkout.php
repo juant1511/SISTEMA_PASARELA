@@ -521,9 +521,11 @@ window.finalizarCompra = function(metodo) {
 </script>
 
 <div id="loaderSuperficialPro">
-    <div class="spinner-pro"></div>
-    <br>
-    <span style="font-family: 'Manrope', sans-serif; font-weight:600; color:#333;">Procesando pedido...</span>
+    <div class="loader-pro-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
+        <img src="bold/1_pingpong.gif" alt="Cargando..." style="width: 220px; height: auto; max-width: 85vw; display: block; margin: 0 auto 16px auto; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.06));">
+        <span style="font-family: 'Manrope', sans-serif; font-weight:700; font-size:16px; color:#0f172a; letter-spacing: -0.2px;">Conectando con la pasarela de pago...</span>
+        <span style="font-family: 'Manrope', sans-serif; font-weight:500; font-size:13.5px; color:#64748b; margin-top:4px;">Por favor, no cierres esta ventana</span>
+    </div>
 </div>
 
 </body>
