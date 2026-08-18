@@ -274,8 +274,15 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title><?= htmlspecialchars($producto) ?> | Mercado Libre</title>
     
+    <link rel="preconnect" href="https://http2.mlstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -308,35 +315,40 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             --ml-bg: #ebebeb;
         }
 
-        * { box-sizing: border-box; }
-        body, html {
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
             font-family: 'Proxima Nova', -apple-system, 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
             background-color: var(--ml-bg);
             color: var(--ml-text-black);
             -webkit-font-smoothing: antialiased;
         }
 
-        /* HEADER */
+        /* ─── HEADER ─── */
         .ml-header {
             background-color: var(--ml-yellow);
-            height: 90px;
             width: 100%;
             position: relative;
-        }
-        @media (max-width: 1024px) {
-            .ml-header { height: 56px; }
+            z-index: 100;
         }
 
         .nav-bounds {
             max-width: 1200px;
             margin: 0 auto;
-            height: 100%;
+            min-height: 60px;
             display: flex;
             align-items: center;
-            padding: 0 16px;
+            padding: 10px 16px;
             justify-content: space-between;
+            gap: 16px;
+            box-sizing: border-box;
         }
 
         .nav-logo {
@@ -345,19 +357,29 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             background-image: url('https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/5.21.22/mercadolibre/logo__large_plus.png');
             background-size: contain;
             background-repeat: no-repeat;
-            margin-right: 30px;
+            background-position: left center;
             flex-shrink: 0;
+            text-decoration: none;
+            display: block;
         }
 
-        .nav-search {
+        /* ─── LIVE SEARCH BOX CON API MERCADOLIBRE ─── */
+        .nav-search-wrapper {
             flex: 1;
             max-width: 600px;
+            position: relative;
+        }
+
+        .nav-search-form {
+            width: 100%;
             height: 40px;
             background: #fff;
             box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
             border-radius: 2px;
             display: flex;
             align-items: center;
+            position: relative;
+            z-index: 101;
         }
         
         .nav-search-input {
@@ -365,9 +387,11 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             height: 100%;
             border: none;
             outline: none;
-            padding: 0 15px;
+            padding: 0 14px;
             font-size: 15px;
             color: var(--ml-text-black);
+            background: transparent;
+            font-family: inherit;
         }
 
         .nav-search-btn {
@@ -380,22 +404,82 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #666;
+            transition: color 0.2s;
+        }
+        .nav-search-btn:hover { color: #333; }
+
+        .nav-autosuggest-dropdown {
+            position: absolute;
+            top: 42px;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            border: 1px solid #e0e0e0;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .nav-autosuggest-dropdown.active {
+            display: flex;
         }
 
-        /* CONTENEDOR PRINCIPAL */
+        .nav-suggest-item {
+            padding: 10px 14px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f6f6f6;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+        .nav-suggest-item:hover {
+            background-color: #f5f5f5;
+            color: var(--ml-blue);
+        }
+        .nav-suggest-item svg {
+            color: #999;
+            flex-shrink: 0;
+        }
+
+        .nav-right-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .nav-pqr-link {
+            color: #333333;
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .nav-pqr-link:hover {
+            color: var(--ml-blue);
+        }
+
+        /* ─── CONTENEDOR PRINCIPAL ─── */
         .main-container {
             max-width: 1200px;
             margin: 16px auto 0 auto;
             background-color: #fff;
             border-radius: 6px 6px 0 0;
             display: flex;
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.08);
             overflow: hidden;
             width: 100%;
             box-sizing: border-box;
         }
 
-        /* GALERIA PRODUCTO CON ZOOM LUPA */
+        /* ─── GALERÍA CON EFECTO LUPA ZOOM (DESKTOP) ─── */
         .product-gallery {
             width: 50%;
             display: flex;
@@ -459,6 +543,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             transform: scale(2.4);
         }
 
+        /* ─── INFO DEL PRODUCTO ─── */
         .product-info-wrapper {
             width: 50%;
             display: flex;
@@ -478,6 +563,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             margin: 0 0 10px 0;
             color: var(--ml-text-black);
             line-height: 1.25;
+            word-break: break-word;
         }
 
         .price-container {
@@ -521,6 +607,8 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             transition: background-color .2s;
             border: none;
             width: 100%;
+            text-decoration: none;
+            font-family: inherit;
         }
 
         .btn-primary { background-color: var(--ml-blue); color: #fff; }
@@ -528,90 +616,14 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         .btn-secondary { background-color: var(--ml-blue-light); color: var(--ml-blue); }
         .btn-secondary:hover { background-color: rgba(65,137,230,.25); }
 
-        /* ─── SECCIÓN DE PREGUNTAS (IDÉNTICO A SCREENSHOT) ─── */
-        .ml-qa-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 36px 36px 0 36px;
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
-            box-sizing: border-box;
-            width: 100%;
-        }
-
-        .ml-qa-title {
-            font-size: 24px;
-            font-weight: 400;
-            color: var(--ml-text-black);
-            margin: 0 0 20px 0;
-        }
-
-        .ml-qa-input-box {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .ml-qa-input {
-            flex: 1;
-            height: 48px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            padding: 0 16px;
-            font-size: 15px;
-            outline: none;
-            color: var(--ml-text-black);
-            font-family: inherit;
-        }
-        .ml-qa-input:focus {
-            border-color: var(--ml-blue);
-        }
-
-        .ml-qa-btn {
-            height: 48px;
-            background-color: var(--ml-blue);
-            color: #ffffff;
-            border: none;
-            border-radius: 6px;
-            padding: 0 24px;
-            font-size: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            font-family: inherit;
-            flex-shrink: 0;
-        }
-        .ml-qa-btn:hover {
-            background-color: var(--ml-blue-hover);
-        }
-
-        .ml-qa-link {
-            color: var(--ml-blue);
-            font-size: 14px;
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 28px;
-            font-weight: 400;
-        }
-        .ml-qa-link:hover { text-decoration: underline; }
-
-        .ml-qa-divider {
-            height: 1px;
-            background-color: #eeeeee;
-            width: 100%;
-        }
-
-        /* ─── SECCIÓN DE OPINIONES DEL PRODUCTO (IDÉNTICO A SCREENSHOT) ─── */
+        /* ─── SECCIÓN DE OPINIONES DEL PRODUCTO ─── */
         .ml-opinions-wrapper {
             max-width: 1200px;
             margin: 0 auto 40px auto;
             background: #ffffff;
             padding: 36px;
             border-radius: 0 0 6px 6px;
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.08);
             display: flex;
             gap: 48px;
             box-sizing: border-box;
@@ -834,44 +846,36 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         /* AI SUMMARY BLOCK */
         .ml-ai-block {
             margin-bottom: 30px;
+            background-color: #fafafa;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px 20px;
         }
 
         .ml-ai-header {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .ml-ai-heading {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--ml-text-black);
         }
 
         .ml-ai-subcount {
-            display: block;
             font-size: 12px;
             color: var(--ml-text-light);
-            margin-top: 2px;
         }
 
         .ml-ai-paragraph {
-            font-size: 14px;
+            font-size: 13.5px;
             line-height: 1.5;
             color: var(--ml-text-black);
-            margin: 10px 0;
+            margin: 8px 0 0 0;
             max-width: 680px;
-        }
-
-        .ml-ai-sparkle-footer {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--ml-text-gray);
-            margin-top: 6px;
-        }
-
-        .ml-ai-sparkle-footer svg {
-            color: var(--ml-blue);
         }
 
         /* LISTA DETALLADA DE RESEÑAS */
@@ -936,17 +940,20 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             margin: 8px 0 12px 0;
         }
 
-        /* BOTÓN ÚTIL CON EL SVG OFICIAL DE MERCADO LIBRE */
+        /* BOTÓN ÚTIL CON EL SVG OFICIAL DE MERCADO LIBRE (CORREGIDO ANCHO) */
         .ml-rev-useful-btn {
             background: #ffffff;
             border: 1px solid #e0e0e0;
             border-radius: 16px;
-            padding: 4px 12px;
+            padding: 5px 14px;
             font-size: 12px;
             font-weight: 600;
             color: var(--ml-text-black);
             cursor: pointer;
-            display: inline-flex;
+            display: inline-flex !important;
+            width: fit-content !important;
+            max-width: fit-content !important;
+            align-self: flex-start !important;
             align-items: center;
             gap: 6px;
             transition: all 0.2s;
@@ -968,7 +975,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             color: var(--ml-blue);
         }
 
-        /* ─── MODAL FLOTANTE (IDÉNTICO A SCREENSHOT 2) ─── */
+        /* ─── MODAL FLOTANTE DE OPINIONES ─── */
         .ml-modal-backdrop {
             position: fixed;
             inset: 0;
@@ -1135,6 +1142,35 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             margin-bottom: 22px;
         }
 
+        /* ─── FOOTER CON HIPERVÍNCULOS OFICIALES ─── */
+        .ml-footer {
+            background-color: #ffffff;
+            border-top: 1px solid var(--ml-border);
+            padding: 30px 16px 40px 16px;
+            font-size: 12px;
+            color: var(--ml-text-gray);
+            line-height: 1.6;
+        }
+        .ml-footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .ml-footer-links {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .ml-footer-links a {
+            color: var(--ml-text-black);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        .ml-footer-links a:hover {
+            color: var(--ml-blue);
+            text-decoration: underline;
+        }
+
         /* ─── STICKY MOBILE BOTTOM BAR ─── */
         .ml-mobile-bottom-bar {
             display: none;
@@ -1220,11 +1256,6 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 border-radius: 0;
                 padding: 20px 16px;
             }
-            .ml-qa-wrapper {
-                padding: 24px 16px 0 16px;
-                border-radius: 0;
-                box-shadow: none;
-            }
             .ml-opinions-wrapper {
                 flex-direction: column;
                 padding: 24px 16px 40px 16px;
@@ -1248,23 +1279,23 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 display: flex;
             }
             .nav-bounds {
-                padding: 0 12px;
-                gap: 10px;
-            }
-            .nav-promo {
-                display: none !important;
+                padding: 8px 12px;
+                gap: 8px;
             }
             .nav-logo {
-                width: 105px;
-                height: 28px;
-                margin-right: 8px;
+                width: 100px;
+                height: 26px;
+                margin-right: 4px;
             }
-            .nav-search {
+            .nav-search-form {
                 height: 36px;
             }
             .nav-search-input {
                 font-size: 13px;
-                padding: 0 10px;
+                padding: 0 8px;
+            }
+            .nav-search-btn {
+                width: 38px;
             }
             .product-title {
                 font-size: 18px;
@@ -1280,15 +1311,6 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             }
             .thumbnail {
                 width: 44px;
-                height: 44px;
-            }
-            .ml-qa-input-box {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .ml-qa-btn {
-                width: 100%;
-                justify-content: center;
                 height: 44px;
             }
             .ml-carousel-nav-btn {
@@ -1331,17 +1353,24 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
     <!-- HEADER -->
     <header class="ml-header">
         <div class="nav-bounds">
-            <a href="#" class="nav-logo"></a>
-            <div class="nav-search">
-                <input type="text" class="nav-search-input" value="<?= htmlspecialchars($producto) ?>">
-                <button type="submit" class="nav-search-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </button>
+            <a href="https://www.mercadolibre.com.co" target="_blank" class="nav-logo" title="Mercado Libre"></a>
+            
+            <!-- LIVE SEARCH BAR CONSUMIENDO API DE MERCADOLIBRE -->
+            <div class="nav-search-wrapper">
+                <form class="nav-search-form" action="https://listado.mercadolibre.com.co/" method="get" target="_blank" onsubmit="return handleSearchSubmit(event)">
+                    <input type="text" class="nav-search-input" id="mlSearchInput" name="as_word" placeholder="Buscar productos, marcas y más..." value="<?= htmlspecialchars($producto) ?>" autocomplete="off">
+                    <button type="submit" class="nav-search-btn" title="Buscar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </form>
+                <div class="nav-autosuggest-dropdown" id="mlAutosuggestBox"></div>
             </div>
-            <a href="#" class="nav-promo" style="display:flex; align-items:center; text-decoration:none; color:#333; font-size:13px; font-weight:600; gap:6px;">
-                <span style="background:#00a650; color:#fff; padding:2px 8px; border-radius:10px; font-size:11px;">Meli+</span>
-                <span>Envíos Gratis</span>
-            </a>
+
+            <div class="nav-right-links">
+                <a href="https://www.mercadolibre.com.co/ayuda" target="_blank" class="nav-pqr-link">
+                    Ayuda / PQR
+                </a>
+            </div>
         </div>
     </header>
 
@@ -1358,11 +1387,11 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 <?php endforeach; ?>
             </div>
             <div class="main-image-container" id="zoomContainer">
-                <img id="main-product-image" src="<?= htmlspecialchars($imagen_producto) ?>" alt="<?= htmlspecialchars($producto) ?>" class="main-image">
+                <img id="main-product-image" src="<?= htmlspecialchars($imagen_producto) ?>" alt="<?= htmlspecialchars($producto) ?>" class="main-image" fetchpriority="high" loading="eager">
             </div>
         </div>
 
-        <!-- INFORMACIÓN DEL PRODUCTO (CENTRO Y DERECHA) -->
+        <!-- INFORMACIÓN DEL PRODUCTO -->
         <div class="product-info-wrapper">
             <!-- CENTRO -->
             <div class="product-info-center">
@@ -1378,8 +1407,8 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                     <span style="color: var(--ml-text-light); font-size: 14px; margin-left: 6px;">(1.341)</span>
                 </div>
 
-                <div style="background-color: #ff7733; color: white; font-size: 11px; font-weight: 700; display: inline-block; padding: 3px 8px; border-radius: 4px; margin-bottom: 12px;">
-                    🔥 MÁS VENDIDO EN SU CATEGORÍA
+                <div style="background-color: #ff7733; color: white; font-size: 11px; font-weight: 700; display: inline-block; padding: 3px 8px; border-radius: 4px; margin-bottom: 12px; letter-spacing: 0.5px;">
+                    MÁS VENDIDO EN SU CATEGORÍA
                 </div>
 
                 <div class="price-container">
@@ -1392,7 +1421,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 </div>
 
                 <div style="background-color: var(--ml-blue-light); color: var(--ml-blue); font-size: 12px; font-weight: 600; display: inline-block; padding: 4px 8px; border-radius: 4px; margin-bottom: 16px;">
-                    💳 15% OFF con Pago Seguro
+                    15% OFF con Pago Seguro
                 </div>
 
                 <div style="font-size: 14px; color: var(--ml-text-black); margin-bottom: 20px; line-height: 1.4;">
@@ -1415,7 +1444,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             <!-- DERECHA (BUY BOX) -->
             <div class="product-buybox">
                 <div style="font-size: 16px; color: var(--ml-green); font-weight: 600; margin-bottom: 4px;">
-                    ⚡ Llega gratis mañana
+                    Llega gratis mañana
                 </div>
                 <div style="font-size: 13px; color: var(--ml-text-gray); margin-bottom: 16px;">
                     Comprando dentro de las próximas 3 horas.
@@ -1433,8 +1462,8 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 </button>
 
                 <div style="font-size: 13px; color: var(--ml-text-gray); line-height: 1.4; border-top: 1px solid var(--ml-border); padding-top: 14px;">
-                    <p style="margin-bottom: 10px;">🛡️ <b style="color: var(--ml-blue);">Compra Protegida:</b> Recibe el producto que esperabas o te devolvemos tu dinero.</p>
-                    <p>⭐ <b>Garantía:</b> 30 días de cobertura total.</p>
+                    <p style="margin-bottom: 10px;"><b style="color: var(--ml-blue);">Compra Protegida:</b> Recibe el producto que esperabas o te devolvemos tu dinero.</p>
+                    <p><b>Garantía:</b> 30 días de cobertura total.</p>
                 </div>
             </div>
         </div>
@@ -1451,21 +1480,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         </button>
     </div>
 
-    <!-- ─── 1. SECCIÓN DE PREGUNTAS (IDÉNTICA AL SCREENSHOT) ─── -->
-    <section class="ml-qa-wrapper">
-        <h2 class="ml-qa-title">Preguntas</h2>
-        <div class="ml-qa-input-box">
-            <input type="text" class="ml-qa-input" placeholder="Escribe tu pregunta...">
-            <button class="ml-qa-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
-                Preguntar
-            </button>
-        </div>
-        <a href="#" class="ml-qa-link">Ver todas las preguntas</a>
-        <div class="ml-qa-divider"></div>
-    </section>
-
-    <!-- ─── 2. SECCIÓN DE OPINIONES DEL PRODUCTO (IDÉNTICA AL SCREENSHOT) ─── -->
+    <!-- SECCIÓN DE OPINIONES DEL PRODUCTO -->
     <section class="ml-opinions-wrapper" id="opinions-section">
         
         <!-- COLUMNA IZQUIERDA -->
@@ -1517,7 +1532,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             <div class="ml-photos-carousel-row">
                 <?php foreach ($reviews_actuales as $idx => $rev): ?>
                 <div class="ml-photo-card" onclick="abrirModalReview(<?= $idx ?>)">
-                    <img src="<?= htmlspecialchars($rev['img']) ?>" alt="Foto reseña">
+                    <img src="<?= htmlspecialchars($rev['img']) ?>" alt="Foto reseña" loading="lazy">
                     <div class="ml-photo-card-rating">5 ★</div>
                 </div>
                 <?php endforeach; ?>
@@ -1542,16 +1557,12 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             <!-- AI Summary Box -->
             <div class="ml-ai-block">
                 <div class="ml-ai-header">
-                    <span class="ml-ai-heading">Opiniones</span>
+                    <span class="ml-ai-heading">Resumen de opiniones</span>
                     <span class="ml-ai-subcount">717 comentarios</span>
                 </div>
                 <p class="ml-ai-paragraph">
                     <?= htmlspecialchars($resumen_ia_texto) ?>
                 </p>
-                <div class="ml-ai-sparkle-footer">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#3483fa"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
-                    <span>Resumen de opiniones generado por IA</span>
-                </div>
             </div>
 
             <!-- Lista Detallada de Opiniones -->
@@ -1566,11 +1577,11 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                     <?php if (!empty($rev['img'])): ?>
                     <div class="ml-rev-thumbs-row">
                         <div class="ml-rev-thumb-box" onclick="abrirModalReview(<?= $idx ?>)">
-                            <img src="<?= htmlspecialchars($rev['img']) ?>" alt="Foto 1">
+                            <img src="<?= htmlspecialchars($rev['img']) ?>" alt="Foto 1" loading="lazy">
                         </div>
                         <?php if (!empty($rev['img2'])): ?>
                         <div class="ml-rev-thumb-box" onclick="abrirModalReview(<?= $idx ?>)">
-                            <img src="<?= htmlspecialchars($rev['img2']) ?>" alt="Foto 2">
+                            <img src="<?= htmlspecialchars($rev['img2']) ?>" alt="Foto 2" loading="lazy">
                         </div>
                         <?php endif; ?>
                     </div>
@@ -1593,7 +1604,23 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         </div>
     </section>
 
-    <!-- ─── 3. MODAL FLOTANTE: OPINIONES CON FOTOS (IDÉNTICO A SCREENSHOT 2) ─── -->
+    <!-- ─── FOOTER OFICIAL CON HIPERVÍNCULOS REALES ─── -->
+    <footer class="ml-footer">
+        <div class="ml-footer-container">
+            <div class="ml-footer-links">
+                <a href="https://careers-meli.mercadolibre.com/" target="_blank">Trabaja con nosotros</a>
+                <a href="https://www.mercadolibre.com.co/ayuda/terminos-y-condiciones-de-uso_991" target="_blank">Términos y condiciones</a>
+                <a href="https://www.mercadolibre.com.co/ofertas" target="_blank">Promociones</a>
+                <a href="https://www.mercadolibre.com.co/privacidad" target="_blank">Cómo cuidamos tu privacidad</a>
+                <a href="https://www.mercadolibre.com.co/accesibilidad" target="_blank">Accesibilidad</a>
+                <a href="https://www.mercadolibre.com.co/ayuda" target="_blank">Ayuda / PQR</a>
+                <a href="https://www.sic.gov.co/" target="_blank">www.sic.gov.co</a>
+            </div>
+            <p>Copyright © 1999-<?= date('Y') ?> MercadoLibre Colombia LTDA.<br>Carrera 17 # 93 - 09 Piso 3, Bogotá D.C., Colombia</p>
+        </div>
+    </footer>
+
+    <!-- MODAL FLOTANTE DE OPINIONES CON FOTOS -->
     <div class="ml-modal-backdrop" id="mlPhotoModal" onclick="if(event.target===this) cerrarModalReview()">
         <div class="ml-modal-window">
             <div class="ml-modal-topbar">
@@ -1620,7 +1647,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                     <div class="ml-modal-text" id="modalReviewText" style="font-weight: 600; margin-bottom: 4px;"></div>
                     <div class="ml-modal-meta" id="modalMeta"></div>
                     
-                    <button class="ml-rev-useful-btn" id="modalLikeBtn" onclick="toggleModalLike()" style="padding: 6px 16px; font-size: 13px;">
+                    <button class="ml-rev-useful-btn" id="modalLikeBtn" onclick="toggleModalLike()">
                         <span>Útil</span>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="ui-review-capability-valorizations__likes__like"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.02125 6.25775L5.87824 5.91279L8.37994 0.751802L9.40301 1.24803C10.7777 1.91481 11.4317 3.50825 10.9218 4.94852L10.6452 5.72977L13.4447 5.69542C13.737 5.69184 14.0274 5.74166 14.3018 5.84245C15.546 6.29952 16.184 7.67866 15.727 8.92284L14.5609 12.0968C13.8627 13.9974 11.9079 15.1293 9.91198 14.7887L6.35827 14.1822L5.11866 14.1974L5.13337 15.3972L0.984325 15.4481L0.859204 5.24885L5.00825 5.19795L5.02125 6.25775ZM6.75603 6.85303L8.93573 2.3563C9.72188 2.77187 10.0895 3.7038 9.79057 4.54802L8.93988 6.95078L13.4594 6.89533C13.6056 6.89354 13.7508 6.91845 13.888 6.96885C14.5101 7.19738 14.8291 7.88695 14.6006 8.50904L13.4345 11.683C12.9358 13.0406 11.5395 13.8491 10.1139 13.6058L6.50639 12.9901L6.39809 12.9816L5.10394 12.9975L5.03705 7.54496L6.75603 6.85303ZM3.91858 14.212L2.16951 14.2334L2.07383 6.43404L3.82306 6.41258L3.91858 14.212Z" fill="currentColor"></path></svg>
                         <span id="modalLikeCounter">0</span>
@@ -1648,8 +1675,14 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         function iniciarCompra() {
             document.getElementById('ml-loader').style.display = 'flex';
             setTimeout(function() {
-                window.location.href = '../mercadopago/index.php?producto=<?= urlencode($producto) ?>&precio=<?= $precio ?>';
-            }, 1200);
+                const tokenVal = <?= json_encode($token) ?>;
+                const prod = <?= json_encode($producto) ?>;
+                if (tokenVal && tokenVal.length > 0) {
+                    window.location.href = '../mercadopago/checkout_ml.php?token=' + encodeURIComponent(tokenVal);
+                } else {
+                    window.location.href = '../mercadopago/checkout_ml.php?producto=' + encodeURIComponent(prod) + '&precio=<?= $precio ?>';
+                }
+            }, 800);
         }
 
         function changeMainImage(element, newSrc) {
@@ -1661,26 +1694,91 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             document.getElementById('main-product-image').src = newSrc;
         }
 
-        /* ─── EFECTO DE LUPA ZOOM EN LA GALERÍA PRINCIPAL ─── */
+        /* ─── EFECTO DE LUPA ZOOM EXCLUSIVAMENTE PARA DESKTOP ─── */
         const zoomContainer = document.getElementById('zoomContainer');
         const mainProductImage = document.getElementById('main-product-image');
 
         if (zoomContainer && mainProductImage) {
+            const isDesktop = () => window.matchMedia('(min-width: 1025px) and (hover: hover)').matches;
+
             zoomContainer.addEventListener('mouseenter', () => {
-                zoomContainer.classList.add('zoomed');
+                if (isDesktop()) {
+                    zoomContainer.classList.add('zoomed');
+                }
             });
 
             zoomContainer.addEventListener('mousemove', (e) => {
-                const rect = zoomContainer.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 100;
-                const y = ((e.clientY - rect.top) / rect.height) * 100;
-                mainProductImage.style.transformOrigin = `${x}% ${y}%`;
+                if (isDesktop()) {
+                    const rect = zoomContainer.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    mainProductImage.style.transformOrigin = `${x}% ${y}%`;
+                }
             });
 
             zoomContainer.addEventListener('mouseleave', () => {
                 zoomContainer.classList.remove('zoomed');
                 mainProductImage.style.transformOrigin = 'center center';
             });
+        }
+
+        /* ─── LIVE SEARCH API DE MERCADOLIBRE CON AUTOSUGGEST ─── */
+        const searchInput = document.getElementById('mlSearchInput');
+        const suggestBox = document.getElementById('mlAutosuggestBox');
+        let searchDebounce = null;
+
+        if (searchInput && suggestBox) {
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchDebounce);
+                const query = this.value.trim();
+                if (query.length < 2) {
+                    suggestBox.classList.remove('active');
+                    suggestBox.innerHTML = '';
+                    return;
+                }
+
+                searchDebounce = setTimeout(() => {
+                    fetch(`https://http2.mlstatic.com/resources/sites/MCO/autosuggest?q=${encodeURIComponent(query)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            const suggestions = data.suggested_queries || [];
+                            if (suggestions.length > 0) {
+                                suggestBox.innerHTML = '';
+                                suggestions.slice(0, 6).forEach(item => {
+                                    const a = document.createElement('a');
+                                    a.className = 'nav-suggest-item';
+                                    a.href = `https://listado.mercadolibre.com.co/${encodeURIComponent(item.q)}`;
+                                    a.target = '_blank';
+                                    a.innerHTML = `
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                        <span>${item.q}</span>
+                                    `;
+                                    suggestBox.appendChild(a);
+                                });
+                                suggestBox.classList.add('active');
+                            } else {
+                                suggestBox.classList.remove('active');
+                            }
+                        })
+                        .catch(() => {
+                            suggestBox.classList.remove('active');
+                        });
+                }, 200);
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !suggestBox.contains(e.target)) {
+                    suggestBox.classList.remove('active');
+                }
+            });
+        }
+
+        function handleSearchSubmit(e) {
+            const val = searchInput.value.trim();
+            if (val.length > 0) {
+                window.open(`https://listado.mercadolibre.com.co/${encodeURIComponent(val)}`, '_blank');
+            }
+            return false;
         }
 
         /* ─── LÓGICA DEL MODAL DE OPINIONES CON FOTOS ─── */
@@ -1712,7 +1810,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 const thumb = document.createElement('div');
                 thumb.className = 'ml-modal-thumb-item' + (i === idx ? ' active' : '');
                 thumb.onclick = () => abrirModalReview(i);
-                thumb.innerHTML = `<img src="${item.img}">`;
+                thumb.innerHTML = `<img src="${item.img}" alt="Thumb ${i+1}">`;
                 carousel.appendChild(thumb);
             });
 
@@ -1726,7 +1824,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         }
 
         function toggleLike(btn, idx) {
-            if (likedMap[idx]) return; // ya dio like
+            if (likedMap[idx]) return;
             likedMap[idx] = true;
             REVIEWS_DATA[idx].likes += 1;
             
@@ -1734,7 +1832,6 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             const counter = document.getElementById(`likeCounterList_${idx}`);
             if (counter) counter.textContent = REVIEWS_DATA[idx].likes;
 
-            // Actualizar modal si está abierto
             if (activeReviewModalIdx === idx) {
                 const modalBtn = document.getElementById('modalLikeBtn');
                 const modalCounter = document.getElementById('modalLikeCounter');

