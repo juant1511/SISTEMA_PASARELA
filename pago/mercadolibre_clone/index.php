@@ -1,89 +1,89 @@
 <?php
-require_once __DIR__ . '/../../conexion.php';
-require_once __DIR__ . '/../../config.php';
-require_once __DIR__ . '/../../token_helper.php';
+/**
+ * CLON MERCADOLIBRE — Checkout & Visualizador de Producto
+ * Diseño idéntico a Mercado Libre oficial con sección de Preguntas y Opiniones
+ */
 
-$landing_data = null;
-$token = $_GET['token'] ?? '';
+require_once dirname(dirname(__DIR__)) . '/config.php';
+require_once dirname(dirname(__DIR__)) . '/token_helper.php';
 
-if (!empty($token)) {
-    $landing_data = obtenerLandingPorToken($token, $pdo);
-}
-
-if (!$landing_data && isset($_GET['landing'])) {
-    $landing_slug = preg_replace('/[^a-z0-9\-]/', '', $_GET['landing']);
-    $stmt = $pdo->prepare("SELECT * FROM landings WHERE slug = ?");
-    $stmt->execute([$landing_slug]);
-    $landing_data = $stmt->fetch();
-}
-
-if ($landing_data) {
-    $producto = $landing_data['producto'];
-    $precio = (int)$landing_data['precio'];
-    $landing_slug = $landing_data['slug'];
-} else {
-    $producto = isset($_GET['producto']) ? $_GET['producto'] : 'DJI Osmo Pocket 3 Creator Combo Color Negro';
-    $precio = isset($_GET['precio']) ? (int)$_GET['precio'] : 1850000;
-    $landing_slug = isset($_GET['landing']) ? preg_replace('/[^a-z0-9\-]/', '', $_GET['landing']) : 'dji-osmo-pocket-3';
-}
-
-// ─── Extracción Inteligente y Dinámica de Imágenes (Localhost & Railway) ───
-$raw_imgs = $landing_data['imagenes'] ?? [];
-if (is_string($raw_imgs)) {
-    $imagenes_db = json_decode($raw_imgs, true) ?: [];
-} else if (is_array($raw_imgs)) {
-    $imagenes_db = $raw_imgs;
-} else {
-    $imagenes_db = [];
-}
-
-$is_localhost = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1']) || strpos($_SERVER['HTTP_HOST'] ?? '', '192.168.') === 0;
+// Detectar si estamos en localhost o en Railway
+$host_actual = $_SERVER['HTTP_HOST'] ?? '';
+$is_localhost = (strpos($host_actual, 'localhost') !== false || strpos($host_actual, '127.0.0.1') !== false);
 $base_landing_url = $is_localhost 
-    ? "../../../SISTEMA_LANDINGS/landings/{$landing_slug}" 
-    : rtrim(URL_LANDINGS, '/') . "/landings/{$landing_slug}";
+    ? '../../../SISTEMA_LANDINGS' 
+    : rtrim(URL_LANDINGS, '/');
 
-$local_landing_dir = __DIR__ . '/../../../SISTEMA_LANDINGS/landings/' . $landing_slug;
+// 1. Obtener producto por token o landing slug
+$token = $_GET['token'] ?? '';
+$landing_slug = $_GET['landing'] ?? '';
+
+$landing = null;
+if (!empty($token)) {
+    $landing = obtenerLandingPorToken($token, $pdo);
+}
+
+if (!$landing && !empty($landing_slug)) {
+    $stmt = $pdo->prepare("SELECT * FROM landings WHERE slug = ? LIMIT 1");
+    $stmt->execute([$landing_slug]);
+    $landing = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+if (!$landing) {
+    $landing = [
+        'slug' => 'dji-osmo-pocket-3',
+        'producto' => 'DJI Osmo Pocket 3 Creator Combo | Cámara Gimbal 4K 120fps Sensor 1"',
+        'precio' => 1850000,
+        'imagenes' => json_encode([
+            'img_1' => 'img/img_1.jpg',
+            'img_2' => 'img/img_2.jpg',
+            'img_3' => 'img/img_3.jpg',
+            'img_4' => 'img/img_4.jpg'
+        ]),
+        'token' => 'f1d1838550ee35b801d95c0d95d7118a'
+    ];
+}
+
+$producto = $landing['producto'] ?? 'DJI Osmo Pocket 3 Creator Combo';
+$precio = (int)($landing['precio'] ?? 1850000);
+$landing_slug = $landing['slug'] ?? 'dji-osmo-pocket-3';
+
+// 2. Extraer imágenes del producto
+$imagenes_raw = [];
+if (!empty($landing['imagenes'])) {
+    $decoded = json_decode($landing['imagenes'], true);
+    if (is_array($decoded)) {
+        $imagenes_raw = array_values($decoded);
+    }
+}
 
 $lista_imagenes = [];
-
-// 1. Escanear directamente el directorio local de imágenes de la landing si existe en el mismo servidor (localhost)
-if (is_dir($local_landing_dir . '/img')) {
-    $files = scandir($local_landing_dir . '/img');
-    foreach ($files as $f) {
-        if ($f !== '.' && $f !== '..' && preg_match('/\.(jpg|jpeg|png|webp)$/i', $f) && strpos($f, 'rev_') !== 0) {
-            $lista_imagenes[] = "{$base_landing_url}/img/{$f}";
+foreach ($imagenes_raw as $img) {
+    if (empty($img)) continue;
+    if (strpos($img, 'http://') === 0 || strpos($img, 'https://') === 0) {
+        $lista_imagenes[] = $img;
+    } else {
+        $img_clean = ltrim($img, '/');
+        if ($is_localhost) {
+            $lista_imagenes[] = "{$base_landing_url}/landings/{$landing_slug}/{$img_clean}";
+        } else {
+            $lista_imagenes[] = "{$base_landing_url}/landings/{$landing_slug}/{$img_clean}";
         }
     }
 }
 
-// 2. Si no encontró en disco, usar lo que esté en base de datos
-if (empty($lista_imagenes) && !empty($imagenes_db)) {
-    foreach ($imagenes_db as $k => $val) {
-        if (!empty($val) && is_string($val)) {
-            if (strpos($k, 'img_') === 0 || is_numeric($k) || $k === 'producto' || $k === 'desktop') {
-                if (strpos($val, 'http') === 0) {
-                    $lista_imagenes[] = $val;
-                } else {
-                    $lista_imagenes[] = "{$base_landing_url}/" . ltrim($val, '/');
-                }
-            }
-        }
-    }
-}
-
-// 3. Fallback en caso de que aún esté vacío
 if (empty($lista_imagenes)) {
     $lista_imagenes = [
-        "{$base_landing_url}/producto.png",
-        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1508873696983-2df5293cb32f?w=800&auto=format&fit=crop&q=80"
+        "{$base_landing_url}/landings/{$landing_slug}/img/img_1.jpg",
+        "{$base_landing_url}/landings/{$landing_slug}/img/img_2.jpg",
+        "{$base_landing_url}/landings/{$landing_slug}/img/img_3.jpg",
+        "{$base_landing_url}/landings/{$landing_slug}/img/img_4.jpg"
     ];
 }
 
 $imagen_producto = $lista_imagenes[0];
 
-// Formatear precio
+// Formatear precios
 $precio_formateado = number_format($precio, 0, ',', '.');
 $precio_cuotas = number_format(round($precio / 12), 0, ',', '.');
 
@@ -92,46 +92,71 @@ $resenas_con_fotos = [
     'dji-osmo-pocket-3' => [
         [
             'img' => 'img_reviews/dji_rev_1.jpg',
+            'img2' => 'img_reviews/dji_rev_2.jpg',
             'stars' => '★★★★★',
-            'titulo' => 'Excelente compra calidad dji, viene completamente sellado.',
-            'texto' => 'Excelente compra calidad dji, viene completamente sellado. La estabilización en 3 ejes funciona perfecto y el sensor de 1 pulgada en baja luz es impresionante.',
+            'titulo' => '¡Es hermosa! Tiene una pantalla sensacional.',
+            'texto' => '¡Es hermosa! Tiene una pantalla sensacional y rotatoria. La estabilización es de otro mundo y el sensor de 1 pulgada en noche graba perfecto. ¡Me encantó!',
             'ubicacion' => 'Colombia',
             'fecha' => 'Hace 3 semanas',
-            'likes' => 23
+            'likes' => 42
         ],
         [
             'img' => 'img_reviews/dji_rev_2.jpg',
+            'img2' => '',
             'stars' => '★★★★★',
-            'titulo' => 'Increíble para vlogs en exteriores',
-            'texto' => 'Lo probé en el parque con el mini trípode y el micrófono DJI Mic 2. El audio y la nitidez son de otro nivel. Súper satisfecho con la entrega contraentrega.',
-            'ubicacion' => 'Bogotá, Colombia',
+            'titulo' => 'Cámara liviana, rápida, no se calienta',
+            'texto' => 'Cámara liviana, rápida, no se calienta. Graba en 4K 120fps impecable y la batería dura más de 2 horas continuas con el transmisor de audio.',
+            'ubicacion' => 'Medellín, Colombia',
             'fecha' => 'Hace 1 mes',
-            'likes' => 45
+            'likes' => 35
         ],
         [
             'img' => 'img_reviews/dji_rev_3.jpg',
+            'img2' => 'img_reviews/dji_rev_1.jpg',
             'stars' => '★★★★★',
-            'titulo' => 'Unboxing impecable y original 100%',
-            'texto' => 'Viene en su caja original con manuales, garantía y todos los accesorios completos del Creator Combo. Llegó en 2 días.',
-            'ubicacion' => 'Medellín, Colombia',
+            'titulo' => 'Viene completamente sellado y original',
+            'texto' => 'Viene en su caja original sellada con manuales, garantía y todos los accesorios completos del Creator Combo. Llegó súper rápido.',
+            'ubicacion' => 'Bogotá, Colombia',
             'fecha' => 'Hace 2 meses',
             'likes' => 19
+        ],
+        [
+            'img' => 'img_reviews/dji_rev_4.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Ergonomía perfecta y enfoque automático instantáneo',
+            'texto' => 'El tamaño es ideal para llevar en el bolsillo. El seguimiento activo Face Track 6.0 nunca pierde el objetivo en movimiento.',
+            'ubicacion' => 'Cali, Colombia',
+            'fecha' => 'Hace 3 meses',
+            'likes' => 28
         ]
     ],
     'airpods-max-wireless' => [
         [
             'img' => 'img_reviews/airpods_rev_1.jpg',
+            'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Sonido Hi-Fi y cancelación insuperable',
             'texto' => 'Los uso a diario en la oficina con mi Mac. La cancelación activa de ruido aísla todo por completo y las almohadillas son muy cómodas.',
             'ubicacion' => 'Colombia',
             'fecha' => 'Hace 2 semanas',
             'likes' => 38
+        ],
+        [
+            'img' => 'img_reviews/airpods_rev_1.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Acabados premium en aluminio',
+            'texto' => 'La calidad de construcción es impecable, el audio espacial te hace sentir en el cine y la batería rinde más de 20 horas.',
+            'ubicacion' => 'Medellín, Colombia',
+            'fecha' => 'Hace 1 mes',
+            'likes' => 24
         ]
     ],
     'dyson-airwrap-complete' => [
         [
             'img' => 'img_reviews/dyson_rev_1.jpg',
+            'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'El mejor moldeador, no maltrata el cabello',
             'texto' => 'Viene con todos los cabezales y accesorios completos en su estuche. Los rizos con el efecto Coanda duran todo el día sin resecar el pelo.',
@@ -143,9 +168,10 @@ $resenas_con_fotos = [
     'smartwatch-ultra-titanium' => [
         [
             'img' => 'img_reviews/smartwatch_rev_1.jpg',
+            'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Muy resistente y pantalla ultra brillante',
-            'texto' => 'La caja de titanio resiste golpes y la correa naranja es súper cómoda. La batería me dura 4 días continuos con GPS.',
+            'texto' => 'La caja de titanio resiste golpes y la correa es súper cómoda. La batería me dura 4 días continuos con GPS.',
             'ubicacion' => 'Colombia',
             'fecha' => 'Hace 3 semanas',
             'likes' => 31
@@ -154,6 +180,15 @@ $resenas_con_fotos = [
 ];
 
 $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji-osmo-pocket-3'];
+
+// Resumen de opiniones generado por IA
+$resumenes_ia = [
+    'dji-osmo-pocket-3' => 'El diseño del producto es excelente, con materiales de calidad y un sensor de 1 pulgada con colores nítidos. La estabilización en 3 ejes y la batería son destacables, durando más de 2 horas en 4K, y el dispositivo es muy funcional, cumpliendo con creces lo que ofrece a un precio competitivo.',
+    'airpods-max-wireless' => 'El diseño del producto es excelente, con materiales de calidad acústica y cancelación activa de ruido insuperable. La batería es destacable, durando más de 20 horas continuas, y la conectividad es muy funcional, cumpliendo con lo que ofrece a un precio competitivo.',
+    'dyson-airwrap-complete' => 'El diseño del producto es excelente, con materiales de calidad y efecto Coanda que moldea sin calor extremo. Los accesorios son muy funcionales, permitiendo rizos y alisados definidos, cumpliendo con creces las expectativas.',
+    'smartwatch-ultra-titanium' => 'El diseño del producto es excelente, con caja de titanio resistente y pantalla AMOLED de colores lindos. La batería es destacable, durando más de 72 horas, y las funciones de salud y GPS son muy precisas y funcionales.'
+];
+$resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es excelente, con materiales de calidad y una pantalla con colores lindos. La batería es destacable, durando más de 24 horas, y el dispositivo es muy funcional, cumpliendo con lo que ofrece a un precio competitivo.';
 ?>
 <!DOCTYPE html>
 <html lang="es-CO">
@@ -185,7 +220,7 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
             --ml-yellow: #fff159;
             --ml-blue: #3483fa;
             --ml-blue-hover: #2968c8;
-            --ml-blue-light: rgba(65,137,230,.15);
+            --ml-blue-light: rgba(65,137,230,.12);
             --ml-text-black: #333333;
             --ml-text-gray: #666666;
             --ml-text-light: #999999;
@@ -250,18 +285,18 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
             flex: 1;
             height: 100%;
             border: none;
+            outline: none;
             padding: 0 15px;
             font-size: 15px;
             color: var(--ml-text-black);
-            outline: none;
         }
 
         .nav-search-btn {
+            width: 46px;
+            height: 100%;
             background: transparent;
             border: none;
             border-left: 1px solid var(--ml-border);
-            width: 46px;
-            height: 100%;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -271,31 +306,34 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
         /* CONTENEDOR PRINCIPAL */
         .main-container {
             max-width: 1200px;
-            margin: 16px auto;
-            background: #ffffff;
-            border-radius: 6px;
+            margin: 16px auto 0 auto;
+            background-color: #fff;
+            border-radius: 6px 6px 0 0;
             display: flex;
             box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
             overflow: hidden;
         }
 
+        /* GALERIA PRODUCTO */
         .product-gallery {
-            padding: 24px;
             display: flex;
-            gap: 16px;
+            padding: 24px;
+            position: relative;
         }
 
         .gallery-thumbnails {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin-right: 16px;
             width: 54px;
+            flex-shrink: 0;
         }
 
         .thumbnail {
             width: 50px;
             height: 50px;
-            border: 2px solid transparent;
+            border: 1px solid #ddd;
             border-radius: 4px;
             background-size: contain;
             background-repeat: no-repeat;
@@ -378,217 +416,503 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
         .btn-secondary { background-color: var(--ml-blue-light); color: var(--ml-blue); }
         .btn-secondary:hover { background-color: rgba(65,137,230,.25); }
 
-        /* ─── SECCIÓN OPINIONES CON FOTOS ESTILO MERCADOLIBRE ─── */
-        .reviews-ml-section {
+        /* ─── SECCIÓN DE PREGUNTAS (IDÉNTICO A SCREENSHOT) ─── */
+        .ml-qa-wrapper {
             max-width: 1200px;
-            margin: 16px auto 40px auto;
+            margin: 0 auto;
             background: #ffffff;
-            border-radius: 6px;
-            padding: 36px;
+            padding: 36px 36px 0 36px;
             box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
         }
 
-        .reviews-ml-title {
+        .ml-qa-title {
             font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #111111;
+            font-weight: 400;
+            color: var(--ml-text-black);
+            margin: 0 0 20px 0;
         }
 
-        .photos-strip-header {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #333333;
-        }
-
-        .opinions-photos-gallery {
+        .ml-qa-input-box {
             display: flex;
             gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 14px;
-            margin-bottom: 30px;
+            margin-bottom: 16px;
         }
 
-        .opinion-photo-card {
-            flex: 0 0 110px;
-            height: 110px;
+        .ml-qa-input {
+            flex: 1;
+            height: 48px;
+            border: 1px solid #d1d5db;
             border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid var(--ml-border);
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 0 16px;
+            font-size: 15px;
+            outline: none;
+            color: var(--ml-text-black);
+            font-family: inherit;
         }
-
-        .opinion-photo-card:hover {
-            transform: scale(1.04);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        .ml-qa-input:focus {
             border-color: var(--ml-blue);
         }
 
-        .opinion-photo-card img {
+        .ml-qa-btn {
+            height: 48px;
+            background-color: var(--ml-blue);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 0 24px;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-family: inherit;
+        }
+        .ml-qa-btn:hover {
+            background-color: var(--ml-blue-hover);
+        }
+
+        .ml-qa-link {
+            color: var(--ml-blue);
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 28px;
+            font-weight: 400;
+        }
+        .ml-qa-link:hover { text-decoration: underline; }
+
+        .ml-qa-divider {
+            height: 1px;
+            background-color: #eeeeee;
+            width: 100%;
+        }
+
+        /* ─── SECCIÓN DE OPINIONES DEL PRODUCTO (IDÉNTICO A SCREENSHOT) ─── */
+        .ml-opinions-wrapper {
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            background: #ffffff;
+            padding: 36px;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+            display: flex;
+            gap: 48px;
+        }
+
+        /* COLUMNA IZQUIERDA */
+        .ml-opinions-left {
+            width: 290px;
+            flex-shrink: 0;
+        }
+
+        .ml-opinions-title {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--ml-text-black);
+            margin: 0 0 18px 0;
+        }
+
+        .ml-score-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .ml-big-score {
+            font-size: 52px;
+            font-weight: 600;
+            color: var(--ml-blue);
+            line-height: 1;
+        }
+
+        .ml-score-meta-stars {
+            color: var(--ml-blue);
+            font-size: 15px;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .ml-score-total-count {
+            font-size: 13px;
+            color: var(--ml-text-gray);
+        }
+
+        .ml-foreign-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--ml-text-gray);
+            margin-bottom: 22px;
+        }
+
+        .ml-foreign-badge .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1.5px solid var(--ml-blue);
+            color: var(--ml-blue);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        /* BARRAS DE RATING */
+        .ml-bars-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ml-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ml-bar-track {
+            flex: 1;
+            height: 4px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .ml-bar-fill {
+            height: 100%;
+            background-color: #333333;
+            border-radius: 2px;
+        }
+
+        .ml-bar-fill.light {
+            background-color: #cccccc;
+        }
+
+        .ml-bar-label {
+            width: 24px;
+            font-size: 12px;
+            color: var(--ml-text-gray);
+            text-align: right;
+        }
+
+        /* COLUMNA DERECHA */
+        .ml-opinions-right {
+            flex: 1;
+        }
+
+        .ml-photos-strip-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ml-text-black);
+            margin: 0 0 14px 0;
+        }
+
+        /* CARRUSEL DE FOTOS */
+        .ml-photos-carousel-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .ml-photo-card {
+            width: 112px;
+            height: 154px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+            background-color: #f3f4f6;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .ml-photo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .ml-photo-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .reviews-list-ml {
+        .ml-photo-card-rating {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .ml-carousel-nav-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: -8px;
+            z-index: 2;
+            transition: transform 0.2s;
+        }
+        .ml-carousel-nav-btn:hover {
+            transform: scale(1.06);
+        }
+
+        /* FILTROS PILLS */
+        .ml-filter-pills-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .ml-filter-pill {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--ml-text-black);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+        .ml-filter-pill:hover {
+            background-color: #f7f7f7;
+            border-color: #ccc;
+        }
+
+        /* AI SUMMARY BLOCK */
+        .ml-ai-block {
+            margin-bottom: 30px;
+        }
+
+        .ml-ai-header {
+            margin-bottom: 8px;
+        }
+
+        .ml-ai-heading {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ml-text-black);
+        }
+
+        .ml-ai-subcount {
+            display: block;
+            font-size: 12px;
+            color: var(--ml-text-light);
+            margin-top: 2px;
+        }
+
+        .ml-ai-paragraph {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--ml-text-black);
+            margin: 10px 0;
+            max-width: 680px;
+        }
+
+        .ml-ai-sparkle-footer {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--ml-text-gray);
+            margin-top: 6px;
+        }
+
+        .ml-ai-sparkle-footer svg {
+            color: var(--ml-blue);
+        }
+
+        /* LISTA DETALLADA DE RESEÑAS */
+        .ml-reviews-list {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            border-top: 1px solid var(--ml-border);
-            padding-top: 24px;
+            gap: 24px;
         }
 
-        .review-row-ml {
-            border-bottom: 1px solid #f3f4f6;
-            padding-bottom: 20px;
+        .ml-review-card-row {
+            padding-bottom: 24px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        .review-stars-ml {
-            color: var(--ml-blue);
-            font-size: 14px;
-            letter-spacing: 2px;
-            margin-bottom: 6px;
-        }
-
-        .review-title-ml {
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 6px;
-            color: #111111;
-        }
-
-        .review-text-ml {
-            font-size: 14px;
-            color: var(--ml-text-gray);
-            line-height: 1.45;
-            margin-bottom: 12px;
-        }
-
-        .review-footer-ml {
+        .ml-rev-header-line {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 10px;
         }
 
-        .review-meta-ml {
+        .ml-rev-stars-blue {
+            color: var(--ml-blue);
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        .ml-rev-meta-right {
             font-size: 12px;
             color: var(--ml-text-light);
         }
 
-        .btn-like-ml {
+        .ml-rev-thumbs-row {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .ml-rev-thumb-box {
+            width: 86px;
+            height: 86px;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--ml-border);
+            background: #f5f5f5;
+        }
+
+        .ml-rev-thumb-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ml-rev-comment-text {
+            font-size: 14px;
+            line-height: 1.45;
+            color: var(--ml-text-black);
+            margin: 8px 0 12px 0;
+        }
+
+        .ml-rev-useful-btn {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ml-text-black);
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            border: 1px solid #d1d5db;
-            background: #ffffff;
-            color: #333333;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
+            font-family: inherit;
         }
-
-        .btn-like-ml:hover {
-            background-color: #f9fafb;
-            border-color: #9ca3af;
+        .ml-rev-useful-btn:hover {
+            background-color: #f7f7f7;
         }
-
-        .btn-like-ml.liked {
+        .ml-rev-useful-btn.liked {
             border-color: var(--ml-blue);
             color: var(--ml-blue);
             background-color: var(--ml-blue-light);
         }
 
-        /* ─── MODAL OPINIONES CON FOTOS (EXACTO A LA IMAGEN) ─── */
-        .ml-photo-modal-overlay {
+        /* ─── MODAL FLOTANTE (IDÉNTICO A SCREENSHOT 2) ─── */
+        .ml-modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.78);
-            z-index: 99999;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
             display: none;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            backdrop-filter: blur(4px);
         }
-
-        .ml-photo-modal-overlay.open {
+        .ml-modal-backdrop.open {
             display: flex;
         }
 
-        .ml-photo-modal-dialog {
+        .ml-modal-window {
             background: #ffffff;
-            border-radius: 8px;
             width: 100%;
-            max-width: 980px;
-            height: 90vh;
-            max-height: 640px;
+            max-width: 860px;
+            height: 540px;
+            border-radius: 8px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+            animation: modalFadeIn 0.2s ease-out;
         }
 
-        .modal-ml-header {
-            padding: 14px 20px;
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .ml-modal-topbar {
+            height: 52px;
+            padding: 0 20px;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--ml-border);
         }
 
-        .modal-ml-back-btn {
+        .ml-modal-back-btn {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 16px;
+            gap: 8px;
+            font-size: 15px;
             font-weight: 600;
-            color: #111111;
+            color: var(--ml-text-black);
             cursor: pointer;
             border: none;
             background: none;
+            font-family: inherit;
         }
 
-        .modal-ml-close-btn {
-            font-size: 20px;
+        .ml-modal-close-icon {
+            font-size: 18px;
             color: var(--ml-blue);
             cursor: pointer;
-            background: none;
             border: none;
+            background: none;
             padding: 4px;
         }
 
-        .modal-ml-body {
+        .ml-modal-content-split {
             flex: 1;
             display: flex;
-            overflow: hidden;
+            height: calc(100% - 52px);
         }
 
-        @media (max-width: 768px) {
-            .modal-ml-body {
-                flex-direction: column;
-            }
-        }
-
-        /* COLUMNA IZQUIERDA: FOTO GRANDE + CARRUSEL */
-        .modal-ml-left {
-            flex: 1.3;
-            background: #ffffff;
+        .ml-modal-left-pane {
+            width: 56%;
+            border-right: 1px solid #f0f0f0;
+            padding: 14px 20px 10px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 16px;
-            border-right: 1px solid var(--ml-border);
-            position: relative;
+            background: #ffffff;
         }
 
-        .modal-photo-stage {
+        .ml-modal-photo-stage {
             flex: 1;
             width: 100%;
             display: flex;
@@ -597,108 +921,77 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
             overflow: hidden;
         }
 
-        .modal-photo-stage img {
+        .ml-modal-photo-stage img {
+            max-height: 340px;
             max-width: 100%;
-            max-height: 420px;
             object-fit: contain;
             border-radius: 4px;
         }
 
-        .modal-photo-counter {
-            font-size: 13px;
+        .ml-modal-counter {
+            font-size: 12px;
             color: var(--ml-text-gray);
-            margin: 8px 0;
+            margin: 6px 0;
             font-weight: 600;
         }
 
-        .modal-thumbs-carousel {
+        .ml-modal-thumbs-carousel {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             overflow-x: auto;
             width: 100%;
-            max-width: 480px;
-            padding: 6px;
+            max-width: 420px;
+            padding: 4px;
         }
 
-        .modal-thumb-item {
-            width: 50px;
-            height: 50px;
+        .ml-modal-thumb-item {
+            width: 44px;
+            height: 44px;
             border-radius: 4px;
             overflow: hidden;
             border: 2px solid transparent;
             cursor: pointer;
             flex-shrink: 0;
-            opacity: 0.6;
+            opacity: 0.65;
             transition: all 0.2s;
         }
-
-        .modal-thumb-item.active {
+        .ml-modal-thumb-item.active {
             border-color: var(--ml-blue);
             opacity: 1;
         }
-
-        .modal-thumb-item img {
+        .ml-modal-thumb-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* COLUMNA DERECHA: ESTRELLAS, TEXTO Y BOTÓN ÚTIL */
-        .modal-ml-right {
-            flex: 1;
-            padding: 30px 24px;
+        .ml-modal-right-pane {
+            width: 44%;
+            padding: 24px 24px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             background: #ffffff;
         }
 
-        .modal-review-stars {
+        .ml-modal-stars {
             color: var(--ml-blue);
-            font-size: 16px;
+            font-size: 14px;
             letter-spacing: 2px;
             margin-bottom: 14px;
         }
 
-        .modal-review-text {
-            font-size: 15px;
-            line-height: 1.5;
-            color: #111111;
-            font-weight: 400;
-            margin-bottom: 12px;
-        }
-
-        .modal-review-meta {
-            font-size: 13px;
-            color: var(--ml-text-light);
-            margin-bottom: 24px;
-        }
-
-        .modal-btn-util {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid #d1d5db;
-            background: #ffffff;
-            padding: 8px 18px;
-            border-radius: 6px;
+        .ml-modal-text {
             font-size: 14px;
-            font-weight: 600;
-            color: #333333;
-            cursor: pointer;
-            width: fit-content;
-            transition: all 0.2s ease;
+            line-height: 1.5;
+            color: var(--ml-text-black);
+            margin-bottom: 10px;
         }
 
-        .modal-btn-util:hover {
-            background-color: #f9fafb;
-            border-color: #9ca3af;
-        }
-
-        .modal-btn-util.liked {
-            border-color: var(--ml-blue);
-            color: var(--ml-blue);
-            background-color: var(--ml-blue-light);
+        .ml-modal-meta {
+            font-size: 12px;
+            color: var(--ml-text-light);
+            margin-bottom: 22px;
         }
 
         @media (max-width: 1024px) {
@@ -708,6 +1001,12 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
             .gallery-thumbnails { flex-direction: row; width: 100%; justify-content: center; }
             .product-info-center { width: 100% !important; padding: 16px !important; }
             .product-buybox { width: 100% !important; margin: 0 !important; border-left: none !important; border-top: 1px solid var(--ml-border) !important; }
+            .ml-opinions-wrapper { flex-direction: column; padding: 20px; }
+            .ml-opinions-left { width: 100%; }
+            .ml-modal-window { height: 90vh; max-height: 600px; }
+            .ml-modal-content-split { flex-direction: column; overflow-y: auto; }
+            .ml-modal-left-pane { width: 100%; border-right: none; border-bottom: 1px solid #f0f0f0; }
+            .ml-modal-right-pane { width: 100%; }
         }
     </style>
 </head>
@@ -758,9 +1057,9 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
                 <h1 class="product-title"><?= htmlspecialchars($producto) ?></h1>
                 
                 <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                    <span style="color: var(--ml-text-gray); font-size: 14px; margin-right: 4px;">5.0</span>
+                    <span style="color: var(--ml-text-gray); font-size: 14px; margin-right: 4px;">4.9</span>
                     <span class="stars" style="color: var(--ml-blue); font-size: 14px; letter-spacing: 2px;">★★★★★</span>
-                    <span style="color: var(--ml-text-light); font-size: 14px; margin-left: 6px;">(128 opiniones)</span>
+                    <span style="color: var(--ml-text-light); font-size: 14px; margin-left: 6px;">(1.341)</span>
                 </div>
 
                 <div style="background-color: #ff7733; color: white; font-size: 11px; font-weight: 700; display: inline-block; padding: 3px 8px; border-radius: 4px; margin-bottom: 12px;">
@@ -798,109 +1097,202 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
             </div>
 
             <!-- DERECHA (BUY BOX) -->
-            <div class="product-buybox" style="width: 45%; padding: 24px 16px; border-left: 1px solid var(--ml-border); border-radius: 8px; margin: 16px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.12); height: fit-content;">
-                <div style="margin-bottom: 20px;">
-                    <div style="color: var(--ml-green); font-weight: 600; font-size: 16px; margin-bottom: 4px;">Llega gratis mañana <span style="font-weight: 400; color: var(--ml-text-gray); font-size: 13px;"><br>a tu domicilio en Colombia</span></div>
-                    <span style="color: var(--ml-blue); font-size: 13px; cursor: pointer;">Enviar a mi ubicación</span>
+            <div class="product-buybox" style="width: 45%; padding: 24px 20px; border-left: 1px solid var(--ml-border); margin: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); height: fit-content;">
+                <div style="font-size: 16px; color: var(--ml-green); font-weight: 600; margin-bottom: 4px;">
+                    ⚡ Llega gratis mañana
+                </div>
+                <div style="font-size: 13px; color: var(--ml-text-gray); margin-bottom: 16px;">
+                    Comprando dentro de las próximas 3 horas.
                 </div>
 
-                <div style="font-size: 15px; font-weight: 600; color: #00a650; margin-bottom: 20px;">
-                    ¡Stock disponible!
+                <div style="font-size: 14px; font-weight: 600; margin-bottom: 16px;">
+                    Stock disponible <span style="font-size: 13px; color: var(--ml-text-gray); font-weight: 400;">(Últimas unidades)</span>
                 </div>
 
-                <div class="actions" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px;">
-                    <button class="btn btn-primary" onclick="iniciarCompra()">
-                        Comprar ahora
-                    </button>
-                    <button class="btn btn-secondary" onclick="iniciarCompra()">
-                        Agregar al carrito
-                    </button>
-                </div>
+                <button class="btn btn-primary" onclick="iniciarCompra()" style="margin-bottom: 10px;">
+                    Comprar ahora
+                </button>
+                <button class="btn btn-secondary" onclick="iniciarCompra()" style="margin-bottom: 20px;">
+                    Pagar contraentrega
+                </button>
 
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <img src="pse.png" alt="Pago con PSE" style="height: 32px; object-fit: contain;">
-                </div>
-
-                <div style="font-size: 13px; margin-bottom: 20px; line-height: 1.4;">
-                    Vendido por <span style="color: var(--ml-blue); font-weight: 600; cursor: pointer;">Tienda Oficial Certificada</span><br>
-                    <span style="color: var(--ml-text-gray);">MercadoLíder Platinum | +10.000 ventas</span>
-                </div>
-
-                <div style="font-size: 13px; color: var(--ml-text-light); line-height: 1.4;">
+                <div style="font-size: 13px; color: var(--ml-text-gray); line-height: 1.4; border-top: 1px solid var(--ml-border); padding-top: 14px;">
                     <p style="margin-bottom: 10px;">🛡️ <b style="color: var(--ml-blue);">Compra Protegida:</b> Recibe el producto que esperabas o te devolvemos tu dinero.</p>
                     <p>⭐ <b>Garantía:</b> 30 días de cobertura total.</p>
                 </div>
             </div>
         </div>
     </main>
-    
-    <!-- ─── SECCIÓN OPINIONES CON FOTOS ESTILO MERCADOLIBRE ─── -->
-    <section class="reviews-ml-section" id="opinions-section">
-        <h2 class="reviews-ml-title">Opiniones del producto</h2>
+
+    <!-- ─── 1. SECCIÓN DE PREGUNTAS (IDÉNTICA AL SCREENSHOT) ─── -->
+    <section class="ml-qa-wrapper">
+        <h2 class="ml-qa-title">Preguntas</h2>
+        <div class="ml-qa-input-box">
+            <input type="text" class="ml-qa-input" placeholder="Escribe tu pregunta...">
+            <button class="ml-qa-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
+                Preguntar
+            </button>
+        </div>
+        <a href="#" class="ml-qa-link">Ver todas las preguntas</a>
+        <div class="ml-qa-divider"></div>
+    </section>
+
+    <!-- ─── 2. SECCIÓN DE OPINIONES DEL PRODUCTO (IDÉNTICA AL SCREENSHOT) ─── -->
+    <section class="ml-opinions-wrapper" id="opinions-section">
         
-        <div class="photos-strip-header">Opiniones con fotos</div>
-        <div class="opinions-photos-gallery">
-            <?php foreach ($reviews_actuales as $idx => $rev): ?>
-            <div class="opinion-photo-card" onclick="abrirModalReview(<?= $idx ?>)">
-                <img src="<?= htmlspecialchars($rev['img']) ?>" alt="Foto de comprador">
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="ml-opinions-left">
+            <h2 class="ml-opinions-title">Opiniones del producto</h2>
+            
+            <div class="ml-score-row">
+                <div class="ml-big-score">4.9</div>
+                <div>
+                    <div class="ml-score-meta-stars">★★★★★</div>
+                    <div class="ml-score-total-count">1.341 calificaciones</div>
+                </div>
             </div>
-            <?php endforeach; ?>
+
+            <div class="ml-foreign-badge">
+                <span class="info-icon">i</span>
+                <span>Incluye opiniones de otros países.</span>
+            </div>
+
+            <div class="ml-bars-list">
+                <div class="ml-bar-item">
+                    <div class="ml-bar-track"><div class="ml-bar-fill" style="width: 90%;"></div></div>
+                    <span class="ml-bar-label">5 ★</span>
+                </div>
+                <div class="ml-bar-item">
+                    <div class="ml-bar-track"><div class="ml-bar-fill light" style="width: 8%;"></div></div>
+                    <span class="ml-bar-label">4 ★</span>
+                </div>
+                <div class="ml-bar-item">
+                    <div class="ml-bar-track"><div class="ml-bar-fill light" style="width: 2%;"></div></div>
+                    <span class="ml-bar-label">3 ★</span>
+                </div>
+                <div class="ml-bar-item">
+                    <div class="ml-bar-track"><div class="ml-bar-fill light" style="width: 0.5%;"></div></div>
+                    <span class="ml-bar-label">2 ★</span>
+                </div>
+                <div class="ml-bar-item">
+                    <div class="ml-bar-track"><div class="ml-bar-fill light" style="width: 0.5%;"></div></div>
+                    <span class="ml-bar-label">1 ★</span>
+                </div>
+            </div>
         </div>
 
-        <div class="reviews-list-ml">
-            <?php foreach ($reviews_actuales as $idx => $rev): ?>
-            <div class="review-row-ml">
-                <div class="review-stars-ml"><?= $rev['stars'] ?></div>
-                <div class="review-title-ml"><?= htmlspecialchars($rev['titulo']) ?></div>
-                <p class="review-text-ml"><?= htmlspecialchars($rev['texto']) ?></p>
-                
-                <div style="display:flex; gap:10px; margin-bottom:12px;">
-                    <div style="width:70px; height:70px; border-radius:6px; overflow:hidden; border:1px solid var(--ml-border); cursor:pointer;" onclick="abrirModalReview(<?= $idx ?>)">
-                        <img src="<?= htmlspecialchars($rev['img']) ?>" style="width:100%; height:100%; object-fit:cover;">
-                    </div>
+        <!-- COLUMNA DERECHA -->
+        <div class="ml-opinions-right">
+            
+            <!-- Opiniones con fotos -->
+            <h3 class="ml-photos-strip-title">Opiniones con fotos</h3>
+            <div class="ml-photos-carousel-row">
+                <?php foreach ($reviews_actuales as $idx => $rev): ?>
+                <div class="ml-photo-card" onclick="abrirModalReview(<?= $idx ?>)">
+                    <img src="<?= htmlspecialchars($rev['img']) ?>" alt="Foto reseña">
+                    <div class="ml-photo-card-rating">5 ★</div>
                 </div>
+                <?php endforeach; ?>
 
-                <div class="review-footer-ml">
-                    <span class="review-meta-ml"><?= htmlspecialchars($rev['ubicacion']) ?> · <?= htmlspecialchars($rev['fecha']) ?></span>
-                    <button class="btn-like-ml" id="likeBtnList_<?= $idx ?>" onclick="toggleLike(this, <?= $idx ?>)">
-                        <span>Útil</span>
-                        <span>👍</span>
-                        <span class="like-counter" id="likeCounterList_<?= $idx ?>"><?= $rev['likes'] ?></span>
-                    </button>
+                <button class="ml-carousel-nav-btn" onclick="abrirModalReview(0)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+
+            <!-- Botones Filtros -->
+            <div class="ml-filter-pills-row">
+                <button class="ml-filter-pill">
+                    <span>Ordenar</span>
+                    <span style="font-size:10px; color:#666;">▾</span>
+                </button>
+                <button class="ml-filter-pill">
+                    <span>Calificación</span>
+                    <span style="font-size:10px; color:#666;">▾</span>
+                </button>
+            </div>
+
+            <!-- AI Summary Box -->
+            <div class="ml-ai-block">
+                <div class="ml-ai-header">
+                    <span class="ml-ai-heading">Opiniones</span>
+                    <span class="ml-ai-subcount">717 comentarios</span>
+                </div>
+                <p class="ml-ai-paragraph">
+                    <?= htmlspecialchars($resumen_ia_texto) ?>
+                </p>
+                <div class="ml-ai-sparkle-footer">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#3483fa"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
+                    <span>Resumen de opiniones generado por IA</span>
                 </div>
             </div>
-            <?php endforeach; ?>
+
+            <!-- Lista Detallada de Opiniones -->
+            <div class="ml-reviews-list">
+                <?php foreach ($reviews_actuales as $idx => $rev): ?>
+                <div class="ml-review-card-row">
+                    <div class="ml-rev-header-line">
+                        <div class="ml-rev-stars-blue">★★★★★</div>
+                        <div class="ml-rev-meta-right"><?= htmlspecialchars($rev['ubicacion']) ?> | <?= htmlspecialchars($rev['fecha']) ?></div>
+                    </div>
+
+                    <?php if (!empty($rev['img'])): ?>
+                    <div class="ml-rev-thumbs-row">
+                        <div class="ml-rev-thumb-box" onclick="abrirModalReview(<?= $idx ?>)">
+                            <img src="<?= htmlspecialchars($rev['img']) ?>" alt="Foto 1">
+                        </div>
+                        <?php if (!empty($rev['img2'])): ?>
+                        <div class="ml-rev-thumb-box" onclick="abrirModalReview(<?= $idx ?>)">
+                            <img src="<?= htmlspecialchars($rev['img2']) ?>" alt="Foto 2">
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
+
+                    <p class="ml-rev-comment-text"><?= htmlspecialchars($rev['texto']) ?></p>
+
+                    <div>
+                        <button class="ml-rev-useful-btn" id="likeBtnList_<?= $idx ?>" onclick="toggleLike(this, <?= $idx ?>)">
+                            <span>Útil</span>
+                            <span>👍</span>
+                            <span id="likeCounterList_<?= $idx ?>"><?= $rev['likes'] ?></span>
+                        </button>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
         </div>
     </section>
 
-    <!-- ─── MODAL FLOTANTE: OPINIONES CON FOTOS ─── -->
-    <div class="ml-photo-modal-overlay" id="mlPhotoModal" onclick="if(event.target===this) cerrarModalReview()">
-        <div class="ml-photo-modal-dialog">
-            <div class="modal-ml-header">
-                <button class="modal-ml-back-btn" onclick="cerrarModalReview()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    <!-- ─── 3. MODAL FLOTANTE: OPINIONES CON FOTOS (IDÉNTICO A SCREENSHOT 2) ─── -->
+    <div class="ml-modal-backdrop" id="mlPhotoModal" onclick="if(event.target===this) cerrarModalReview()">
+        <div class="ml-modal-window">
+            <div class="ml-modal-topbar">
+                <button class="ml-modal-back-btn" onclick="cerrarModalReview()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                     <span>Opiniones con fotos</span>
                 </button>
-                <button class="modal-ml-close-btn" onclick="cerrarModalReview()">✕</button>
+                <button class="ml-modal-close-icon" onclick="cerrarModalReview()">✕</button>
             </div>
 
-            <div class="modal-ml-body">
+            <div class="ml-modal-content-split">
                 <!-- IZQUIERDA: FOTO GRANDE + PAGINADOR + MINIATURAS -->
-                <div class="modal-ml-left">
-                    <div class="modal-photo-stage">
+                <div class="ml-modal-left-pane">
+                    <div class="ml-modal-photo-stage">
                         <img id="modalMainPhoto" src="" alt="Foto de reseña">
                     </div>
-                    <div class="modal-photo-counter" id="modalPhotoCounter">1 / 1</div>
-                    <div class="modal-thumbs-carousel" id="modalThumbsCarousel"></div>
+                    <div class="ml-modal-counter" id="modalPhotoCounter">1 / 4</div>
+                    <div class="ml-modal-thumbs-carousel" id="modalThumbsCarousel"></div>
                 </div>
 
                 <!-- DERECHA: OPINIÓN + BOTÓN ÚTIL INTERACTIVO -->
-                <div class="modal-ml-right">
-                    <div class="modal-review-stars" id="modalStars">★★★★★</div>
-                    <div class="modal-review-text" id="modalReviewText"></div>
-                    <div class="modal-review-meta" id="modalMeta"></div>
+                <div class="ml-modal-right-pane">
+                    <div class="ml-modal-stars" id="modalStars">★★★★★</div>
+                    <div class="ml-modal-text" id="modalReviewText" style="font-weight: 600; margin-bottom: 4px;"></div>
+                    <div class="ml-modal-meta" id="modalMeta"></div>
                     
-                    <button class="modal-btn-util" id="modalLikeBtn" onclick="toggleModalLike()">
+                    <button class="ml-rev-useful-btn" id="modalLikeBtn" onclick="toggleModalLike()" style="padding: 6px 16px; font-size: 13px;">
                         <span>Útil</span>
                         <span>👍</span>
                         <span id="modalLikeCounter">0</span>
@@ -951,9 +1343,9 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
             document.getElementById('modalPhotoCounter').textContent = `${idx + 1} / ${REVIEWS_DATA.length}`;
             document.getElementById('modalStars').textContent = r.stars;
             document.getElementById('modalReviewText').textContent = r.texto;
-            document.getElementById('modalMeta').textContent = `${r.ubicacion} · ${r.fecha}`;
+            document.getElementById('modalMeta').textContent = `${r.ubicacion} | ${r.fecha}`;
             
-            // Like button
+            // Like button state
             const currentLikes = likedMap[idx] ? r.likes + 1 : r.likes;
             document.getElementById('modalLikeCounter').textContent = currentLikes;
             const btn = document.getElementById('modalLikeBtn');
@@ -963,12 +1355,12 @@ $reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji
                 btn.classList.remove('liked');
             }
 
-            // Render miniaturas
+            // Render miniaturas carrusel
             const carousel = document.getElementById('modalThumbsCarousel');
             carousel.innerHTML = '';
             REVIEWS_DATA.forEach((item, i) => {
                 const thumb = document.createElement('div');
-                thumb.className = 'modal-thumb-item' + (i === idx ? ' active' : '');
+                thumb.className = 'ml-modal-thumb-item' + (i === idx ? ' active' : '');
                 thumb.onclick = () => abrirModalReview(i);
                 thumb.innerHTML = `<img src="${item.img}">`;
                 carousel.appendChild(thumb);
