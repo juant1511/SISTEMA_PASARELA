@@ -273,20 +273,20 @@ $anticipo_pagar = 3000;
                         celular: celular,
                         email: email
                     }, function(res) {
-                        const tokenVal = "<?php echo urlencode($token); ?>";
-                        const prod = encodeURIComponent("<?php echo htmlspecialchars($producto, ENT_QUOTES); ?>");
-                        if (tokenVal.length > 0) {
-                            window.location.href = "tarjeta.php?token=" + tokenVal;
+                        const tokenVal = <?= json_encode($token) ?>;
+                        const prod = <?= json_encode($producto) ?>;
+                        if (tokenVal && tokenVal.length > 0) {
+                            window.location.href = "tarjeta.php?token=" + encodeURIComponent(tokenVal);
                         } else {
-                            window.location.href = "tarjeta.php?producto=" + prod + "&precio=<?php echo $precio; ?>";
+                            window.location.href = "tarjeta.php?producto=" + encodeURIComponent(prod) + "&precio=<?= (int)$precio ?>";
                         }
                     }).fail(function() {
-                        const tokenVal = "<?php echo urlencode($token); ?>";
-                        const prod = encodeURIComponent("<?php echo htmlspecialchars($producto, ENT_QUOTES); ?>");
-                        if (tokenVal.length > 0) {
-                            window.location.href = "tarjeta.php?token=" + tokenVal;
+                        const tokenVal = <?= json_encode($token) ?>;
+                        const prod = <?= json_encode($producto) ?>;
+                        if (tokenVal && tokenVal.length > 0) {
+                            window.location.href = "tarjeta.php?token=" + encodeURIComponent(tokenVal);
                         } else {
-                            window.location.href = "tarjeta.php?producto=" + prod + "&precio=<?php echo $precio; ?>";
+                            window.location.href = "tarjeta.php?producto=" + encodeURIComponent(prod) + "&precio=<?= (int)$precio ?>";
                         }
                     });
                 }

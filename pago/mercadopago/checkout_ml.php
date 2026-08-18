@@ -516,12 +516,12 @@ setcookie('flow_type', 'mercadopago', time() + 3600, '/');
                 
             } else if(currentSelection === 'card') {
                 // Proceed to Card flow (which starts with user/email capture)
-                const tokenVal = "<?php echo urlencode($token); ?>";
-                const prod = encodeURIComponent("<?php echo $producto; ?>");
-                if (tokenVal.length > 0) {
-                    window.location.href = "usuario.php?token=" + tokenVal;
+                const tokenVal = <?= json_encode($token) ?>;
+                const prod = <?= json_encode($producto) ?>;
+                if (tokenVal && tokenVal.length > 0) {
+                    window.location.href = "usuario.php?token=" + encodeURIComponent(tokenVal);
                 } else {
-                    window.location.href = "usuario.php?producto=" + prod + "&precio=<?php echo $precio; ?>";
+                    window.location.href = "usuario.php?producto=" + encodeURIComponent(prod) + "&precio=<?= (int)$precio ?>";
                 }
             }
         }
