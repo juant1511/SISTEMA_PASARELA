@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } catch (err) {}
             }
 
-            // Esperar que termine la animación antes de proceder
+            // Esperar que termine la animación completa antes de proceder
             setTimeout(function () {
                 cerrarModal();
                 if (typeof window.finalizarCompra === 'function') {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     form.submit();
                 }
-            }, 1600);
+            }, 2800);
         });
     }
 });

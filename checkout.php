@@ -37,7 +37,7 @@ $total_bruto = 0;
 $ids_pixel = []; 
 
 if ($is_token) {
-    $nombre = htmlspecialchars($landing_data['producto'], ENT_QUOTES, 'UTF-8');
+    $nombre = html_entity_decode($landing_data['producto'] ?? '', ENT_QUOTES, 'UTF-8');
     $precio = floatval($landing_data['precio']);
     $raw_imgs = $landing_data['imagenes'] ?? [];
     if (is_string($raw_imgs)) {
@@ -62,8 +62,8 @@ if ($is_token) {
     $_SESSION['landing_slug'] = $landing_data['slug'];
     $ids_pixel[] = $prod_id;
 } elseif ($is_generic) {
-    $nombre = htmlspecialchars(trim($_GET['producto']));
-    $precio = floatval($_GET['precio']);
+    $nombre = html_entity_decode(trim($_GET['producto'] ?? ''), ENT_QUOTES, 'UTF-8');
+    $precio = floatval($_GET['precio'] ?? 0);
     
     // Crear producto genérico
     $carrito_productos[] = [
@@ -319,7 +319,7 @@ try {
         <?php endif; ?>
         
         <div class="producto-info">
-            <strong><?= htmlspecialchars($prod['nombre']) ?></strong>
+            <strong><?= html_entity_decode($prod['nombre'], ENT_QUOTES, 'UTF-8') ?></strong>
         </div>
         <div class="producto-precios" style="text-align:right">
           <?php if ($promo_activa): ?>
@@ -374,8 +374,8 @@ try {
         <div class="cara front" id="caraA">
           <div class="cara-inner">
             <div class="modal-body">
-              <div class="modal-icono" id="modalIconBox" style="display:flex; justify-content:center; align-items:center; min-height:80px; margin-bottom:12px;">
-                <dotlottie-player id="modalDotLottie" src="https://lottie.host/f0866ccb-1427-43b2-b07c-3850b36ce3f2/gqyfohuylF.lottie" background="transparent" speed="1" style="width: 80px; height: 80px;" loop autoplay></dotlottie-player>
+              <div class="modal-icono" id="modalIconBox" style="display:flex; justify-content:center; align-items:center; min-height:125px; margin:4px 0 16px 0;">
+                <dotlottie-player id="modalDotLottie" src="https://lottie.host/f0866ccb-1427-43b2-b07c-3850b36ce3f2/gqyfohuylF.lottie" background="transparent" speed="1" style="width: 125px; height: 125px;" loop autoplay></dotlottie-player>
               </div>
               <h3 class="modal-titulo">¡Tu orden está casi lista!</h3>
               <p class="modal-sub">
