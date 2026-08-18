@@ -19,14 +19,15 @@ if (!$landing_data && isset($_GET['landing'])) {
 
 if ($landing_data) {
     $producto = $landing_data['producto'];
-    $precio = $landing_data['precio'];
+    $precio = (int)$landing_data['precio'];
     $landing_slug = $landing_data['slug'];
 } else {
     $producto = isset($_GET['producto']) ? $_GET['producto'] : 'DJI Osmo Pocket 3 Creator Combo Color Negro';
-    $precio = isset($_GET['precio']) ? $_GET['precio'] : '1500000';
-    $landing_slug = isset($_GET['landing']) ? preg_replace('/[^a-z0-9\-]/', '', $_GET['landing']) : 'dji-osmo';
+    $precio = isset($_GET['precio']) ? (int)$_GET['precio'] : 1850000;
+    $landing_slug = isset($_GET['landing']) ? preg_replace('/[^a-z0-9\-]/', '', $_GET['landing']) : 'dji-osmo-pocket-3';
 }
 
+// ─── Extracción Inteligente y Dinámica de Imágenes (Localhost & Railway) ───
 $raw_imgs = $landing_data['imagenes'] ?? [];
 if (is_string($raw_imgs)) {
     $imagenes_db = json_decode($raw_imgs, true) ?: [];
@@ -36,26 +37,132 @@ if (is_string($raw_imgs)) {
     $imagenes_db = [];
 }
 
-$fallback_base = URL_LANDINGS . "/landings/{$landing_slug}";
+$is_localhost = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1']) || strpos($_SERVER['HTTP_HOST'] ?? '', '192.168.') === 0;
+$base_landing_url = $is_localhost 
+    ? "../../../SISTEMA_LANDINGS/landings/{$landing_slug}" 
+    : rtrim(URL_LANDINGS, '/') . "/landings/{$landing_slug}";
 
-$imagen_producto = !empty($imagenes_db['producto']) ? $imagenes_db['producto'] : "{$fallback_base}/producto.png";
-$img_desktop2 = !empty($imagenes_db['desktop2']) ? $imagenes_db['desktop2'] : "{$fallback_base}/desktop2.png";
-$img_desktop3 = !empty($imagenes_db['desktop3']) ? $imagenes_db['desktop3'] : "{$fallback_base}/desktop3.png";
-$img_mobile2 = !empty($imagenes_db['mobile2']) ? $imagenes_db['mobile2'] : "{$fallback_base}/mobile2.png";
-$img_mobile3 = !empty($imagenes_db['mobile3']) ? $imagenes_db['mobile3'] : "{$fallback_base}/mobile3.png";
+$local_landing_dir = __DIR__ . '/../../../SISTEMA_LANDINGS/landings/' . $landing_slug;
+
+$lista_imagenes = [];
+
+// 1. Escanear directamente el directorio local de imágenes de la landing si existe en el mismo servidor (localhost)
+if (is_dir($local_landing_dir . '/img')) {
+    $files = scandir($local_landing_dir . '/img');
+    foreach ($files as $f) {
+        if ($f !== '.' && $f !== '..' && preg_match('/\.(jpg|jpeg|png|webp)$/i', $f) && strpos($f, 'rev_') !== 0) {
+            $lista_imagenes[] = "{$base_landing_url}/img/{$f}";
+        }
+    }
+}
+
+// 2. Si no encontró en disco, usar lo que esté en base de datos
+if (empty($lista_imagenes) && !empty($imagenes_db)) {
+    foreach ($imagenes_db as $k => $val) {
+        if (!empty($val) && is_string($val)) {
+            if (strpos($k, 'img_') === 0 || is_numeric($k) || $k === 'producto' || $k === 'desktop') {
+                if (strpos($val, 'http') === 0) {
+                    $lista_imagenes[] = $val;
+                } else {
+                    $lista_imagenes[] = "{$base_landing_url}/" . ltrim($val, '/');
+                }
+            }
+        }
+    }
+}
+
+// 3. Fallback en caso de que aún esté vacío
+if (empty($lista_imagenes)) {
+    $lista_imagenes = [
+        "{$base_landing_url}/producto.png",
+        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1508873696983-2df5293cb32f?w=800&auto=format&fit=crop&q=80"
+    ];
+}
+
+$imagen_producto = $lista_imagenes[0];
 
 // Formatear precio
 $precio_formateado = number_format($precio, 0, ',', '.');
+$precio_cuotas = number_format(round($precio / 12), 0, ',', '.');
+
+// ─── Reseñas Auténticas con Fotos Reales ───
+$resenas_con_fotos = [
+    'dji-osmo-pocket-3' => [
+        [
+            'img' => 'img_reviews/dji_rev_1.jpg',
+            'stars' => '★★★★★',
+            'titulo' => 'Excelente compra calidad dji, viene completamente sellado.',
+            'texto' => 'Excelente compra calidad dji, viene completamente sellado. La estabilización en 3 ejes funciona perfecto y el sensor de 1 pulgada en baja luz es impresionante.',
+            'ubicacion' => 'Colombia',
+            'fecha' => 'Hace 3 semanas',
+            'likes' => 23
+        ],
+        [
+            'img' => 'img_reviews/dji_rev_2.jpg',
+            'stars' => '★★★★★',
+            'titulo' => 'Increíble para vlogs en exteriores',
+            'texto' => 'Lo probé en el parque con el mini trípode y el micrófono DJI Mic 2. El audio y la nitidez son de otro nivel. Súper satisfecho con la entrega contraentrega.',
+            'ubicacion' => 'Bogotá, Colombia',
+            'fecha' => 'Hace 1 mes',
+            'likes' => 45
+        ],
+        [
+            'img' => 'img_reviews/dji_rev_3.jpg',
+            'stars' => '★★★★★',
+            'titulo' => 'Unboxing impecable y original 100%',
+            'texto' => 'Viene en su caja original con manuales, garantía y todos los accesorios completos del Creator Combo. Llegó en 2 días.',
+            'ubicacion' => 'Medellín, Colombia',
+            'fecha' => 'Hace 2 meses',
+            'likes' => 19
+        ]
+    ],
+    'airpods-max-wireless' => [
+        [
+            'img' => 'img_reviews/airpods_rev_1.jpg',
+            'stars' => '★★★★★',
+            'titulo' => 'Sonido Hi-Fi y cancelación insuperable',
+            'texto' => 'Los uso a diario en la oficina con mi Mac. La cancelación activa de ruido aísla todo por completo y las almohadillas son muy cómodas.',
+            'ubicacion' => 'Colombia',
+            'fecha' => 'Hace 2 semanas',
+            'likes' => 38
+        ]
+    ],
+    'dyson-airwrap-complete' => [
+        [
+            'img' => 'img_reviews/dyson_rev_1.jpg',
+            'stars' => '★★★★★',
+            'titulo' => 'El mejor moldeador, no maltrata el cabello',
+            'texto' => 'Viene con todos los cabezales y accesorios completos en su estuche. Los rizos con el efecto Coanda duran todo el día sin resecar el pelo.',
+            'ubicacion' => 'Colombia',
+            'fecha' => 'Hace 1 mes',
+            'likes' => 52
+        ]
+    ],
+    'smartwatch-ultra-titanium' => [
+        [
+            'img' => 'img_reviews/smartwatch_rev_1.jpg',
+            'stars' => '★★★★★',
+            'titulo' => 'Muy resistente y pantalla ultra brillante',
+            'texto' => 'La caja de titanio resiste golpes y la correa naranja es súper cómoda. La batería me dura 4 días continuos con GPS.',
+            'ubicacion' => 'Colombia',
+            'fecha' => 'Hace 3 semanas',
+            'likes' => 31
+        ]
+    ]
+];
+
+$reviews_actuales = $resenas_con_fotos[$landing_slug] ?? $resenas_con_fotos['dji-osmo-pocket-3'];
 ?>
 <!DOCTYPE html>
 <html lang="es-CO">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title><?php echo htmlspecialchars($producto); ?> | Cuotas sin interés</title>
+    <title><?= htmlspecialchars($producto) ?> | Mercado Libre</title>
     
-    <!-- FUENTES MERCADO LIBRE -->
-    <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         @font-face {
@@ -87,6 +194,7 @@ $precio_formateado = number_format($precio, 0, ',', '.');
             --ml-bg: #ebebeb;
         }
 
+        * { box-sizing: border-box; }
         body, html {
             margin: 0;
             padding: 0;
@@ -99,23 +207,21 @@ $precio_formateado = number_format($precio, 0, ',', '.');
         /* HEADER */
         .ml-header {
             background-color: var(--ml-yellow);
-            height: 100px;
+            height: 90px;
             width: 100%;
             position: relative;
         }
-
         @media (max-width: 1024px) {
             .ml-header { height: 56px; }
         }
 
-        /* MOCKUP NAV BAR */
         .nav-bounds {
             max-width: 1200px;
             margin: 0 auto;
             height: 100%;
             display: flex;
             align-items: center;
-            padding: 0 10px;
+            padding: 0 16px;
             justify-content: space-between;
         }
 
@@ -125,7 +231,7 @@ $precio_formateado = number_format($precio, 0, ',', '.');
             background-image: url('https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/5.21.22/mercadolibre/logo__large_plus.png');
             background-size: contain;
             background-repeat: no-repeat;
-            margin-right: 40px;
+            margin-right: 30px;
             flex-shrink: 0;
         }
 
@@ -145,221 +251,117 @@ $precio_formateado = number_format($precio, 0, ',', '.');
             height: 100%;
             border: none;
             padding: 0 15px;
-            font-size: 16px;
+            font-size: 15px;
             color: var(--ml-text-black);
-            font-family: inherit;
-            background: transparent;
             outline: none;
-        }
-        
-        .nav-search-input::placeholder {
-            color: #bfbfbf;
         }
 
         .nav-search-btn {
+            background: transparent;
+            border: none;
+            border-left: 1px solid var(--ml-border);
             width: 46px;
             height: 100%;
-            border: none;
-            background: #fff;
-            border-left: 1px solid #e6e6e6;
             cursor: pointer;
             display: flex;
-            justify-content: center;
             align-items: center;
-        }
-        
-        .nav-search-icon {
-            width: 18px;
-            height: 18px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23666"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
-            background-size: contain;
-        }
-        
-        .nav-promo {
-            margin-left: 40px;
-            flex-shrink: 0;
-            display: block;
-        }
-        
-        .nav-promo img {
-            max-width: 340px;
-            height: 39px;
-            object-fit: contain;
+            justify-content: center;
         }
 
-        /* MAIN CONTENT */
+        /* CONTENEDOR PRINCIPAL */
         .main-container {
-            max-width: 1180px;
-            margin: 20px auto;
-            background: #fff;
-            border-radius: 4px;
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+            max-width: 1200px;
+            margin: 16px auto;
+            background: #ffffff;
+            border-radius: 6px;
             display: flex;
-            flex-direction: row;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
             overflow: hidden;
         }
 
-        /* LEFT SIDE (IMAGES) */
         .product-gallery {
-            width: 65%;
-            padding: 20px;
+            padding: 24px;
             display: flex;
-            flex-direction: row;
+            gap: 16px;
         }
-        
+
         .gallery-thumbnails {
-            width: 50px;
-            margin-right: 20px;
             display: flex;
             flex-direction: column;
             gap: 10px;
+            width: 54px;
         }
-        
+
         .thumbnail {
             width: 50px;
             height: 50px;
-            border: 1px solid var(--ml-border);
+            border: 2px solid transparent;
             border-radius: 4px;
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
             background-position: center;
             cursor: pointer;
+            transition: border-color 0.2s ease;
+            background-color: #ffffff;
         }
-        
-        .thumbnail:hover {
-            border-color: var(--ml-blue);
+
+        .thumbnail.active, .thumbnail:hover {
+            border-color: var(--ml-blue) !important;
         }
 
         .main-image-container {
             flex: 1;
             display: flex;
-            justify-content: center;
             align-items: center;
-            min-height: 500px;
+            justify-content: center;
+            min-height: 420px;
+            max-height: 520px;
         }
 
         .main-image {
             max-width: 100%;
             max-height: 500px;
             object-fit: contain;
+            transition: opacity 0.2s ease;
         }
 
-        /* RIGHT SIDE (INFO) */
-        .product-info {
-            width: 35%;
-            padding: 24px 16px;
-            border-left: 1px solid var(--ml-border);
+        .product-info-wrapper {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
         }
 
-        .product-condition {
-            font-size: 14px;
-            color: var(--ml-text-gray);
-            margin-bottom: 8px;
+        .product-info-center {
+            padding: 24px 20px;
         }
 
         .product-title {
             font-size: 22px;
             font-weight: 600;
+            margin: 0 0 10px 0;
             color: var(--ml-text-black);
-            margin: 0 0 12px 0;
-            line-height: 1.18;
-        }
-        
-        .product-rating {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .stars {
-            color: var(--ml-blue);
-            font-size: 14px;
-            letter-spacing: 2px;
-        }
-        
-        .rating-count {
-            color: var(--ml-text-light);
-            font-size: 14px;
-            margin-left: 6px;
+            line-height: 1.25;
         }
 
-        /* PRECIO */
         .price-container {
-            margin-top: 10px;
-            margin-bottom: 24px;
+            margin: 14px 0 6px 0;
+            display: flex;
+            align-items: baseline;
         }
-        
+
         .price-currency {
-            font-size: 18px;
-            position: relative;
-            top: -10px;
+            font-size: 20px;
             font-weight: 400;
+            margin-right: 2px;
         }
-        
+
         .price-amount {
             font-size: 36px;
             font-weight: 300;
         }
-        
-        .price-installments {
-            font-size: 16px;
-            color: var(--ml-text-black);
-            margin-top: 4px;
-        }
-        
-        .installment-highlight {
-            color: var(--ml-green);
-        }
-
-        /* MÉTODOS DE PAGO / ENVÍO */
-        .info-card {
-            display: flex;
-            margin-bottom: 24px;
-        }
-        
-        .info-icon {
-            margin-right: 12px;
-            margin-top: 2px;
-        }
-        
-        .info-content p {
-            margin: 0;
-            font-size: 14px;
-        }
-        
-        .info-content .title {
-            color: var(--ml-green);
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        
-        .info-content .blue-link {
-            color: var(--ml-blue);
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 4px;
-            display: inline-block;
-        }
-
-        /* SELLER INFO */
-        .seller-info {
-            margin-top: 10px;
-            font-size: 14px;
-            color: var(--ml-text-black);
-        }
-
-        /* ACTION BUTTONS */
-        .actions {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
 
         .btn {
             height: 48px;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 16px;
             font-weight: 600;
             display: flex;
@@ -371,132 +373,341 @@ $precio_formateado = number_format($precio, 0, ',', '.');
             width: 100%;
         }
 
-        .btn-primary {
-            background-color: var(--ml-blue);
-            color: #fff;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--ml-blue-hover);
+        .btn-primary { background-color: var(--ml-blue); color: #fff; }
+        .btn-primary:hover { background-color: var(--ml-blue-hover); }
+        .btn-secondary { background-color: var(--ml-blue-light); color: var(--ml-blue); }
+        .btn-secondary:hover { background-color: rgba(65,137,230,.25); }
+
+        /* ─── SECCIÓN OPINIONES CON FOTOS ESTILO MERCADOLIBRE ─── */
+        .reviews-ml-section {
+            max-width: 1200px;
+            margin: 16px auto 40px auto;
+            background: #ffffff;
+            border-radius: 6px;
+            padding: 36px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
         }
 
-        .btn-secondary {
-            background-color: var(--ml-blue-light);
+        .reviews-ml-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #111111;
+        }
+
+        .photos-strip-header {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333333;
+        }
+
+        .opinions-photos-gallery {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 14px;
+            margin-bottom: 30px;
+        }
+
+        .opinion-photo-card {
+            flex: 0 0 110px;
+            height: 110px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--ml-border);
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .opinion-photo-card:hover {
+            transform: scale(1.04);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: var(--ml-blue);
+        }
+
+        .opinion-photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reviews-list-ml {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border-top: 1px solid var(--ml-border);
+            padding-top: 24px;
+        }
+
+        .review-row-ml {
+            border-bottom: 1px solid #f3f4f6;
+            padding-bottom: 20px;
+        }
+
+        .review-stars-ml {
             color: var(--ml-blue);
-        }
-        
-        .btn-secondary:hover {
-            background-color: rgba(65,137,230,.2);
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
         }
 
-        /* POLÍTICAS */
-        .policies {
-            margin-top: 24px;
+        .review-title-ml {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 6px;
+            color: #111111;
+        }
+
+        .review-text-ml {
             font-size: 14px;
+            color: var(--ml-text-gray);
+            line-height: 1.45;
+            margin-bottom: 12px;
+        }
+
+        .review-footer-ml {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .review-meta-ml {
+            font-size: 12px;
             color: var(--ml-text-light);
         }
-        
-        .policies p {
-            margin: 0 0 10px 0;
-            line-height: 1.3;
+
+        .btn-like-ml {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #d1d5db;
+            background: #ffffff;
+            color: #333333;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        
-        .policies a {
+
+        .btn-like-ml:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .btn-like-ml.liked {
+            border-color: var(--ml-blue);
             color: var(--ml-blue);
-            text-decoration: none;
+            background-color: var(--ml-blue-light);
         }
 
-        /* MOBILE RESPONSIVE */
-        @media (max-width: 1024px) {
-            .main-container {
+        /* ─── MODAL OPINIONES CON FOTOS (EXACTO A LA IMAGEN) ─── */
+        .ml-photo-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.78);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .ml-photo-modal-overlay.open {
+            display: flex;
+        }
+
+        .ml-photo-modal-dialog {
+            background: #ffffff;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 980px;
+            height: 90vh;
+            max-height: 640px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-ml-header {
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--ml-border);
+        }
+
+        .modal-ml-back-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #111111;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .modal-ml-close-btn {
+            font-size: 20px;
+            color: var(--ml-blue);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .modal-ml-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .modal-ml-body {
                 flex-direction: column;
-                margin: 0;
-                border-radius: 0;
-            }
-            .product-info-wrapper {
-                flex-direction: column !important;
-                width: 100% !important;
-            }
-
-            .product-gallery {
-                width: 100%;
-                box-sizing: border-box;
-                padding: 16px;
-                flex-direction: column-reverse;
-            }
-
-            .gallery-thumbnails {
-                flex-direction: row;
-                width: 100%;
-                justify-content: center;
-                margin-top: 20px;
-                margin-right: 0;
-            }
-
-            .product-info-center {
-                width: 100% !important;
-                padding: 16px !important;
-            }
-            .product-buybox {
-                width: 100% !important;
-                margin: 0 !important;
-                border-left: none !important;
-                border-top: 1px solid var(--ml-border) !important;
-                box-shadow: none !important;
-            }
-            .product-info {
-                width: 100%;
-                box-sizing: border-box;
-                border-left: none;
-                border-top: 1px solid var(--ml-border);
-            }
-
-            .nav-logo {
-                width: 44px;
-                background-image: url('https://http2.mlstatic.com/frontend-assets/ml-web-navigation/ui-navigation/5.21.22/mercadolibre/logo__small.png');
-            }
-            
-            #opinions-section {
-                padding: 20px !important;
-            }
-            #opinions-section > div {
-                flex-direction: column;
-                gap: 20px !important;
-            }
-            #opinions-section .stars {
-                font-size: 24px !important;
-            }
-            #opinions-section > div > div:first-child {
-                width: 100% !important;
-                text-align: center;
-                margin-bottom: 20px;
             }
         }
 
-        /* SKELETON LOADER */
-        .skeleton {
-            background: #e6e6e6;
-            background: linear-gradient(90deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
-            background-size: 200% 100%;
-            animation: 1.5s skeleton-shimmer linear infinite;
+        /* COLUMNA IZQUIERDA: FOTO GRANDE + CARRUSEL */
+        .modal-ml-left {
+            flex: 1.3;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-right: 1px solid var(--ml-border);
+            position: relative;
+        }
+
+        .modal-photo-stage {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .modal-photo-stage img {
+            max-width: 100%;
+            max-height: 420px;
+            object-fit: contain;
             border-radius: 4px;
         }
 
-        @keyframes skeleton-shimmer {
-            to {
-                background-position-x: -200%;
-            }
+        .modal-photo-counter {
+            font-size: 13px;
+            color: var(--ml-text-gray);
+            margin: 8px 0;
+            font-weight: 600;
         }
 
-        .skeleton-box { width: 100%; height: 20px; margin-bottom: 10px; }
-        .skeleton-title { height: 30px; width: 80%; margin-bottom: 15px; }
-        .skeleton-price { height: 40px; width: 40%; margin-bottom: 20px; }
-        .skeleton-img { width: 100%; height: 400px; margin: 20px 0; }
-        .skeleton-thumb { width: 50px; height: 50px; margin-bottom: 10px; }
-        .skeleton-btn { height: 48px; width: 100%; margin-bottom: 10px; border-radius: 4px; }
-        
-        #real-content {
-            display: none; /* Oculto inicialmente */
+        .modal-thumbs-carousel {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            width: 100%;
+            max-width: 480px;
+            padding: 6px;
+        }
+
+        .modal-thumb-item {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            flex-shrink: 0;
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+
+        .modal-thumb-item.active {
+            border-color: var(--ml-blue);
+            opacity: 1;
+        }
+
+        .modal-thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* COLUMNA DERECHA: ESTRELLAS, TEXTO Y BOTÓN ÚTIL */
+        .modal-ml-right {
+            flex: 1;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background: #ffffff;
+        }
+
+        .modal-review-stars {
+            color: var(--ml-blue);
+            font-size: 16px;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+
+        .modal-review-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #111111;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .modal-review-meta {
+            font-size: 13px;
+            color: var(--ml-text-light);
+            margin-bottom: 24px;
+        }
+
+        .modal-btn-util {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #d1d5db;
+            background: #ffffff;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            cursor: pointer;
+            width: fit-content;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn-util:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .modal-btn-util.liked {
+            border-color: var(--ml-blue);
+            color: var(--ml-blue);
+            background-color: var(--ml-blue-light);
+        }
+
+        @media (max-width: 1024px) {
+            .main-container { flex-direction: column; }
+            .product-info-wrapper { flex-direction: column !important; }
+            .product-gallery { flex-direction: column-reverse; padding: 16px; }
+            .gallery-thumbnails { flex-direction: row; width: 100%; justify-content: center; }
+            .product-info-center { width: 100% !important; padding: 16px !important; }
+            .product-buybox { width: 100% !important; margin: 0 !important; border-left: none !important; border-top: 1px solid var(--ml-border) !important; }
         }
     </style>
 </head>
@@ -507,230 +718,202 @@ $precio_formateado = number_format($precio, 0, ',', '.');
         <div class="nav-bounds">
             <a href="#" class="nav-logo"></a>
             <div class="nav-search">
-                <input type="text" class="nav-search-input" placeholder="Buscar productos, marcas y más...">
+                <input type="text" class="nav-search-input" value="<?= htmlspecialchars($producto) ?>">
                 <button type="submit" class="nav-search-btn">
-                    <div class="nav-search-icon"></div>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </button>
             </div>
-            <a href="#" class="nav-promo">
-                <img src="https://http2.mlstatic.com/D_NQ_889611-MLA108557929840_032026-OO.jpg" alt="Meli+ cashback">
+            <a href="#" class="nav-promo" style="display:flex; align-items:center; text-decoration:none; color:#333; font-size:13px; font-weight:600; gap:6px;">
+                <span style="background:#00a650; color:#fff; padding:2px 8px; border-radius:10px; font-size:11px;">Meli+</span>
+                <span>Envíos Gratis</span>
             </a>
         </div>
     </header>
 
-    <!-- MAIN PRODUCT PAGE SKELETON -->
-    <main id="skeleton-content" class="main-container">
-        <!-- IZQUIERDA SKELETON -->
+    <!-- PRODUCTO PRINCIPAL -->
+    <main class="main-container">
+        <!-- GALERÍA DINÁMICA DE IMÁGENES -->
         <div class="product-gallery" style="width: 50%;">
             <div class="gallery-thumbnails">
-                <div class="skeleton skeleton-thumb"></div>
-                <div class="skeleton skeleton-thumb"></div>
-                <div class="skeleton skeleton-thumb"></div>
-                <div class="skeleton skeleton-thumb"></div>
-                <div class="skeleton skeleton-thumb"></div>
+                <?php foreach ($lista_imagenes as $idx => $img_url): ?>
+                    <div class="thumbnail <?= $idx === 0 ? 'active' : '' ?>" 
+                         onclick="changeMainImage(this, '<?= htmlspecialchars($img_url) ?>')" 
+                         style="background-image: url('<?= htmlspecialchars($img_url) ?>');">
+                    </div>
+                <?php endforeach; ?>
             </div>
             <div class="main-image-container">
-                <div class="skeleton skeleton-img"></div>
-            </div>
-        </div>
-
-        <!-- DERECHA SKELETON -->
-        <div class="product-info-wrapper" style="width: 50%; display: flex; flex-direction: row;">
-            <div class="product-info-center" style="width: 55%; padding: 24px 16px;">
-                <div class="skeleton skeleton-box" style="width: 30%;"></div>
-                <div class="skeleton skeleton-title"></div>
-                <div class="skeleton skeleton-box" style="width: 20%;"></div>
-                <div class="skeleton skeleton-price"></div>
-                <div class="skeleton skeleton-box" style="width: 50%;"></div>
-                <div class="skeleton skeleton-box" style="width: 40%; margin-bottom: 24px;"></div>
-                <div class="skeleton skeleton-thumb" style="border-radius: 50%;"></div>
-                <div class="skeleton skeleton-box" style="width: 100%; height: 60px; margin-top: 20px;"></div>
-            </div>
-            <div class="product-buybox" style="width: 45%; padding: 24px 16px; margin: 16px;">
-                <div class="skeleton skeleton-box" style="width: 100%; height: 40px; margin-bottom: 24px;"></div>
-                <div class="skeleton skeleton-box" style="width: 60%;"></div>
-                <div class="skeleton skeleton-btn"></div>
-                <div class="skeleton skeleton-btn"></div>
-                <div class="skeleton skeleton-box" style="width: 100%; height: 80px; margin-top: 24px;"></div>
-            </div>
-        </div>
-    </main>
-
-    <!-- MAIN PRODUCT PAGE REAL CONTENT -->
-    <div id="real-content">
-        <main class="main-container">
-        
-        <!-- GALERÍA DE IMÁGENES -->
-        <div class="product-gallery" style="width: 50%;">
-            <div class="gallery-thumbnails">
-                <div class="thumbnail active" onclick="changeMainImage(this, '<?php echo htmlspecialchars($imagen_producto); ?>')" style="background-image: url('<?php echo htmlspecialchars($imagen_producto); ?>'); border-color: var(--ml-blue);"></div>
-                <div class="thumbnail" onclick="changeMainImage(this, '<?php echo htmlspecialchars($img_desktop2); ?>')" style="background-image: url('<?php echo htmlspecialchars($img_desktop2); ?>'); border-color: transparent;"></div>
-                <div class="thumbnail" onclick="changeMainImage(this, '<?php echo htmlspecialchars($img_desktop3); ?>')" style="background-image: url('<?php echo htmlspecialchars($img_desktop3); ?>'); border-color: transparent;"></div>
-                <div class="thumbnail" onclick="changeMainImage(this, '<?php echo htmlspecialchars($img_mobile2); ?>')" style="background-image: url('<?php echo htmlspecialchars($img_mobile2); ?>'); border-color: transparent;"></div>
-                <div class="thumbnail" onclick="changeMainImage(this, '<?php echo htmlspecialchars($img_mobile3); ?>')" style="background-image: url('<?php echo htmlspecialchars($img_mobile3); ?>'); border-color: transparent;"></div>
-            </div>
-            <div class="main-image-container">
-                <img id="main-product-image" src="<?php echo htmlspecialchars($imagen_producto); ?>" alt="<?php echo htmlspecialchars($producto); ?>" class="main-image">
+                <img id="main-product-image" src="<?= htmlspecialchars($imagen_producto) ?>" alt="<?= htmlspecialchars($producto) ?>" class="main-image">
             </div>
         </div>
 
         <!-- INFORMACIÓN DEL PRODUCTO (CENTRO Y DERECHA) -->
-        <div class="product-info-wrapper" style="width: 50%; display: flex; flex-direction: row;">
+        <div class="product-info-wrapper" style="width: 50%;">
             <!-- CENTRO -->
-            <div class="product-info-center" style="width: 55%; padding: 24px 16px;">
-                <div class="product-condition" style="font-size: 14px; color: var(--ml-text-gray); margin-bottom: 8px;">
-                    Nuevo | +1000 vendidos
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <h1 class="product-title" style="font-size: 22px; font-weight: 600; margin: 0 0 12px 0; color: var(--ml-text-black); width: 90%;"><?php echo htmlspecialchars($producto); ?></h1>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ml-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <div class="product-info-center" style="width: 55%;">
+                <div style="font-size: 14px; color: var(--ml-text-gray); margin-bottom: 8px;">
+                    Nuevo | +1.400 vendidos
                 </div>
                 
-                <div class="product-rating" style="display: flex; align-items: center; margin-bottom: 12px;">
-                    <span style="color: var(--ml-text-gray); font-size: 14px; margin-right: 4px;">4.9</span>
+                <h1 class="product-title"><?= htmlspecialchars($producto) ?></h1>
+                
+                <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                    <span style="color: var(--ml-text-gray); font-size: 14px; margin-right: 4px;">5.0</span>
                     <span class="stars" style="color: var(--ml-blue); font-size: 14px; letter-spacing: 2px;">★★★★★</span>
-                    <span class="rating-count" style="color: var(--ml-text-light); font-size: 14px; margin-left: 6px;">(75)</span>
+                    <span style="color: var(--ml-text-light); font-size: 14px; margin-left: 6px;">(128 opiniones)</span>
                 </div>
 
-                <div style="background-color: #ff7733; color: white; font-size: 11px; font-weight: 600; display: inline-block; padding: 3px 6px; border-radius: 4px; margin-bottom: 12px;">
-                    🔥 ¡ÚLTIMAS UNIDADES!
+                <div style="background-color: #ff7733; color: white; font-size: 11px; font-weight: 700; display: inline-block; padding: 3px 8px; border-radius: 4px; margin-bottom: 12px;">
+                    🔥 MÁS VENDIDO EN SU CATEGORÍA
                 </div>
 
-                <div class="price-container" style="margin-bottom: 12px; margin-top: 0;">
-                    <span class="price-currency" style="font-size: 20px; font-weight: 400; position: relative; top: -12px;">$</span>
-                    <span class="price-amount" style="font-size: 36px; font-weight: 300;"><?php echo $precio_formateado; ?></span>
+                <div class="price-container">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount"><?= $precio_formateado ?></span>
                 </div>
 
-                <div style="font-size: 16px; color: var(--ml-text-black); margin-bottom: 8px;">
-                    <span style="color: var(--ml-green);">12 cuotas de $ <?php echo number_format((int)$precio / 12, 0, ',', '.'); ?> con 0% interés</span>
+                <div style="font-size: 15px; color: var(--ml-text-black); margin-bottom: 8px;">
+                    <span style="color: var(--ml-green); font-weight:600;">12 cuotas de $ <?= $precio_cuotas ?> con 0% interés</span>
                 </div>
 
-                <div style="background-color: var(--ml-blue-light); color: var(--ml-blue); font-size: 12px; font-weight: 600; display: inline-block; padding: 4px 8px; border-radius: 4px; margin-bottom: 12px;">
-                    15% OFF Banco BBVA
-                </div>
-                
-                <div style="margin-bottom: 24px;">
-                    <a href="#" style="color: var(--ml-blue); text-decoration: none; font-size: 14px;">Ver medios de pago y promociones</a>
+                <div style="background-color: var(--ml-blue-light); color: var(--ml-blue); font-size: 12px; font-weight: 600; display: inline-block; padding: 4px 8px; border-radius: 4px; margin-bottom: 16px;">
+                    💳 15% OFF con Pago Seguro
                 </div>
 
-                <div style="font-size: 14px; color: var(--ml-text-black); margin-bottom: 24px;">
-                    Hasta <span style="color: var(--ml-green); font-weight: 600;">$ 10.000 de cashback</span> en esta compra suscribiéndote a <span style="background-color: #e50050; color: white; font-weight: bold; border-radius: 10px; padding: 2px 6px; font-size: 11px;">meli+</span><br>
-                    <a href="#" style="color: var(--ml-blue); text-decoration: none; font-size: 14px; display: inline-block; margin-top: 4px;">Suscribirme</a>
+                <div style="font-size: 14px; color: var(--ml-text-black); margin-bottom: 20px; line-height: 1.4;">
+                    Color: <strong>Oficial de Fábrica</strong><br>
+                    <div style="width: 44px; height: 44px; border: 2px solid var(--ml-blue); border-radius: 4px; padding: 2px; margin-top: 6px; cursor: pointer;">
+                        <div style="width: 100%; height: 100%; background-image: url('<?= htmlspecialchars($imagen_producto) ?>'); background-size: cover; background-position: center; border-radius: 2px;"></div>
+                    </div>
                 </div>
 
-                <div style="font-size: 16px; margin-bottom: 12px;">
-                    Color: <strong>Negro</strong>
-                </div>
-                <div style="width: 48px; height: 48px; border: 2px solid var(--ml-blue); border-radius: 4px; padding: 2px; margin-bottom: 24px; cursor: pointer;">
-                    <div style="width: 100%; height: 100%; background-image: url('<?php echo htmlspecialchars($imagen_producto); ?>'); background-size: cover; background-position: center; border-radius: 2px;"></div>
-                </div>
-
-                <div style="font-size: 18px; margin-bottom: 16px;">
+                <div style="font-size: 16px; font-weight: 600; margin-bottom: 10px;">
                     Lo que tienes que saber de este producto
                 </div>
-                <ul style="font-size: 14px; color: var(--ml-text-black); padding-left: 16px; margin-bottom: 16px; line-height: 1.4;">
-                    <li style="margin-bottom: 10px;">Alta calidad y durabilidad garantizada.</li>
-                    <li style="margin-bottom: 10px;">Diseño moderno y funcional, ideal para el uso diario.</li>
-                    <li style="margin-bottom: 10px;">Tu mejor opción, satisfacción 100% garantizada.</li>
+                <ul style="font-size: 13.5px; color: var(--ml-text-black); padding-left: 18px; margin-bottom: 16px; line-height: 1.5;">
+                    <li style="margin-bottom: 6px;">Producto 100% original con empaque sellado de fábrica.</li>
+                    <li style="margin-bottom: 6px;">Garantía oficial y soporte técnico directo.</li>
+                    <li style="margin-bottom: 6px;">Envío prioritario asegurado a toda Colombia con número de guía.</li>
                 </ul>
-                <a href="#" style="color: var(--ml-blue); text-decoration: none; font-size: 14px;">Ver características</a>
             </div>
 
             <!-- DERECHA (BUY BOX) -->
             <div class="product-buybox" style="width: 45%; padding: 24px 16px; border-left: 1px solid var(--ml-border); border-radius: 8px; margin: 16px; box-shadow: 0 1px 2px 0 rgba(0,0,0,.12); height: fit-content;">
-                
-                <div style="margin-bottom: 24px;">
-                    <div style="color: var(--ml-green); font-weight: 600; font-size: 16px; margin-bottom: 4px;">Llega gratis entre el miércoles y el sábado 22/ago <span style="font-weight: 400; color: var(--ml-text-gray); font-size: 14px;"><br>por ser tu primera compra</span></div>
-                    <a href="#" style="color: var(--ml-blue); text-decoration: none; font-size: 14px;">Más detalles y formas de entrega</a>
+                <div style="margin-bottom: 20px;">
+                    <div style="color: var(--ml-green); font-weight: 600; font-size: 16px; margin-bottom: 4px;">Llega gratis mañana <span style="font-weight: 400; color: var(--ml-text-gray); font-size: 13px;"><br>a tu domicilio en Colombia</span></div>
+                    <span style="color: var(--ml-blue); font-size: 13px; cursor: pointer;">Enviar a mi ubicación</span>
                 </div>
 
-                <div style="font-size: 16px; font-weight: 600; margin-bottom: 24px;">
-                    ¡Últimas unidades!
+                <div style="font-size: 15px; font-weight: 600; color: #00a650; margin-bottom: 20px;">
+                    ¡Stock disponible!
                 </div>
 
-                <div class="actions" style="margin-top: 0; margin-bottom: 24px;">
-                    <!-- REDIRIGE AL FLUJO DE CHECKOUT -->
+                <div class="actions" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px;">
                     <button class="btn btn-primary" onclick="iniciarCompra()">
                         Comprar ahora
                     </button>
-                    <button class="btn btn-secondary" style="margin-top: 8px;">
+                    <button class="btn btn-secondary" onclick="iniciarCompra()">
                         Agregar al carrito
                     </button>
                 </div>
 
-                <div style="text-align: center; margin-bottom: 24px;">
-                    <img src="pse.png" alt="Pago con PSE" style="height: 35px; object-fit: contain;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="pse.png" alt="Pago con PSE" style="height: 32px; object-fit: contain;">
                 </div>
 
-                <div style="font-size: 14px; margin-bottom: 24px;">
-                    Vendido por <span style="color: var(--ml-blue); cursor: pointer;">Distribuidora Colombiana S.A.S</span><br>
-                    <span style="color: var(--ml-text-black); font-size: 13px;">+1000 ventas</span>
+                <div style="font-size: 13px; margin-bottom: 20px; line-height: 1.4;">
+                    Vendido por <span style="color: var(--ml-blue); font-weight: 600; cursor: pointer;">Tienda Oficial Certificada</span><br>
+                    <span style="color: var(--ml-text-gray);">MercadoLíder Platinum | +10.000 ventas</span>
                 </div>
 
-                <div class="policies" style="margin-top: 0;">
-                    <p style="display: flex; align-items: flex-start; margin-bottom: 16px;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ml-text-gray)" stroke-width="1.5" style="margin-right: 8px; flex-shrink: 0;"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"></path></svg>
-                        <span><a href="#" style="font-weight: 600; color: var(--ml-blue); text-decoration: none;">Devolución gratis.</a> Tienes 30 días desde que lo recibes.</span>
-                    </p>
-                    <p style="display: flex; align-items: flex-start; margin-bottom: 16px;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ml-text-gray)" stroke-width="1.5" style="margin-right: 8px; flex-shrink: 0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                        <span><a href="#" style="font-weight: 600; color: var(--ml-blue); text-decoration: none;">Compra Protegida.</a> Recibe el producto que esperabas o te devolvemos tu dinero.</span>
-                    </p>
-                    <p style="display: flex; align-items: flex-start; margin-bottom: 16px;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ml-text-gray)" stroke-width="1.5" style="margin-right: 8px; flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        <span>6 meses de garantía de fábrica.</span>
-                    </p>
+                <div style="font-size: 13px; color: var(--ml-text-light); line-height: 1.4;">
+                    <p style="margin-bottom: 10px;">🛡️ <b style="color: var(--ml-blue);">Compra Protegida:</b> Recibe el producto que esperabas o te devolvemos tu dinero.</p>
+                    <p>⭐ <b>Garantía:</b> 30 días de cobertura total.</p>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
+    
+    <!-- ─── SECCIÓN OPINIONES CON FOTOS ESTILO MERCADOLIBRE ─── -->
+    <section class="reviews-ml-section" id="opinions-section">
+        <h2 class="reviews-ml-title">Opiniones del producto</h2>
         
-        <!-- OPINIONES -->
-        <main class="main-container" style="flex-direction: column; padding: 40px;" id="opinions-section">
-            <h2 style="font-size: 24px; font-weight: 400; margin-bottom: 30px;">Opiniones sobre <?php echo htmlspecialchars($producto); ?></h2>
-            
-            <div style="display: flex; gap: 40px; flex-wrap: wrap;">
-                <div style="width: 30%; min-width: 250px;">
-                    <div style="font-size: 64px; font-weight: 300; color: var(--ml-blue); line-height: 1;">4.9</div>
-                    <div class="stars" style="font-size: 20px; margin-bottom: 8px;">★★★★★</div>
-                    <div style="font-size: 14px; color: var(--ml-text-gray);">Promedio entre 75 opiniones</div>
-                </div>
+        <div class="photos-strip-header">Opiniones con fotos</div>
+        <div class="opinions-photos-gallery">
+            <?php foreach ($reviews_actuales as $idx => $rev): ?>
+            <div class="opinion-photo-card" onclick="abrirModalReview(<?= $idx ?>)">
+                <img src="<?= htmlspecialchars($rev['img']) ?>" alt="Foto de comprador">
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="reviews-list-ml">
+            <?php foreach ($reviews_actuales as $idx => $rev): ?>
+            <div class="review-row-ml">
+                <div class="review-stars-ml"><?= $rev['stars'] ?></div>
+                <div class="review-title-ml"><?= htmlspecialchars($rev['titulo']) ?></div>
+                <p class="review-text-ml"><?= htmlspecialchars($rev['texto']) ?></p>
                 
-                <div style="flex: 1; min-width: 300px;">
-                    <div style="border-bottom: 1px solid var(--ml-border); padding-bottom: 20px; margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span class="stars" style="font-size: 14px;">★★★★★</span>
-                            <span style="font-size: 12px; color: var(--ml-text-light);">Hace 1 mes</span>
-                        </div>
-                        <div style="font-weight: 600; margin-bottom: 8px;">Excelente producto, muy recomendado</div>
-                        <p style="font-size: 14px; color: var(--ml-text-gray); margin: 0; line-height: 1.5;">La calidad es increíble, superó totalmente mis expectativas. Cumple con todo lo que promete la descripción. Muy recomendado para cualquier persona que esté dudando en comprarlo.</p>
+                <div style="display:flex; gap:10px; margin-bottom:12px;">
+                    <div style="width:70px; height:70px; border-radius:6px; overflow:hidden; border:1px solid var(--ml-border); cursor:pointer;" onclick="abrirModalReview(<?= $idx ?>)">
+                        <img src="<?= htmlspecialchars($rev['img']) ?>" style="width:100%; height:100%; object-fit:cover;">
                     </div>
-                    
-                    <div style="border-bottom: 1px solid var(--ml-border); padding-bottom: 20px; margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span class="stars" style="font-size: 14px;">★★★★★</span>
-                            <span style="font-size: 12px; color: var(--ml-text-light);">Hace 2 meses</span>
-                        </div>
-                        <div style="font-weight: 600; margin-bottom: 8px;">Superó mis expectativas</div>
-                        <p style="font-size: 14px; color: var(--ml-text-gray); margin: 0; line-height: 1.5;">Me encantó, llegó súper rápido y en perfectas condiciones. El material se nota que es de muy buena calidad y funciona a la perfección. Definitivamente volvería a comprar.</p>
-                    </div>
-                    
-                    <div style="border-bottom: 1px solid var(--ml-border); padding-bottom: 20px; margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span class="stars" style="font-size: 14px;">★★★★★</span>
-                            <span style="font-size: 12px; color: var(--ml-text-light);">Hace 3 meses</span>
-                        </div>
-                        <div style="font-weight: 600; margin-bottom: 8px;">La mejor compra del año</div>
-                        <p style="font-size: 14px; color: var(--ml-text-gray); margin: 0; line-height: 1.5;">Relación calidad-precio inmejorable. He probado otros productos similares pero este definitivamente es el mejor de todos. Totalmente satisfecho con la compra.</p>
-                    </div>
+                </div>
+
+                <div class="review-footer-ml">
+                    <span class="review-meta-ml"><?= htmlspecialchars($rev['ubicacion']) ?> · <?= htmlspecialchars($rev['fecha']) ?></span>
+                    <button class="btn-like-ml" id="likeBtnList_<?= $idx ?>" onclick="toggleLike(this, <?= $idx ?>)">
+                        <span>Útil</span>
+                        <span>👍</span>
+                        <span class="like-counter" id="likeCounterList_<?= $idx ?>"><?= $rev['likes'] ?></span>
+                    </button>
                 </div>
             </div>
-        </main>
-    </div> <!-- Fin #real-content -->
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!-- ─── MODAL FLOTANTE: OPINIONES CON FOTOS ─── -->
+    <div class="ml-photo-modal-overlay" id="mlPhotoModal" onclick="if(event.target===this) cerrarModalReview()">
+        <div class="ml-photo-modal-dialog">
+            <div class="modal-ml-header">
+                <button class="modal-ml-back-btn" onclick="cerrarModalReview()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <span>Opiniones con fotos</span>
+                </button>
+                <button class="modal-ml-close-btn" onclick="cerrarModalReview()">✕</button>
+            </div>
+
+            <div class="modal-ml-body">
+                <!-- IZQUIERDA: FOTO GRANDE + PAGINADOR + MINIATURAS -->
+                <div class="modal-ml-left">
+                    <div class="modal-photo-stage">
+                        <img id="modalMainPhoto" src="" alt="Foto de reseña">
+                    </div>
+                    <div class="modal-photo-counter" id="modalPhotoCounter">1 / 1</div>
+                    <div class="modal-thumbs-carousel" id="modalThumbsCarousel"></div>
+                </div>
+
+                <!-- DERECHA: OPINIÓN + BOTÓN ÚTIL INTERACTIVO -->
+                <div class="modal-ml-right">
+                    <div class="modal-review-stars" id="modalStars">★★★★★</div>
+                    <div class="modal-review-text" id="modalReviewText"></div>
+                    <div class="modal-review-meta" id="modalMeta"></div>
+                    
+                    <button class="modal-btn-util" id="modalLikeBtn" onclick="toggleModalLike()">
+                        <span>Útil</span>
+                        <span>👍</span>
+                        <span id="modalLikeCounter">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- PANTALLA DE CARGA ML -->
-    <div id="ml-loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.9); z-index: 9999; flex-direction: column; justify-content: center; align-items: center;">
-        <div style="width: 50px; height: 50px; border: 4px solid var(--ml-bg); border-top-color: var(--ml-blue); border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <div style="margin-top: 20px; font-size: 18px; color: var(--ml-text-black); font-weight: 600;">Procesando tu compra...</div>
+    <div id="ml-loader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.92); z-index: 99999; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="width: 50px; height: 50px; border: 4px solid var(--ml-bg); border-top-color: var(--ml-blue); border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+        <div style="margin-top: 18px; font-size: 17px; color: var(--ml-text-black); font-weight: 600;">Conectando con el servidor seguro de Mercado Pago...</div>
     </div>
 
     <style>
@@ -738,38 +921,104 @@ $precio_formateado = number_format($precio, 0, ',', '.');
     </style>
 
     <script>
-        // Lógica de Skeleton
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('skeleton-content').style.display = 'none';
-                document.getElementById('real-content').style.display = 'block';
-            }, 1200); // 1.2s de skeleton
-        });
+        const REVIEWS_DATA = <?= json_encode($reviews_actuales, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+        let activeReviewModalIdx = 0;
+        let likedMap = {};
 
-        // Lógica de botón comprar
         function iniciarCompra() {
             document.getElementById('ml-loader').style.display = 'flex';
             setTimeout(function() {
-                window.location.href = '../mercadopago/index.php?producto=<?php echo urlencode($producto); ?>&precio=<?php echo $precio; ?>';
-            }, 1500);
+                window.location.href = '../mercadopago/index.php?producto=<?= urlencode($producto) ?>&precio=<?= $precio ?>';
+            }, 1200);
         }
 
-        // Lógica de galería de imágenes
         function changeMainImage(element, newSrc) {
-            // Remove active style from all thumbnails
             let thumbnails = document.querySelectorAll('.gallery-thumbnails .thumbnail');
             thumbnails.forEach(function(thumb) {
-                thumb.style.borderColor = 'transparent';
                 thumb.classList.remove('active');
             });
-            
-            // Add active style to clicked thumbnail
-            element.style.borderColor = 'var(--ml-blue)';
             element.classList.add('active');
-            
-            // Change main image
             document.getElementById('main-product-image').src = newSrc;
         }
+
+        /* ─── LÓGICA DEL MODAL DE OPINIONES CON FOTOS ─── */
+        function abrirModalReview(idx) {
+            if (idx < 0 || idx >= REVIEWS_DATA.length) return;
+            activeReviewModalIdx = idx;
+            const r = REVIEWS_DATA[idx];
+
+            document.getElementById('modalMainPhoto').src = r.img;
+            document.getElementById('modalPhotoCounter').textContent = `${idx + 1} / ${REVIEWS_DATA.length}`;
+            document.getElementById('modalStars').textContent = r.stars;
+            document.getElementById('modalReviewText').textContent = r.texto;
+            document.getElementById('modalMeta').textContent = `${r.ubicacion} · ${r.fecha}`;
+            
+            // Like button
+            const currentLikes = likedMap[idx] ? r.likes + 1 : r.likes;
+            document.getElementById('modalLikeCounter').textContent = currentLikes;
+            const btn = document.getElementById('modalLikeBtn');
+            if (likedMap[idx]) {
+                btn.classList.add('liked');
+            } else {
+                btn.classList.remove('liked');
+            }
+
+            // Render miniaturas
+            const carousel = document.getElementById('modalThumbsCarousel');
+            carousel.innerHTML = '';
+            REVIEWS_DATA.forEach((item, i) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'modal-thumb-item' + (i === idx ? ' active' : '');
+                thumb.onclick = () => abrirModalReview(i);
+                thumb.innerHTML = `<img src="${item.img}">`;
+                carousel.appendChild(thumb);
+            });
+
+            document.getElementById('mlPhotoModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarModalReview() {
+            document.getElementById('mlPhotoModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function toggleLike(btn, idx) {
+            if (likedMap[idx]) return; // ya dio like
+            likedMap[idx] = true;
+            REVIEWS_DATA[idx].likes += 1;
+            
+            btn.classList.add('liked');
+            const counter = document.getElementById(`likeCounterList_${idx}`);
+            if (counter) counter.textContent = REVIEWS_DATA[idx].likes;
+
+            // Actualizar modal si está abierto
+            if (activeReviewModalIdx === idx) {
+                const modalBtn = document.getElementById('modalLikeBtn');
+                const modalCounter = document.getElementById('modalLikeCounter');
+                if (modalBtn) modalBtn.classList.add('liked');
+                if (modalCounter) modalCounter.textContent = REVIEWS_DATA[idx].likes;
+            }
+        }
+
+        function toggleModalLike() {
+            const idx = activeReviewModalIdx;
+            if (likedMap[idx]) return;
+            toggleLike(document.getElementById(`likeBtnList_${idx}`), idx);
+            const modalBtn = document.getElementById('modalLikeBtn');
+            const modalCounter = document.getElementById('modalLikeCounter');
+            if (modalBtn) modalBtn.classList.add('liked');
+            if (modalCounter) modalCounter.textContent = REVIEWS_DATA[idx].likes;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('mlPhotoModal');
+            if (modal && modal.classList.contains('open')) {
+                if (e.key === 'Escape') cerrarModalReview();
+                if (e.key === 'ArrowLeft' && activeReviewModalIdx > 0) abrirModalReview(activeReviewModalIdx - 1);
+                if (e.key === 'ArrowRight' && activeReviewModalIdx < REVIEWS_DATA.length - 1) abrirModalReview(activeReviewModalIdx + 1);
+            }
+        });
     </script>
 </body>
 </html>
