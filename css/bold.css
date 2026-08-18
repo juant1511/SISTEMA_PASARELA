@@ -1,705 +1,631 @@
-/* =======================
-     RESETEO GENERAL
-     ======================= */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Manrope', sans-serif;
-  }
+/* ============================================================
+   ⚡ BOLD CHECKOUT STYLES - IDENTICAL TO CHECKOUT.BOLD.CO
+   ============================================================ */
 
-  body {
-    display: flex;
-    height: 100vh;          /* el alto total de la ventana */
-    overflow: hidden;       /* evita scroll global */
-    background: #fff;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-  /* =======================
-     PANEL IZQUIERDO
-     ======================= */
+body {
+  display: flex;
+  min-height: 100vh;
+  background: #ffffff;
+  color: #0b0b51;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   PANEL IZQUIERDO GRADIENTE BOLD
+   ============================================================ */
 .sidebar {
-  flex: 0 0 40%;
-  background: linear-gradient(180deg, #f02c4c 0%, #1f126f 100%);
-  color: #fff;
-  padding: 40px;
+  flex: 0 0 380px;
+  max-width: 420px;
+  min-width: 340px;
+  background: linear-gradient(180deg, #ea1d2c 0%, #a8174e 45%, #15184b 100%);
+  color: #ffffff;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
-  height: 100vh;
-  position: sticky;   /* se queda fija al hacer scroll */
+  border-radius: 0 28px 28px 0;
+  min-height: 100vh;
+  position: sticky;
   top: 0;
-  overflow-y: auto;   /* permite scroll interno si el panel crece */
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  z-index: 10;
 }
-  .sidebar img.logo {
-    width: 70px;
-    position: absolute;
-    top: 30px;
-    left: 40px;
-  }
 
-  .sidebar-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 80px;
-    flex-grow: 1;
-    justify-content: center;
-  }
+.sidebar-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 
-  .badge {
-    background: #fff7e6;
-    color: #e0ba48;
-    padding: 6px 16px;
-    border-radius: 40px;
-    font-weight: 700;
-    font-size: 13px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 14px;
-    margin-top: -32px;
-  }
+.sidebar img.logo {
+  height: 28px;
+  width: auto;
+  filter: brightness(1);
+}
 
-  .badge img {
-    height: 16px;
-    width: auto;
-  }
+.lang-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
-  .sidebar h2 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
+.lang-selector:hover {
+  background: rgba(255, 255, 255, 0.32);
+  transform: scale(1.02);
+}
 
-  .sidebar p {
-    font-size: 14px;
-    opacity: 0.9;
-  }
+.lang-flag {
+  font-size: 14px;
+  line-height: 1;
+}
 
-  .price {
-    font-size: 26px;
-    font-weight: 700;
-    margin: 35px 0 20px;
-  }
+.lang-code {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
 
-  /* =======================
-     PANEL DERECHO
-     ======================= */
+.lang-chevron {
+  transition: transform 0.2s ease;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: auto 0;
+  padding: 24px 0;
+}
+
+.sidebar-sub-label {
+  font-size: 15px;
+  opacity: 0.88;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.sidebar-store-name {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 20px 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.sidebar-prod-title {
+  font-size: 15px;
+  font-weight: 600;
+  opacity: 0.95;
+  line-height: 1.45;
+  margin-bottom: 8px;
+  max-width: 290px;
+}
+
+.sidebar-ref {
+  font-size: 13.5px;
+  opacity: 0.82;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  margin-top: 4px;
+}
+
+.sidebar-bottom {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.calc-currency-link {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.calc-currency-link:hover {
+  opacity: 1;
+}
+
+/* ============================================================
+   PANEL DERECHO
+   ============================================================ */
 .content {
   flex: 1;
-  padding: 40px 80px;
-  height: 100vh;        /* ocupa toda la altura */
-  overflow-y: auto;     /* ✅ scroll solo a la derecha */
-  overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  position: relative;
-}
-
-  .content h3 {
-    font-size: 20px;
-    color: #0b0b51;
-    margin-bottom: 26px;
-    font-weight: 700;
-  }
-
-  .letra {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    margin-bottom: 12px;
-  }
-
-  .payment-option {
-    background: #f6f6fa;
-    border-radius: 14px;
-    padding: 18px 22px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    flex-wrap: wrap;
-    max-width: 520px;
-  }
-
-  .payment-option:hover {
-    background: #ebedf5;
-  }
-
-  .payment-text {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    overflow: hidden;
-    flex-wrap: wrap;
-  }
-
-  .payment-text img:first-child {
-    height: 22px;
-    flex-shrink: 0;
-  }
-
-  .payment-text strong {
-    color: #0b0b51;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .logos-wrapper {
-    position: relative;
-    flex: 1;
-    height: 22px;
-    overflow: hidden;
-    margin: 0 14px;
-  }
-
-  .scroll-logos {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    animation: scroll-logos 12s linear infinite;
-  }
-
-  .scroll-logos img {
-    height: 18px;
-    flex-shrink: 0;
-    object-fit: contain;
-    filter: brightness(0.95);
-  }
-
-  @keyframes scroll-logos {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
-  input[type="radio"] {
-    width: 16px;
-    height: 16px;
-    accent-color: #1e2bff;
-    cursor: pointer;
-  }
-
-  /* =======================
-     ENLACES Y LOGOS
-     ======================= */
-  .back-link {
-    margin: 40px 0 20px;
-    text-align: center;
-  }
-
-  .back-link a {
-    color: #0b0b51;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 14px;
-  }
-
-  .back-link img {
-    height: 22px;
-    vertical-align: middle;
-    margin-right: 4px;
-  }
-
-  .back-link,
-  .secure-logos {
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin-top: 12px;
-    font-size: 12px;
-    color: #555;
-    max-width: 520px;
-    margin-inline: auto;
-    position: relative;
-    left: -120px;
-  }
-
-  @media (max-width: 900px) {
-    .back-link,
-    .secure-logos {
-      left: 0;
-    }
-  }
-
-  .secure-logos span {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-  }
-
-  .secure-logos img {
-    height: 20px;
-    margin: 0 3px;
-    vertical-align: middle;
-  }
-
-  /* =======================
-     FORMULARIO TARJETA
-     ======================= */
-  .formulario-tarjeta {
-    width: 100%;
-    max-width: 520px;
-    background: #fff;
-    padding: 0px 32px 32px 32px;
-    margin-top: 0px;
-    border-radius: 16px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    display: none;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .formulario-tarjeta label {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .formulario-tarjeta input[type="text"],
-  .formulario-tarjeta input[type="email"] {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: 12px;
-    background-color: #f9f9fc;
-    border: 1px solid #ececec;
-    font-size: 14px;
-    color: #0b0b51;
-    outline: none;        /* ✅ evita borde negro */
-    box-shadow: none;     /* ✅ elimina cualquier sombra */
-  }
-
-  .formulario-tarjeta input::placeholder {
-    color: #b1b1c4;
-  }
-
-  .fila {
-    display: flex;
-    gap: 12px;
-  }
-
-  .col-cvv {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .input-con-icono {
-    position: relative;
-  }
-
-  .input-con-icono input {
-    width: 100%;
-    padding-right: 45px;
-  }
-
-  .input-con-icono img {
-    position: absolute;
-    top: 40%;
-    right: 16px;
-    transform: translateY(-50%);
-    height: 18px;
-    width: auto;
-  }
-
-  .telefono-wrapper {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .codigo-pais {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 16px;
-    border-radius: 12px;
-    background-color: #f9f9fc;
-    border: 1px solid #ececec;
-    font-size: 14px;
-    color: #0b0b51;
-    height: 48px;
-  }
-
-  .codigo-pais img {
-    height: 18px;
-    width: auto;
-  }
-
-  .codigo-pais .flecha {
-    height: 10px;
-    width: auto;
-  }
-
-/* =======================
-   CHECKBOXES UNIFICADOS Y PERSONALIZADOS
-   ======================= */
-.checkbox {
+  padding: 48px 60px;
+  max-width: 760px;
   display: flex;
-  align-items: flex-start; /* mantiene alineado con texto largo */
-  gap: 10px;
-  font-size: 10px;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.content-title {
+  font-size: 20px;
+  font-weight: 800;
   color: #0b0b51;
-  line-height: 1.4;
+  margin-bottom: 28px;
+  letter-spacing: -0.3px;
 }
 
-/* base para todos los checkboxes */
-.checkbox input[type="checkbox"] {
-  flex-shrink: 0;           /* evita que el cuadrado se deforme */
-  margin-top: 3px;          /* ajusta alineación vertical */
-  accent-color: #f02c4c;    /* color del check */
-  cursor: pointer;
+/* ============================================================
+   GRID DE MÉTODOS DE PAGO
+   ============================================================ */
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-/* tamaño personalizado para el de datos */
-.checkbox-datos input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-}
-
-/* tamaño personalizado para el de términos */
-.checkbox-terminos input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-}
-
-
-
-  .checkbox label {
-    font-weight: 400;
-  }
-
-  button {
-    padding: 15px;
-    width: 100%;
-    background-color: #f02c4c;
-    border: none;
-    border-radius: 30px;
-    font-weight: 700;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    margin-top: 5px;
-  }
-
-  .volver-link {
-    margin-top: 0px;
-    text-align: center;
-  }
-
-  .volver-link a {
-    font-size: 14px;
-    color: #ff2947;
-    font-weight: 700;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-    .abandonar {
-    font-size: 14px;
-    color: #121e6c;
-    font-weight: 700;
-    text-decoration: underline;
-    cursor: pointer;
-    text-align: center;
-  }
-select {
-  background-color: #f6f7fb;
-  border: 1px solid #dcdde2;
-  border-radius: 12px;
-  padding: 14px 18px;
-  font-family: 'Manrope', sans-serif;
-  font-size: 14px;
-  color: #1a1a1a;
-  width: 100%;
-  outline: none;
-  transition: border-color 0.3s;
-  appearance: none;
-  background-image: url('bold/lineaabajo.svg');
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  background-size: 12px;
-  cursor: pointer;
-}
-.payment-option.disabled {
-  opacity: 0.8;
-  filter: grayscale(1);
-  pointer-events: none;
-}
-/* Contenedor del error (lado derecho) */
-.error-container {
-  background: #ffebee;
-  border: 1px solid #f8b4bc;
-  color: #9d1a2d;
-  padding: 18px 22px;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 500px;
-  margin-bottom: 20px;
-  animation: fadeIn .3s ease-out forwards;
-}
-
-/* Texto del error */
-.error-msg {
-  display: block;
-  font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-/* Botón Reintentar */
-.error-action {
-  background: #ff164b;
-  width: 50%;
-  padding: 12px;
-  font-size: 12px;
-  font-weight: bold;
-  color: #fff;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+.bold-pay-card {
+  background: #f4f6fa;
+  border: 1.5px solid transparent;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
   align-items: center;
-
-  display: block;
-  margin: 0 auto; /* ← Esto lo centra */
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-/* Animación suave */
-@keyframes fadeIn {
+.bold-pay-card:hover {
+  background: #ebedf5;
+  transform: translateY(-1px);
+  border-color: #dbe2ef;
+}
+
+.bold-pay-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.bold-pay-card-icon img {
+  max-width: 24px;
+  max-height: 24px;
+  object-fit: contain;
+}
+
+.pse-icon-bg {
+  background: #004b93;
+}
+
+.pse-icon-bg img {
+  filter: brightness(0) invert(1);
+  max-width: 22px;
+}
+
+.davi-icon-bg {
+  background: #ffffff;
+}
+
+.bold-pay-card-label {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0b0b51;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   ADVERTENCIA PSE / DAVIPLATA
+   ============================================================ */
+.warning-box-pro {
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 📱 Responsive */
-@media(max-width: 800px) {
-  .error-container {
-    margin: 15px auto;
-    max-width: 90%;
-  }
+.wb-icon {
+  color: #d97706;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
-  /* =======================
-     RESPONSIVE
-     ======================= */
-  @media (min-width: 901px) {
-    body {
-      justify-content: flex-start;
-      align-items: flex-start;
-      overflow-y: auto;
-    }
-  }
-
-  @media (max-width: 900px) {
-    body {
-      flex-direction: column;
-      overflow-y: auto;
-    }
-
-    .sidebar {
-      width: 100%;
-      border-radius: 0;
-      padding: 40px 20px;
-      height: auto;
-    }
-
-    .sidebar img.logo {
-      position: static;
-      align-self: flex-start;
-      margin-bottom: 20px;
-    }
-
-    .sidebar-content {
-      margin-top: 0;
-    }
-
-    .content {
-      width: 100%;
-      padding: 40px 20px;
-      height: auto;
-    }
-
-    .payment-option {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .logos-wrapper {
-      width: 160px;
-    }
-
-    .price {
-      font-size: 22px;
-    }
-
-    .content h3 {
-      font-size: 18px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .sidebar {
-      padding: 25px 15px;
-    }
-
-    .price {
-      font-size: 20px;
-    }
-
-    .badge {
-      font-size: 12px;
-      padding: 4px 10px;
-    }
-
-    .content {
-      padding: 25px 15px;
-    }
-
-    .payment-option {
-      padding: 14px 16px;
-    }
-  }
-input.error {
-  border-color: #d40000 !important;
-  background: #ffe6e6;
-}
-
-/* El panel izquierdo SOLO se bloquea aquí */
-.content {
-  position: relative !important;
-}
-
-/* Overlay SOLO dentro del panel izquierdo */
-.overlay-local {
-  position: absolute;
-  inset: 0;
-  background: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 9999;
-  border-radius: 20px;
-  padding: 20px;
-}
-
-/* GIF Loader */
-.loader-gif {
-  width: 150px;
-  height: auto;
-  margin-bottom: 25px;
-}
-
-/* Caja de error (corrección: ya no error-container, ahora error-box) */
-.error-box {
-  max-width: 420px;
-  padding: 28px;
-  background: #FFF;
-  border-radius: 18px;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.10);
-  border: 1px solid #f5c1c1;
-  text-align: center;
-  display: none;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: .35s ease;
-}
-
-/* Títulos y textos */
-.error-box h3 {
-  color: #00145C;
-  font-size: 20px;
+.wb-content strong {
+  color: #92400e;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
   font-weight: 700;
-  margin-bottom: 10px;
 }
 
-.error-box p {
-  color: #333;
-  margin-bottom: 20px;
+.wb-content p {
+  color: #b45309;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.4;
 }
 
-/* Botón */
-.retry-btn {
-  background: #00145c;
-  color: #FFF;
-  padding: 12px 24px;
+/* ============================================================
+   FORMULARIO TARJETA
+   ============================================================ */
+.formulario-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+  max-width: 520px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.volver-link {
+  margin-bottom: 8px;
+}
+
+.volver-link a {
+  color: #1e2bff;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.volver-link a:hover {
+  text-decoration: underline;
+}
+
+.formulario-tarjeta label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0b0b51;
+  margin-bottom: -8px;
+}
+
+.formulario-tarjeta input[type="text"],
+.formulario-tarjeta input[type="email"] {
+  height: 48px;
+  border: 1.5px solid #dbe2ef;
   border-radius: 10px;
-  display: inline-block;
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #0b0b51;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formulario-tarjeta input:focus {
+  border-color: #1e2bff;
+  box-shadow: 0 0 0 3px rgba(30, 43, 255, 0.12);
+}
+
+.formulario-tarjeta input.error {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.telefono-wrapper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.codigo-pais {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 48px;
+  padding: 0 12px;
+  background: #f4f6fa;
+  border: 1.5px solid #dbe2ef;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #0b0b51;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.codigo-pais img {
+  height: 18px;
+  width: auto;
+}
+
+.codigo-pais .flecha {
+  height: 10px;
+  opacity: 0.6;
+}
+
+.input-con-icono {
+  position: relative;
+  width: 100%;
+}
+
+.input-con-icono input {
+  padding-right: 44px;
+}
+
+.input-con-icono img {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.col-cvv {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #1e2bff;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.checkbox label {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #475569;
+  line-height: 1.4;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+#btnPagarBold {
+  height: 50px;
+  background: #1e2bff;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s ease, transform 0.1s ease;
+  width: 100%;
+}
+
+#btnPagarBold:hover {
+  background: #1520cc;
+  transform: translateY(-1px);
+}
+
+.abandonar {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.abandonar a {
+  color: #64748b;
+  font-size: 13px;
   font-weight: 600;
   text-decoration: none;
 }
 
-/* --- ANIMACIONES BANCOLOMBIA (PEGAR AL FINAL) --- */
+.abandonar a:hover {
+  color: #ef4444;
+  text-decoration: underline;
+}
 
-/* 1. Spinner de carga */
-.btn-spinner {
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(11, 11, 81, 0.2);
-  border-left-color: #0b0b51; 
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+/* ============================================================
+   FOOTER ENLACES Y LOGOS
+   ============================================================ */
+.back-link {
+  margin: 36px 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-link img {
+  height: 18px;
+  width: auto;
+}
+
+.back-link a {
+  color: #0b0b51;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.back-link a:hover {
+  color: #1e2bff;
+}
+
+.secure-logos {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.secure-logos span {
   display: block;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* 2. Estado "Cargando" */
-.loading-state {
-  pointer-events: none; /* Bloquea clics */
-  background-color: #f4f4f4 !important; /* Un gris muy sutil para indicar carga */
-  opacity: 0.8;
-  /* NOTA: No cambiamos la alineación para mantener Logo izq - Spinner der */
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
-/* 3. Estado "Error" (Borde Amarillo) */
-.payment-option.error-state {
-  border: 1px solid #fcd34d !important;
-  background: #fffdf5 !important;
-  opacity: 1;
-}
-
-/* 4. Caja de Mensaje Pro */
-.warning-box-pro {
-  background: #fff8e6;
-  border: 1px solid #fde68a;
-  border-radius: 12px;
-  padding: 14px 18px;
-  margin: 10px 0 20px;
-  max-width: 520px;
+.secure-logos-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  animation: slideInUp 0.3s ease-out forwards;
-}
-.wb-icon svg { color: #d97706; flex-shrink: 0; }
-.wb-content { font-size: 13px; line-height: 1.4; color: #78350f; }
-.wb-content strong { display: block; color: #92400e; margin-bottom: 2px; }
-.highlight-txt { font-weight: 700; color: #b45309; text-decoration: underline; }
-
-@keyframes slideInUp {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  flex-wrap: wrap;
 }
 
-/* 5. Animación "Brinco" Tarjeta */
-@keyframes pulseCard {
-  0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); border-color: transparent; }
-  50% { transform: scale(1.04); box-shadow: 0 8px 20px rgba(30, 43, 255, 0.2); border-color: #1e2bff; }
-  100% { transform: scale(1); box-shadow: none; border-color: transparent; }
+.secure-logos-row img {
+  height: 18px;
+  width: auto;
+  opacity: 0.75;
+  filter: grayscale(0.2);
+  transition: opacity 0.2s ease;
 }
-.animar-tarjeta {
-  animation: pulseCard 0.6s ease-in-out forwards; 
-  z-index: 10;
-  position: relative;
+
+.secure-logos-row img:hover {
+  opacity: 1;
+}
+
+/* ============================================================
+   PANTALLA DE CARGA DE IDIOMA CON 1_pingpong.gif
+   ============================================================ */
+.bold-lang-loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999999;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.bold-lang-loader.activo {
+  display: flex;
+  opacity: 1;
+}
+
+.bold-lang-loader-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.bold-pingpong-img {
+  width: 220px;
+  height: auto;
+  max-width: 85vw;
+  display: block;
+  margin: 0 auto 16px auto;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.06));
+}
+
+.bold-lang-loader-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0b0b51;
+  letter-spacing: -0.2px;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN (MÓVILES Y TABLETS)
+   ============================================================ */
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+    min-height: auto;
+    overflow-y: auto;
+  }
+
+  .sidebar {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    border-radius: 0 0 24px 24px;
+    min-height: auto;
+    position: relative;
+    top: 0;
+    padding: 24px 20px;
+  }
+
+  .sidebar-content {
+    padding: 16px 0;
+  }
+
+  .sidebar-store-name {
+    font-size: 24px;
+  }
+
+  .price {
+    font-size: 24px;
+  }
+
+  .content {
+    padding: 32px 20px;
+    max-width: 100%;
+  }
+
+  .payment-methods-grid {
+    grid-template-columns: 1fr;
+  }
 }
