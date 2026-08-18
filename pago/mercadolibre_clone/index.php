@@ -82,7 +82,10 @@ if (empty($lista_imagenes)) {
 
 $imagen_producto = $lista_imagenes[0];
 
-// Formatear precios
+// Formatear precios con 40% de descuento sobre precio original
+$descuento_porcentaje = 40;
+$precio_tachado = round($precio / (1 - ($descuento_porcentaje / 100)));
+$precio_tachado_formateado = number_format($precio_tachado, 0, ',', '.');
 $precio_formateado = number_format($precio, 0, ',', '.');
 $precio_cuotas = number_format(round($precio / 12), 0, ',', '.');
 
@@ -606,21 +609,52 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             word-break: break-word;
         }
 
-        .price-container {
+        .price-section-block {
             margin: 14px 0 6px 0;
+        }
+
+        .price-strikethrough {
+            font-size: 15px;
+            color: #999999;
+            text-decoration: line-through;
+            font-weight: 400;
+            display: block;
+            margin-bottom: 2px;
+            letter-spacing: -0.2px;
+        }
+
+        .price-container {
+            margin: 0;
             display: flex;
-            align-items: baseline;
+            align-items: center;
+            gap: 8px;
         }
 
         .price-currency {
-            font-size: 20px;
-            font-weight: 400;
+            font-size: 24px;
+            font-weight: 300;
             margin-right: 2px;
+            color: #333333;
         }
 
         .price-amount {
             font-size: 36px;
             font-weight: 300;
+            color: #333333;
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+
+        .price-discount-badge {
+            background-color: #00a650;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 3px;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
         }
 
         .product-buybox {
@@ -1451,9 +1485,13 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                     MÁS VENDIDO EN SU CATEGORÍA
                 </div>
 
-                <div class="price-container">
-                    <span class="price-currency">$</span>
-                    <span class="price-amount"><?= $precio_formateado ?></span>
+                <div class="price-section-block">
+                    <s class="price-strikethrough">$ <?= $precio_tachado_formateado ?></s>
+                    <div class="price-container">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount"><?= $precio_formateado ?></span>
+                        <span class="price-discount-badge">40% OFF</span>
+                    </div>
                 </div>
 
                 <div style="font-size: 15px; color: var(--ml-text-black); margin-bottom: 8px;">
