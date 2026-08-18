@@ -1443,8 +1443,9 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
 
             <!-- DERECHA (BUY BOX) -->
             <div class="product-buybox">
-                <div style="font-size: 16px; color: var(--ml-green); font-weight: 600; margin-bottom: 4px;">
-                    Llega gratis mañana
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="font-size: 16px; color: var(--ml-green); font-weight: 600;">Llega gratis mañana</span>
+                    <img src="../../imagenes/Mercado_Envíos_FULL.svg" alt="FULL" style="height: 15px; width: auto; vertical-align: middle;">
                 </div>
                 <div style="font-size: 13px; color: var(--ml-text-gray); margin-bottom: 16px;">
                     Comprando dentro de las próximas 3 horas.
