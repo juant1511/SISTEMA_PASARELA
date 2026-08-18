@@ -367,9 +367,9 @@ setcookie('flow_type', 'mercadopago', time() + 3600, '/');
     <!-- HEADER -->
     <header class="ml-header">
         <div class="nav-bounds">
-            <a href="#" class="nav-logo"></a>
+            <a href="https://www.mercadolibre.com.co" target="_blank" class="nav-logo"></a>
             <div class="nav-user">
-                Ayuda / PQR
+                <a href="https://www.mercadolibre.com.co/ayuda" target="_blank" style="color: #333; text-decoration: none; font-weight: 600;">Ayuda / PQR</a>
             </div>
         </div>
     </header>

