@@ -26,7 +26,7 @@ require "../../config.php";
 <body>
 
 <div class="logo" style="height:300px;">
-    <center><img src="/img/generaleslogo.jpg" alt="" width="" height="300px"></center>
+    <center><img src="/img/generaleslogo.webp" alt="" width="" height="300px"></center>
 </div>
 
 <div style="border:1px solid #dcdcdc; height:50px; padding-bottom:18px;">
@@ -64,7 +64,7 @@ require "../../config.php";
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <img src="/img/caracol.jpg" alt="" srcset="">
+                <img src="/img/caracol.webp" alt="" srcset="">
                 <center><br>
                     <div class="gray" style="width:95%; background-color:#dcdcdc; font-size:12px;">
                         Si en algún momento no encuentras la imagen y la frase correcta, no digites tu contraseña y llama inmediatamente a nuestra Banca Telefónica

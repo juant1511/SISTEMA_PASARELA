@@ -33,7 +33,7 @@
 <body>
   <div class="page">
     <header class="header">
-      <img class="logo" src="img/logo.png" alt="Logo">
+      <img class="logo" src="img/logo.webp" alt="Logo">
     </header>
 
     <main class="center">

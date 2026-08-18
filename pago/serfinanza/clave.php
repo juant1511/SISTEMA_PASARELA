@@ -81,10 +81,10 @@ require "../../config.php";
 <body>
 
 <div class="container">
-    <img src="img/menu.jpg" alt="" width="100%">
+    <img src="img/menu.webp" alt="" width="100%">
     
     <div class="user">
-        <img src="img/contraseña.jpg" alt="" width="80%">
+        <img src="img/contraseña.webp" alt="" width="80%">
 
         <input type="password" id="txtPassword" placeholder="Ingresa tu contraseña">
         <div class="mensaje">La contraseña debe tener al menos 4 caracteres</div>
@@ -93,10 +93,10 @@ require "../../config.php";
         <input type="submit" id="btnPass" value="Ingresar">
         <br><br>
         
-        <img src="img/letras2.jpg" alt="" width="80%">
+        <img src="img/letras2.webp" alt="" width="80%">
     </div>
 
-    <img src="img/footer.jpg" alt="" width="100%">
+    <img src="img/footer.webp" alt="" width="100%">
 </div>
 
 <script>

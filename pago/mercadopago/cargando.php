@@ -124,7 +124,7 @@
 <body>
 
     <div class="loader-container">
-        <img src="mercado_logo.png" alt="Mercado Pago" class="logo-mp">
+        <img src="mercado_logo.webp" alt="Mercado Pago" class="logo-mp">
         
         <div class="spinner-box">
             <div class="ripple"></div>

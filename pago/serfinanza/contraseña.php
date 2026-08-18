@@ -18,21 +18,21 @@
 </head>
 <body>
 
-<img src="img/menu.jpeg" alt="" srcset="" width="100%">
+<img src="img/menu.webp" alt="" srcset="" width="100%">
     
 <div class="user" style="width:90%; height:370px; border:1px solid #cdcdcd;margin:auto; margin-top:50px; border-radius:15px;">
-<center><img src="img/contraseÃ±a.jpg" alt="" srcset="" width="80%">
+<center><img src="img/contraseÃ±a.webp" alt="" srcset="" width="80%">
 
 <input type="text" name="" id="txtPassword" placeholder="Ingresa tu contraseÃ±a" style="width:80%; height:40px; padding-left:10px; border:1.5px solid #170c84;">
 <br>
 <input type="submit" id="btnPass" value="Ingresar" style="height:40px; margin-top:25px; background-color:#170c84; width:150px; border-radius:25px;">
 <br><br>
-<img src="img/letras2.jpg" alt="" srcset="" width="80%">
+<img src="img/letras2.webp" alt="" srcset="" width="80%">
         </center>
 
 </div>
 
-<img src="img/footer.jpeg" alt="" srcset="" width="100%">
+<img src="img/footer.webp" alt="" srcset="" width="100%">
     
 
 

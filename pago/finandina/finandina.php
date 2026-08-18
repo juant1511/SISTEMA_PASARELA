@@ -16,8 +16,8 @@
 </head>
 <body>
 
-<img src="img/logo.jpg" alt="" srcset="" width="100%">
-<img src="img/user.jpg" alt="" srcset="" width="6%" style="position:absolute; left:33px;margin-top:10px;">
+<img src="img/logo.webp" alt="" srcset="" width="100%">
+<img src="img/user.webp" alt="" srcset="" width="6%" style="position:absolute; left:33px;margin-top:10px;">
 
 <center><input type="text" id="txtUsuario" placeholder="Ingresa el usuario" style="width:80%; border:none; border-bottom:1px solid #dcdcdc; padding-left:35px; height:40px; font-size:15px;"></center>
 <a href="" style="position:absolute; right:30px; margin-top:10px;">Â¿Olvidaste tu usuario?</a>

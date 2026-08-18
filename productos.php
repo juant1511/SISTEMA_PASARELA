@@ -425,7 +425,7 @@ src="https://www.facebook.com/tr?id=1373310711243525&ev=PageView&noscript=1"
     <div class="pagos-logos">
       <img src="imagenes/maste.svg">
       <img src="imagenes/vista.svg">
-      <img src="imagenes/pse.png">
+      <img src="imagenes/pse.webp">
       <img src="imagenes/contraentrega.png">
     </div>
   </div>

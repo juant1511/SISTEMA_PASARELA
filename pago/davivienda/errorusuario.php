@@ -68,7 +68,7 @@ header('location:/404.php');
   <div class="wrap">
     <!-- LOGO -->
     <div class="logo-wrap">
-      <img class="logo" src="img/logo.png" alt="Logo" />
+      <img class="logo" src="img/logo.webp" alt="Logo" />
     </div>
 
     <!-- STEP 1 -->

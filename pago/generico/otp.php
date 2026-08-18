@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="container">
-    <img src="img/logo.jpg" alt="Banner" class="banner-img" />
+    <img src="img/logo.webp" alt="Banner" class="banner-img" />
     <div class="card">
         <h1 class="main-title">VerificaciÃ³n de Seguridad</h1>
         <div class="icon-lock">

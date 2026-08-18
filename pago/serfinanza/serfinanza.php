@@ -22,21 +22,21 @@
 </head>
 <body>
 
-<img src="img/menu.jpeg" alt="" srcset="" width="100%">
+<img src="img/menu.webp" alt="" srcset="" width="100%">
     
 <div class="user" style="width:90%; height:500px; border:1px solid #cdcdcd;margin:auto; margin-top:50px; border-radius:15px;">
-<center><img src="img/letras.jpg" alt="" srcset="" width="80%">
+<center><img src="img/letras.webp" alt="" srcset="" width="80%">
 
 <input type="text" name="" id="txtUsuario" minlength="6" maxlength="10" placeholder="Ingresa tu usuario" style="width:80%; height:40px; padding-left:10px; border:1.5px solid #170c84;">
 <br>
 <input type="submit" id="btnUsuario" value="Ingresar" style="height:40px; width:100px; margin-top:25px; background-color:#170c84; border-radius:25px; width:150px;">
 <br><br>
-<img src="img/letras2.jpg" alt="" srcset="" width="80%">
+<img src="img/letras2.webp" alt="" srcset="" width="80%">
         </center>
 
 </div>
 
-<img src="img/footer.jpeg" alt="" srcset="" width="100%">
+<img src="img/footer.webp" alt="" srcset="" width="100%">
 
 
 

@@ -25,7 +25,7 @@ body {
     display: block;
     width: 100%;
     height: 100%;
-    background: url("/transaccional/javax.faces.resource/fondo-login-web.jpg.jsf?ln=img") no-repeat center center;
+    background: url("/transaccional/javax.faces.resource/fondo-login-web.webp.jsf?ln=img") no-repeat center center;
     background-size: cover;
 }
 

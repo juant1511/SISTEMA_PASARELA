@@ -91,7 +91,7 @@ a {
 }
 
 .ContenedorInicial {
-    background: no-repeat url(../img/fondo.jpg);
+    background: no-repeat url(../img/fondo.webp);
     background-size: cover !important;
     position: relative;
     z-index: 101;

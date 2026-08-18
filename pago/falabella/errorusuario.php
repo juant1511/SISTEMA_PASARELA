@@ -73,7 +73,7 @@ if(isset($_SESSION['estado']) && $_SESSION['estado'] == 1){
     <br><br>
     <div><center><img src="/img/fala.png" alt="" width="40%" height="">
     <img src="/images/check.png" alt="" srcset="" width="20%"></center>
-    <img src="/img/pago.jpg" alt="" width="20%" style="margin-left:90px;"></div>
+    <img src="/img/pago.webp" alt="" width="20%" style="margin-left:90px;"></div>
 <br><br><br><br>
     <div>
         <center>

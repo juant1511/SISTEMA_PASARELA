@@ -41,7 +41,7 @@
 </style>
 
 </head>
-<header class=header><img class="logo" src="img/logo.png" alt="Logo"></header>
+<header class=header><img class="logo" src="img/logo.webp" alt="Logo"></header>
 <body>
   <div class="wrap">
     <div class="card">

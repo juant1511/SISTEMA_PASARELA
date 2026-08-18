@@ -177,7 +177,7 @@
     </div>
 
     <header class="mp-header">
-        <img src="mercado_logo.png" alt="Mercado Pago" class="mp-logo">
+        <img src="mercado_logo.webp" alt="Mercado Pago" class="mp-logo">
     </header>
 
     <div class="main-container">

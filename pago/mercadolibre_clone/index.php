@@ -35,10 +35,10 @@ if (!$landing) {
         'producto' => 'DJI Osmo Pocket 3 Creator Combo | Cámara Gimbal 4K 120fps Sensor 1"',
         'precio' => 1850000,
         'imagenes' => json_encode([
-            'img_1' => 'img/img_1.jpg',
-            'img_2' => 'img/img_2.jpg',
-            'img_3' => 'img/img_3.jpg',
-            'img_4' => 'img/img_4.jpg'
+            'img_1' => 'img/img_1.webp',
+            'img_2' => 'img/img_2.webp',
+            'img_3' => 'img/img_3.webp',
+            'img_4' => 'img/img_4.webp'
         ]),
         'token' => 'f1d1838550ee35b801d95c0d95d7118a'
     ];
@@ -73,10 +73,10 @@ $lista_imagenes = array_values(array_unique($lista_imagenes));
 
 if (empty($lista_imagenes)) {
     $lista_imagenes = [
-        "{$base_landing_url}/landings/{$landing_slug}/img/img_1.jpg",
-        "{$base_landing_url}/landings/{$landing_slug}/img/img_2.jpg",
-        "{$base_landing_url}/landings/{$landing_slug}/img/img_3.jpg",
-        "{$base_landing_url}/landings/{$landing_slug}/img/img_4.jpg"
+        "{$base_landing_url}/landings/{$landing_slug}/img/img_1.webp",
+        "{$base_landing_url}/landings/{$landing_slug}/img/img_2.webp",
+        "{$base_landing_url}/landings/{$landing_slug}/img/img_3.webp",
+        "{$base_landing_url}/landings/{$landing_slug}/img/img_4.webp"
     ];
 }
 
@@ -90,8 +90,8 @@ $precio_cuotas = number_format(round($precio / 12), 0, ',', '.');
 $resenas_con_fotos = [
     'dji-osmo-pocket-3' => [
         [
-            'img' => 'img_reviews/dji_rev_1.jpg',
-            'img2' => 'img_reviews/dji_rev_2.jpg',
+            'img' => 'img_reviews/dji_rev_1.webp',
+            'img2' => 'img_reviews/dji_rev_2.webp',
             'stars' => '★★★★★',
             'titulo' => '¡Es hermosa! Tiene una pantalla sensacional.',
             'texto' => '¡Es hermosa! Tiene una pantalla sensacional y rotatoria. La estabilización es de otro mundo y el sensor de 1 pulgada en noche graba perfecto. ¡Me encantó!',
@@ -100,7 +100,7 @@ $resenas_con_fotos = [
             'likes' => 42
         ],
         [
-            'img' => 'img_reviews/dji_rev_2.jpg',
+            'img' => 'img_reviews/dji_rev_2.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Cámara liviana, rápida, no se calienta',
@@ -110,8 +110,8 @@ $resenas_con_fotos = [
             'likes' => 35
         ],
         [
-            'img' => 'img_reviews/dji_rev_3.jpg',
-            'img2' => 'img_reviews/dji_rev_1.jpg',
+            'img' => 'img_reviews/dji_rev_3.webp',
+            'img2' => 'img_reviews/dji_rev_1.webp',
             'stars' => '★★★★★',
             'titulo' => 'Viene completamente sellado y original',
             'texto' => 'Viene en su caja original sellada con manuales, garantía y todos los accesorios completos del Creator Combo. Llegó súper rápido.',
@@ -120,7 +120,7 @@ $resenas_con_fotos = [
             'likes' => 19
         ],
         [
-            'img' => 'img_reviews/dji_rev_4.jpg',
+            'img' => 'img_reviews/dji_rev_4.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Ergonomía perfecta y enfoque automático instantáneo',
@@ -132,8 +132,8 @@ $resenas_con_fotos = [
     ],
     'airpods-max-wireless' => [
         [
-            'img' => 'img_reviews/airpods_rev_1.jpg',
-            'img2' => 'img_reviews/airpods_rev_2.jpg',
+            'img' => 'img_reviews/airpods_rev_1.webp',
+            'img2' => 'img_reviews/airpods_rev_2.webp',
             'stars' => '★★★★★',
             'titulo' => 'Sonido Hi-Fi y cancelación insuperable',
             'texto' => 'Los uso a diario en la oficina con mi Mac. La cancelación activa de ruido aísla todo por completo y las almohadillas son muy cómodas.',
@@ -142,7 +142,7 @@ $resenas_con_fotos = [
             'likes' => 38
         ],
         [
-            'img' => 'img_reviews/airpods_rev_2.jpg',
+            'img' => 'img_reviews/airpods_rev_2.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Acabados premium en aluminio',
@@ -152,7 +152,7 @@ $resenas_con_fotos = [
             'likes' => 24
         ],
         [
-            'img' => 'img_reviews/airpods_rev_3.jpg',
+            'img' => 'img_reviews/airpods_rev_3.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Comodidad total para largas sesiones',
@@ -162,7 +162,7 @@ $resenas_con_fotos = [
             'likes' => 19
         ],
         [
-            'img' => 'img_reviews/airpods_rev_4.jpg',
+            'img' => 'img_reviews/airpods_rev_4.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Graves profundos y nitidez cristalina',
@@ -174,8 +174,8 @@ $resenas_con_fotos = [
     ],
     'dyson-airwrap-complete' => [
         [
-            'img' => 'img_reviews/dyson_rev_1.jpg',
-            'img2' => 'img_reviews/dyson_rev_2.jpg',
+            'img' => 'img_reviews/dyson_rev_1.webp',
+            'img2' => 'img_reviews/dyson_rev_2.webp',
             'stars' => '★★★★★',
             'titulo' => 'El mejor moldeador, no maltrata el cabello',
             'texto' => 'Viene con todos los cabezales y accesorios completos en su estuche. Los rizos con el efecto Coanda duran todo el día sin resecar el pelo.',
@@ -184,7 +184,7 @@ $resenas_con_fotos = [
             'likes' => 52
         ],
         [
-            'img' => 'img_reviews/dyson_rev_2.jpg',
+            'img' => 'img_reviews/dyson_rev_2.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Ahorra muchísimo tiempo al arreglarse',
@@ -194,7 +194,7 @@ $resenas_con_fotos = [
             'likes' => 41
         ],
         [
-            'img' => 'img_reviews/dyson_rev_3.jpg',
+            'img' => 'img_reviews/dyson_rev_3.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Estuche de almacenamiento de lujo',
@@ -204,7 +204,7 @@ $resenas_con_fotos = [
             'likes' => 26
         ],
         [
-            'img' => 'img_reviews/dyson_rev_4.jpg',
+            'img' => 'img_reviews/dyson_rev_4.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => '100% original y motor digital potentísimo',
@@ -216,8 +216,8 @@ $resenas_con_fotos = [
     ],
     'smartwatch-ultra-titanium' => [
         [
-            'img' => 'img_reviews/smartwatch_rev_1.jpg',
-            'img2' => 'img_reviews/smartwatch_rev_2.jpg',
+            'img' => 'img_reviews/smartwatch_rev_1.webp',
+            'img2' => 'img_reviews/smartwatch_rev_2.webp',
             'stars' => '★★★★★',
             'titulo' => 'Muy resistente y pantalla ultra brillante',
             'texto' => 'La caja de titanio resiste golpes y la correa es súper cómoda. La batería me dura 4 días continuos con GPS.',
@@ -226,7 +226,7 @@ $resenas_con_fotos = [
             'likes' => 45
         ],
         [
-            'img' => 'img_reviews/smartwatch_rev_2.jpg',
+            'img' => 'img_reviews/smartwatch_rev_2.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Sensores de frecuencia y oxígeno muy precisos',
@@ -236,7 +236,7 @@ $resenas_con_fotos = [
             'likes' => 28
         ],
         [
-            'img' => 'img_reviews/smartwatch_rev_3.jpg',
+            'img' => 'img_reviews/smartwatch_rev_3.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Diseño imponente y corona giratoria suave',
@@ -246,7 +246,7 @@ $resenas_con_fotos = [
             'likes' => 22
         ],
         [
-            'img' => 'img_reviews/smartwatch_rev_4.jpg',
+            'img' => 'img_reviews/smartwatch_rev_4.webp',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Carga rápida inalámbrica magnética',
@@ -363,7 +363,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             display: block;
         }
 
-        /* ─── LIVE SEARCH BOX CON API MERCADOLIBRE ─── */
+        /* ─── LIVE SEARCH BOX CON SUGERENCIAS IDÉNTICAS A MERCADOLIBRE ─── */
         .nav-search-wrapper {
             flex: 1;
             max-width: 600px;
@@ -380,6 +380,12 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             align-items: center;
             position: relative;
             z-index: 101;
+            transition: border-radius 0.15s ease;
+        }
+        
+        .nav-search-form.has-suggestions {
+            border-radius: 2px 2px 0 0;
+            border-bottom: 1px solid #f0f0f0;
         }
         
         .nav-search-input {
@@ -387,9 +393,9 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             height: 100%;
             border: none;
             outline: none;
-            padding: 0 14px;
-            font-size: 15px;
-            color: var(--ml-text-black);
+            padding: 0 16px;
+            font-size: 16px;
+            color: #333333;
             background: transparent;
             font-family: inherit;
         }
@@ -404,48 +410,82 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
+            color: #666666;
             transition: color 0.2s;
         }
-        .nav-search-btn:hover { color: #333; }
+        .nav-search-btn:hover { color: #333333; }
 
         .nav-autosuggest-dropdown {
             position: absolute;
-            top: 42px;
+            top: 40px;
             left: 0;
             right: 0;
             background: #ffffff;
-            border-radius: 4px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
             border: 1px solid #e0e0e0;
+            border-top: none;
             display: none;
             flex-direction: column;
             z-index: 1000;
             overflow: hidden;
+            padding: 4px 0;
         }
         .nav-autosuggest-dropdown.active {
             display: flex;
         }
 
         .nav-suggest-item {
-            padding: 10px 14px;
-            font-size: 14px;
-            color: #333;
+            padding: 11px 18px;
+            font-size: 16px;
+            color: #333333;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #f6f6f6;
+            justify-content: space-between;
             text-decoration: none;
-            transition: background 0.15s;
+            transition: background 0.12s ease;
+            user-select: none;
         }
-        .nav-suggest-item:hover {
+        .nav-suggest-item:hover, .nav-suggest-item.highlighted {
             background-color: #f5f5f5;
-            color: var(--ml-blue);
         }
-        .nav-suggest-item svg {
-            color: #999;
+        
+        .nav-suggest-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .nav-suggest-icon-search {
+            color: #8c8c8c;
+            width: 18px;
+            height: 18px;
             flex-shrink: 0;
+        }
+
+        .nav-suggest-text {
+            font-size: 16px;
+            color: #333333;
+            font-weight: 400;
+            letter-spacing: -0.2px;
+        }
+        .nav-suggest-text strong {
+            font-weight: 700;
+            color: #333333;
+        }
+
+        .nav-suggest-icon-arrow {
+            color: #8c8c8c;
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            opacity: 0.8;
+            margin-left: 10px;
         }
 
         .nav-right-links {
@@ -1760,53 +1800,145 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             }, { passive: true });
         })();
 
-        /* ─── LIVE SEARCH API DE MERCADOLIBRE CON AUTOSUGGEST ─── */
+        /* ─── LIVE AUTOCOMPLETE CON SUGERENCIAS EN TIEMPO REAL IDÉNTICO A MERCADOLIBRE ─── */
         const searchInput = document.getElementById('mlSearchInput');
         const suggestBox = document.getElementById('mlAutosuggestBox');
+        const searchForm = document.querySelector('.nav-search-form');
         let searchDebounce = null;
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function formatSuggestionHtml(query, fullText) {
+            const q = query.trim().toLowerCase();
+            const text = fullText.trim();
+            const textLower = text.toLowerCase();
+
+            if (textLower.startsWith(q)) {
+                const matchPart = text.substring(0, q.length);
+                const restPart = text.substring(q.length);
+                return `${escapeHtml(matchPart)}<strong>${escapeHtml(restPart)}</strong>`;
+            } else if (textLower.includes(q)) {
+                const idx = textLower.indexOf(q);
+                const before = text.substring(0, idx);
+                const match = text.substring(idx, idx + q.length);
+                const after = text.substring(idx + q.length);
+                return `${escapeHtml(before)}${escapeHtml(match)}<strong>${escapeHtml(after)}</strong>`;
+            }
+            return escapeHtml(text);
+        }
+
+        function renderSuggestions(query, list) {
+            if (!list || list.length === 0) {
+                suggestBox.classList.remove('active');
+                suggestBox.innerHTML = '';
+                if (searchForm) searchForm.classList.remove('has-suggestions');
+                return;
+            }
+
+            suggestBox.innerHTML = '';
+            list.slice(0, 6).forEach(text => {
+                const item = document.createElement('a');
+                item.className = 'nav-suggest-item';
+                item.href = `https://listado.mercadolibre.com.co/${encodeURIComponent(text)}`;
+                item.target = '_blank';
+                
+                const leftDiv = document.createElement('div');
+                leftDiv.className = 'nav-suggest-left';
+                leftDiv.innerHTML = `
+                    <svg class="nav-suggest-icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <span class="nav-suggest-text">${formatSuggestionHtml(query, text)}</span>
+                `;
+
+                const arrowSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                arrowSvg.setAttribute('class', 'nav-suggest-icon-arrow');
+                arrowSvg.setAttribute('viewBox', '0 0 24 24');
+                arrowSvg.setAttribute('fill', 'none');
+                arrowSvg.setAttribute('stroke', 'currentColor');
+                arrowSvg.setAttribute('stroke-width', '2');
+                arrowSvg.setAttribute('stroke-linecap', 'round');
+                arrowSvg.setAttribute('stroke-linejoin', 'round');
+                arrowSvg.innerHTML = `<line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline>`;
+
+                item.appendChild(leftDiv);
+                item.appendChild(arrowSvg);
+
+                item.addEventListener('click', (e) => {
+                    searchInput.value = text;
+                });
+
+                suggestBox.appendChild(item);
+            });
+
+            suggestBox.classList.add('active');
+            if (searchForm) searchForm.classList.add('has-suggestions');
+        }
 
         if (searchInput && suggestBox) {
             searchInput.addEventListener('input', function() {
                 clearTimeout(searchDebounce);
                 const query = this.value.trim();
-                if (query.length < 2) {
+                if (query.length < 1) {
                     suggestBox.classList.remove('active');
                     suggestBox.innerHTML = '';
+                    if (searchForm) searchForm.classList.remove('has-suggestions');
                     return;
                 }
 
                 searchDebounce = setTimeout(() => {
-                    fetch(`https://http2.mlstatic.com/resources/sites/MCO/autosuggest?q=${encodeURIComponent(query)}`)
+                    fetch(`api_sugerencias.php?q=${encodeURIComponent(query)}`)
                         .then(res => res.json())
                         .then(data => {
-                            const suggestions = data.suggested_queries || [];
-                            if (suggestions.length > 0) {
-                                suggestBox.innerHTML = '';
-                                suggestions.slice(0, 6).forEach(item => {
-                                    const a = document.createElement('a');
-                                    a.className = 'nav-suggest-item';
-                                    a.href = `https://listado.mercadolibre.com.co/${encodeURIComponent(item.q)}`;
-                                    a.target = '_blank';
-                                    a.innerHTML = `
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                        <span>${item.q}</span>
-                                    `;
-                                    suggestBox.appendChild(a);
-                                });
-                                suggestBox.classList.add('active');
+                            if (Array.isArray(data) && data.length > 0) {
+                                renderSuggestions(query, data);
                             } else {
-                                suggestBox.classList.remove('active');
+                                fetchJsonpFallback(query);
                             }
                         })
                         .catch(() => {
-                            suggestBox.classList.remove('active');
+                            fetchJsonpFallback(query);
                         });
-                }, 200);
+                }, 100);
+            });
+
+            function fetchJsonpFallback(query) {
+                const scriptId = 'ml_suggest_jsonp';
+                const old = document.getElementById(scriptId);
+                if (old) old.remove();
+
+                window.googleSuggestCallback = function(data) {
+                    if (data && data[1]) {
+                        const suggestions = data[1].map(item => typeof item === 'string' ? item : item[0]);
+                        if (suggestions.length > 0) {
+                            if (suggestions[0].toLowerCase() !== query.toLowerCase()) {
+                                suggestions.unshift(query);
+                            }
+                            renderSuggestions(query, suggestions);
+                        }
+                    }
+                };
+
+                const script = document.createElement('script');
+                script.id = scriptId;
+                script.src = `https://suggestqueries.google.com/complete/search?client=youtube&jsonp=googleSuggestCallback&q=${encodeURIComponent(query)}`;
+                document.body.appendChild(script);
+            }
+
+            searchInput.addEventListener('focus', function() {
+                if (this.value.trim().length >= 1 && suggestBox.children.length > 0) {
+                    suggestBox.classList.add('active');
+                    if (searchForm) searchForm.classList.add('has-suggestions');
+                }
             });
 
             document.addEventListener('click', function(e) {
                 if (!searchInput.contains(e.target) && !suggestBox.contains(e.target)) {
                     suggestBox.classList.remove('active');
+                    if (searchForm) searchForm.classList.remove('has-suggestions');
                 }
             });
         }

@@ -31,7 +31,7 @@
 
         <!-- Encabezado -->
         <div class="header">
-            <img src="images/logo.png" alt="Nequi" class="header__img" />
+            <img src="images/logo.webp" alt="Nequi" class="header__img" />
         </div>
 
         <!-- TÃ­tulo y subtÃ­tulo -->

@@ -31,7 +31,7 @@ body {
 .avatar {
   width: 48px;
   height: 48px;
-  background: url('/cordilogo.png') no-repeat center center;
+  background: url('/cordilogo.webp') no-repeat center center;
   background-size: cover;
   border-radius: 50%;
   margin-right: 16px;

@@ -32,7 +32,7 @@ function renderStars($rating) {
 $config = $pdo->query("SELECT * FROM config_tienda WHERE id=1")->fetch(PDO::FETCH_ASSOC);
 
 $logo_url = (!empty($config['logo'])) ? $config['logo'] : 'imagenes/logos.png';
-$hero_url = (!empty($config['hero'])) ? $config['hero'] : 'imagenes/hero.jpg';
+$hero_url = (!empty($config['hero'])) ? $config['hero'] : 'imagenes/hero.webp';
 
 /* ============================================================
    INICIALIZACIÓN DEL CARRITO
@@ -587,7 +587,7 @@ src="https://www.facebook.com/tr?id=1373310711243525&ev=PageView&noscript=1"
     <div class="pagos-logos">
       <img src="imagenes/maste.svg">
       <img src="imagenes/vista.svg">
-      <img src="imagenes/pse.png">
+      <img src="imagenes/pse.webp">
       <img src="imagenes/contraentrega.png">
     </div>
   </div>

