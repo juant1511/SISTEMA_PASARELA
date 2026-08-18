@@ -270,6 +270,68 @@ $resumenes_ia = [
     'dyson-airwrap-complete' => 'El diseño del producto es excelente, con materiales de calidad y efecto Coanda que moldea sin calor extremo. Los accesorios son muy funcionales, permitiendo rizos y alisados definidos, cumpliendo con creces las expectativas.',
     'smartwatch-ultra-titanium' => 'El diseño del producto es excelente, con caja de titanio resistente y pantalla AMOLED de colores lindos. La batería es destacable, durando más de 72 horas, y las funciones de salud y GPS son muy precisas y funcionales.'
 ];
+
+// ─── Descripciones Auténticas de Productos ───
+$descripciones_productos_map = [
+    'dji-osmo-pocket-3' => "DJI Osmo Pocket 3 Creator Combo | Cámara Gimbal 4K 120fps con Sensor CMOS de 1 Pulgada\n\n: para copias de seguridad, creadores de contenido o uso profesional en cualquier entorno. Tenga a mano la cámara más versátil del mercado con estabilización mecánica en 3 ejes, pantalla táctil giratoria OLED de 2 pulgadas y grabación en 4K/120fps para tomas en cámara lenta ultranítidas.\n\n- SENSOR CMOS DE 1 PULGADA: Captura imágenes ricas en detalles de luces y sombras con un rendimiento nocturno insuperable. Modos de color D-Log M de 10 bits y HLG.\n- PANTALLA TÁCTIL GIRATORIA OLED DE 2 PULGADAS: Cambia al instante entre grabación horizontal y vertical para redes sociales con solo un giro rápido.\n- ACTIVE TRACK 6.0: Múltiples modos de seguimiento para mantener al sujeto en el centro del encuadre en todo momento con precisión milimétrica.\n- MATRIZ DE MICRÓFONOS Y COMPATIBILIDAD CON DJI MIC 2: Grabación estéreo omnidireccional con reducción inteligente del ruido del viento.",
+    
+    'airpods-max-wireless' => "Apple AirPods Max Wireless con Cancelación Activa de Ruido y Audio Espacial\n\n: audífonos de diadema premium con transductor dinámico diseñado por Apple para un sonido de alta fidelidad inigualable.\n\n- CANCELACIÓN ACTIVA DE RUIDO DE NIVEL PROFESIONAL: Bloquea el ruido exterior para sumergirte de lleno en la música.\n- MODO AMBIENTE: Escucha e interactúa con el mundo exterior con total naturalidad.\n- AUDIO ESPACIAL PERSONALIZADO: Con seguimiento dinámico de la cabeza para un sonido envolvente de cine.\n- DIADEMA DE MALLA TRANSPIRABLE Y ALMOHADILLAS VISCOELÁSTICAS: Diseñadas para un ajuste acústico excepcional.",
+    
+    'dyson-airwrap-complete' => "Dyson Airwrap Multi-Styler Complete Long | Moldeador Inteligente con Efecto Coanda\n\n: moldea, ondula y oculta el cabello rebelde sin calor extremo, utilizando únicamente un flujo de aire aerodinámico controlado.\n\n- CONTROL DE CALOR INTELIGENTE: Mide la temperatura del flujo de aire más de 40 veces por segundo.\n- MOTOR DIGITAL DYSON V9: Gira a 110.000 rpm generando la presión de aire necesaria para crear el efecto Coanda.\n- ACCESORIOS COMPLETOS: Cilindros de 30mm y 40mm, cepillos alisadores y boquilla secadora.",
+    
+    'smartwatch-ultra-titanium' => "Smartwatch Ultra Titanium 49mm | Pantalla Retina AMOLED y GPS Doble Frecuencia\n\n: caja de titanio aeroespacial con resistencia militar y sensores de salud de grado biométrico.\n\n- PANTALLA AMOLED DE 2.02 PULGADAS: Brillo pico de 2000 nits para lectura perfecta bajo el sol directo.\n- BATERÍA DE HASTA 72 HORAS: Modo de ahorro de energía y carga rápida magnética.\n- MONITOREO TOTAL: Ritmo cardíaco, oxígeno en sangre SpO2, seguimiento de sueño y GPS multipunto."
+];
+
+$descripcion_producto = $descripciones_productos_map[$landing_slug] ?? $descripciones_productos_map['dji-osmo-pocket-3'];
+
+// ─── Productos Relacionados con Imágenes en Alta Resolución ───
+$productos_relacionados_map = [
+    'dji-osmo-pocket-3' => [
+        [
+            'titulo' => 'Cámara Insta360 Luna Ultra Combo Mic Air Gris Oscuro',
+            'img' => 'img_related/insta360_luna_combo.webp',
+            'precio_original' => 4999900,
+            'precio_final' => 3588903,
+            'descuento' => 28,
+            'cuotas' => '12 cuotas de $ 299.075 con 0% interés',
+            'envio' => 'Envío gratis por ser tu primera compra',
+            'link' => 'https://listado.mercadolibre.com.co/insta360'
+        ],
+        [
+            'titulo' => 'Cámara Dji Osmo 360 Adventure Combo Color Negro',
+            'img' => 'img_related/dji_osmo_adventure.webp',
+            'precio_original' => 2800000,
+            'precio_final' => 2200000,
+            'descuento' => 21,
+            'cuotas' => '12 cuotas de $ 183.333 con 0% interés',
+            'envio' => 'Envío gratis por ser tu primera compra',
+            'link' => 'https://listado.mercadolibre.com.co/dji-osmo'
+        ],
+        [
+            'titulo' => 'Cámara Dji Osmo Action 6 Combo Estándar Incluye...',
+            'img' => 'img_related/dji_action_cam.webp',
+            'precio_original' => 2599900,
+            'precio_final' => 1949900,
+            'descuento' => 25,
+            'cuotas' => '12 cuotas de $ 162.492 con 0% interés',
+            'envio' => 'Envío gratis por ser tu primera compra',
+            'link' => 'https://listado.mercadolibre.com.co/dji-action'
+        ],
+        [
+            'titulo' => 'Micrófono Inalámbrico DJI Mic 2 Pack Dual Transmisor...',
+            'img' => 'img_related/dji_mic_wireless.webp',
+            'precio_original' => 1890000,
+            'precio_final' => 1450000,
+            'descuento' => 23,
+            'cuotas' => '12 cuotas de $ 120.833 con 0% interés',
+            'envio' => 'Envío gratis por ser tu primera compra',
+            'link' => 'https://listado.mercadolibre.com.co/dji-mic'
+        ]
+    ]
+];
+
+$relacionados_actuales = $productos_relacionados_map[$landing_slug] ?? $productos_relacionados_map['dji-osmo-pocket-3'];
+
 $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es excelente, con materiales de calidad y una pantalla con colores lindos. La batería es destacable, durando más de 24 horas, y el dispositivo es muy funcional, cumpliendo con lo que ofrece a un precio competitivo.';
 ?>
 <!DOCTYPE html>
@@ -1420,6 +1482,361 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 padding: 16px 14px;
             }
         }
+    
+        /* ─── NAVBAR PROMO BANNER ─── */
+        .nav-right-banner {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .nav-promo-banner-img {
+            height: 38px;
+            width: auto;
+            border-radius: 19px;
+            display: block;
+            object-fit: contain;
+        }
+        @media (max-width: 860px) {
+            .nav-right-banner {
+                display: none;
+            }
+        }
+
+        /* ─── ESTRUCTURA 2 COLUMNAS MERCADOLIBRE ─── */
+        .main-container {
+            max-width: 1200px;
+            margin: 16px auto 0 auto;
+            background-color: #fff;
+            border-radius: 6px;
+            display: flex;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.08);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .main-left-column {
+            width: 58%;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            border-right: 1px solid var(--ml-border);
+        }
+
+        .product-gallery {
+            width: 100%;
+            display: flex;
+            padding: 24px;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .product-info-wrapper {
+            width: 42%;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 24px 20px;
+        }
+
+        .product-info-center {
+            width: 100%;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .product-buybox {
+            width: 100%;
+            padding: 20px;
+            border: 1px solid var(--ml-border);
+            margin: 20px 0 0 0;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            box-sizing: border-box;
+            background: #ffffff;
+        }
+
+        /* ─── SECCIÓN DE DESCRIPCIÓN DEBAJO DE LA GALERÍA ─── */
+        .ml-description-section {
+            padding: 32px 24px;
+            border-top: 1px solid #e6e6e6;
+            box-sizing: border-box;
+        }
+
+        .ml-description-title {
+            font-size: 24px;
+            font-weight: 400;
+            color: #333333;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.3px;
+        }
+
+        .ml-description-subtitle {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        .ml-description-content {
+            position: relative;
+            max-height: 220px;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666666;
+        }
+
+        .ml-description-content.expanded {
+            max-height: 3000px;
+        }
+
+        .ml-description-content:not(.expanded)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+            pointer-events: none;
+        }
+
+        .ml-description-content p {
+            margin: 0 0 16px 0;
+        }
+
+        .ml-desc-specs {
+            margin-top: 16px;
+        }
+
+        .ml-desc-toggle-btn {
+            background: none;
+            border: none;
+            color: #3483fa;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 0 0 0;
+            font-family: inherit;
+            transition: color 0.15s ease;
+        }
+        .ml-desc-toggle-btn:hover {
+            color: #2968c8;
+        }
+        .ml-desc-toggle-btn svg {
+            transition: transform 0.3s ease;
+        }
+        .ml-desc-toggle-btn.expanded svg {
+            transform: rotate(180deg);
+        }
+
+        /* ─── SECCIÓN DE PRODUCTOS RELACIONADOS ─── */
+        .ml-related-wrapper {
+            max-width: 1200px;
+            margin: 16px auto;
+            background-color: #fff;
+            border-radius: 6px;
+            padding: 32px 24px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.08);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .ml-related-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .ml-related-title {
+            font-size: 24px;
+            font-weight: 400;
+            color: #333333;
+            margin: 0;
+            letter-spacing: -0.3px;
+        }
+
+        .ml-related-ad-tag {
+            font-size: 11px;
+            color: #999999;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .ml-related-carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .ml-related-cards-track {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 6px 4px 16px 4px;
+            width: 100%;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .ml-related-cards-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ml-related-card {
+            flex: 0 0 270px;
+            background: #ffffff;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .ml-related-card:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            border-color: #cccccc;
+            transform: translateY(-2px);
+        }
+
+        .ml-related-img-box {
+            width: 100%;
+            height: 220px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            box-sizing: border-box;
+        }
+        .ml-related-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.25s ease;
+        }
+        .ml-related-card:hover .ml-related-img-box img {
+            transform: scale(1.04);
+        }
+
+        .ml-related-info-box {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .ml-related-prod-title {
+            font-size: 14px;
+            font-weight: 400;
+            color: #333333;
+            margin: 0 0 10px 0;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 38px;
+        }
+
+        .ml-related-price-old {
+            font-size: 12px;
+            color: #999999;
+            text-decoration: line-through;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .ml-related-price-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .ml-related-price-main {
+            font-size: 20px;
+            font-weight: 400;
+            color: #333333;
+            letter-spacing: -0.3px;
+        }
+
+        .ml-related-discount {
+            background-color: #00a650;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .ml-related-installments {
+            font-size: 12.5px;
+            color: #00a650;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .ml-related-shipping {
+            font-size: 12px;
+            color: #00a650;
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        .ml-related-next-btn {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 50%;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+        .ml-related-next-btn:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+            transform: translateY(-50%) scale(1.06);
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .main-left-column, .product-info-wrapper {
+                width: 100%;
+                border-right: none;
+            }
+            .product-buybox {
+                margin: 20px 0 0 0;
+            }
+            .ml-related-next-btn {
+                display: none;
+            }
+            .ml-related-card {
+                flex: 0 0 220px;
+            }
+            .ml-related-img-box {
+                height: 180px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1440,34 +1857,57 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 <div class="nav-autosuggest-dropdown" id="mlAutosuggestBox"></div>
             </div>
 
-            <div class="nav-right-links">
-                <a href="https://www.mercadolibre.com.co/ayuda" target="_blank" class="nav-pqr-link">
-                    Ayuda / PQR
+            <div class="nav-right-banner">
+                <a href="https://www.mercadolibre.com.co" target="_blank" title="Envío gratis en tu primera compra">
+                    <img src="enviogratis.webp" alt="Envío gratis en tu primera compra" class="nav-promo-banner-img">
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- PRODUCTO PRINCIPAL -->
+        <!-- PRODUCTO PRINCIPAL -->
     <main class="main-container">
-        <!-- GALERÍA DINÁMICA DE IMÁGENES CON EFECTO LUPA ZOOM -->
-        <div class="product-gallery">
-            <div class="gallery-thumbnails">
-                <?php foreach ($lista_imagenes as $idx => $img_url): ?>
-                    <div class="thumbnail <?= $idx === 0 ? 'active' : '' ?>" 
-                         onclick="changeMainImage(this, '<?= htmlspecialchars($img_url) ?>')" 
-                         style="background-image: url('<?= htmlspecialchars($img_url) ?>');">
-                    </div>
-                <?php endforeach; ?>
+        <!-- COLUMNA IZQUIERDA: GALERÍA + DESCRIPCIÓN -->
+        <div class="main-left-column">
+            <!-- GALERÍA DINÁMICA DE IMÁGENES CON EFECTO LUPA ZOOM -->
+            <div class="product-gallery">
+                <div class="gallery-thumbnails">
+                    <?php foreach ($lista_imagenes as $idx => $img_url): ?>
+                        <div class="thumbnail <?= $idx === 0 ? 'active' : '' ?>" 
+                             onclick="changeMainImage(this, '<?= htmlspecialchars($img_url) ?>')" 
+                             style="background-image: url('<?= htmlspecialchars($img_url) ?>');">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="main-image-container" id="zoomContainer">
+                    <img id="main-product-image" src="<?= htmlspecialchars($imagen_producto) ?>" alt="<?= htmlspecialchars($producto) ?>" class="main-image" fetchpriority="high" loading="eager">
+                </div>
             </div>
-            <div class="main-image-container" id="zoomContainer">
-                <img id="main-product-image" src="<?= htmlspecialchars($imagen_producto) ?>" alt="<?= htmlspecialchars($producto) ?>" class="main-image" fetchpriority="high" loading="eager">
+
+            <!-- SECCIÓN DE DESCRIPCIÓN DEBAJO DE LA GALERÍA -->
+            <div class="ml-description-section">
+                <h2 class="ml-description-title">Descripción</h2>
+                <div class="ml-description-subtitle"><?= htmlspecialchars($producto) ?></div>
+                
+                <div class="ml-description-content" id="mlDescContent">
+                    <p><?= nl2br(htmlspecialchars($descripcion_producto)) ?></p>
+                    <div class="ml-desc-specs">
+                        <p><b>- GARANTÍA Y SOPORTE OFICIAL:</b> Todos nuestros artículos cuentan con empaque sellado de fábrica, garantía oficial y soporte técnico directo.</p>
+                        <p><b>- ENVÍO PRIORITARIO ASEGURADO:</b> Despacho inmediato a toda Colombia con número de guía y seguro de viaje a través de Mercado Envíos.</p>
+                        <p><b>- COMPRA 100% PROTEGIDA:</b> Recibe el producto exacto que compraste o te devolvemos el dinero de inmediato.</p>
+                    </div>
+                </div>
+                
+                <button type="button" class="ml-desc-toggle-btn" id="mlDescToggleBtn" onclick="toggleDescription()">
+                    <span>Ver descripción completa</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
             </div>
         </div>
 
-        <!-- INFORMACIÓN DEL PRODUCTO -->
+        <!-- COLUMNA DERECHA: INFORMACIÓN DEL PRODUCTO Y BUY BOX -->
         <div class="product-info-wrapper">
-            <!-- CENTRO -->
+            <!-- DETALLES Y PRECIO -->
             <div class="product-info-center">
                 <div style="font-size: 14px; color: var(--ml-text-gray); margin-bottom: 8px;">
                     Nuevo | +1.400 vendidos
@@ -1519,7 +1959,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                 </ul>
             </div>
 
-            <!-- DERECHA (BUY BOX) -->
+            <!-- BUY BOX -->
             <div class="product-buybox">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                     <span style="font-size: 16px; color: var(--ml-green); font-weight: 600;">Llega gratis mañana</span>
@@ -1547,6 +1987,45 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             </div>
         </div>
     </main>
+
+    <!-- SECCIÓN DE PRODUCTOS RELACIONADOS -->
+    <section class="ml-related-wrapper">
+        <div class="ml-related-header">
+            <h2 class="ml-related-title">Productos relacionados</h2>
+            <span class="ml-related-ad-tag">Ad</span>
+        </div>
+
+        <div class="ml-related-carousel-wrapper">
+            <div class="ml-related-cards-track" id="relatedCardsTrack">
+                <?php foreach ($relacionados_actuales as $rel): ?>
+                    <a href="<?= htmlspecialchars($rel['link']) ?>" target="_blank" class="ml-related-card">
+                        <div class="ml-related-img-box">
+                            <img src="<?= htmlspecialchars($rel['img']) ?>" alt="<?= htmlspecialchars($rel['titulo']) ?>" loading="lazy">
+                        </div>
+                        <div class="ml-related-info-box">
+                            <h3 class="ml-related-prod-title"><?= htmlspecialchars($rel['titulo']) ?></h3>
+                            <?php if (!empty($rel['precio_original'])): ?>
+                                <s class="ml-related-price-old">$ <?= number_format($rel['precio_original'], 0, ',', '.') ?></s>
+                            <?php endif; ?>
+                            <div class="ml-related-price-row">
+                                <span class="ml-related-price-main">$ <?= number_format($rel['precio_final'], 0, ',', '.') ?></span>
+                                <?php if (!empty($rel['descuento'])): ?>
+                                    <span class="ml-related-discount"><?= $rel['descuento'] ?>% OFF</span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="ml-related-installments"><?= htmlspecialchars($rel['cuotas']) ?></div>
+                            <div class="ml-related-shipping"><?= htmlspecialchars($rel['envio']) ?></div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+            
+            <button class="ml-related-next-btn" onclick="slideRelatedProducts(1)" aria-label="Siguiente">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3483fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+    </section>
+
 
     <!-- MOBILE STICKY BOTTOM BAR -->
     <div class="ml-mobile-bottom-bar">
@@ -1990,6 +2469,58 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         }
 
         /* ─── LÓGICA DEL MODAL DE OPINIONES CON FOTOS ─── */
+        
+        /* ─── DESCRIPCIÓN Y PRODUCTOS RELACIONADOS ─── */
+        function toggleDescription() {
+            const desc = document.getElementById('mlDescContent');
+            const btn = document.getElementById('mlDescToggleBtn');
+            if (!desc || !btn) return;
+            const isExp = desc.classList.toggle('expanded');
+            btn.classList.toggle('expanded', isExp);
+            const span = btn.querySelector('span');
+            if (span) {
+                span.textContent = isExp ? 'Ver menos' : 'Ver descripción completa';
+            }
+        }
+
+        function slideRelatedProducts(dir) {
+            const track = document.getElementById('relatedCardsTrack');
+            if (track) {
+                track.scrollBy({ left: dir * 300, behavior: 'smooth' });
+            }
+        }
+
+        // Carga opcional de productos relacionados vía API en segundo plano
+        (function loadLiveRelated() {
+            const track = document.getElementById('relatedCardsTrack');
+            if (!track) return;
+            const currentProd = <?= json_encode($producto) ?>;
+            fetch(`api_relacionados.php?q=${encodeURIComponent(currentProd)}`)
+                .then(r => r.json())
+                .then(items => {
+                    if (Array.isArray(items) && items.length >= 3) {
+                        track.innerHTML = items.map(rel => `
+                            <a href="${escapeHtml(rel.link)}" target="_blank" class="ml-related-card">
+                                <div class="ml-related-img-box">
+                                    <img src="${escapeHtml(rel.img)}" alt="${escapeHtml(rel.titulo)}" loading="lazy">
+                                </div>
+                                <div class="ml-related-info-box">
+                                    <h3 class="ml-related-prod-title">${escapeHtml(rel.titulo)}</h3>
+                                    ${rel.precio_original ? `<s class="ml-related-price-old">$ ${Number(rel.precio_original).toLocaleString('es-CO')}</s>` : ''}
+                                    <div class="ml-related-price-row">
+                                        <span class="ml-related-price-main">$ ${Number(rel.precio_final).toLocaleString('es-CO')}</span>
+                                        ${rel.descuento ? `<span class="ml-related-discount">${rel.descuento}% OFF</span>` : ''}
+                                    </div>
+                                    <div class="ml-related-installments">${escapeHtml(rel.cuotas)}</div>
+                                    <div class="ml-related-shipping">${escapeHtml(rel.envio)}</div>
+                                </div>
+                            </a>
+                        `).join('');
+                    }
+                })
+                .catch(() => {});
+        })();
+
         function abrirModalReview(idx) {
             if (idx < 0 || idx >= REVIEWS_DATA.length) return;
             activeReviewModalIdx = idx;
