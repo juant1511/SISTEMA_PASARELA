@@ -48,10 +48,10 @@ $producto = $landing['producto'] ?? 'DJI Osmo Pocket 3 Creator Combo';
 $precio = (int)($landing['precio'] ?? 1850000);
 $landing_slug = $landing['slug'] ?? 'dji-osmo-pocket-3';
 
-// 2. Extraer imágenes del producto
+// 2. Extraer imágenes del producto directamente desde la base de datos Supabase
 $imagenes_raw = [];
 if (!empty($landing['imagenes'])) {
-    $decoded = json_decode($landing['imagenes'], true);
+    $decoded = is_array($landing['imagenes']) ? $landing['imagenes'] : json_decode($landing['imagenes'], true);
     if (is_array($decoded)) {
         $imagenes_raw = array_values($decoded);
     }
@@ -67,6 +67,9 @@ foreach ($imagenes_raw as $img) {
         $lista_imagenes[] = "{$base_landing_url}/landings/{$landing_slug}/{$img_clean}";
     }
 }
+
+// Eliminar duplicados manteniendo el orden exacto de las fotos de la galería
+$lista_imagenes = array_values(array_unique($lista_imagenes));
 
 if (empty($lista_imagenes)) {
     $lista_imagenes = [
