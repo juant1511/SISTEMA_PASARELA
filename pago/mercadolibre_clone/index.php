@@ -1,7 +1,7 @@
 <?php
 /**
  * CLON MERCADOLIBRE — Checkout & Visualizador de Producto
- * Diseño idéntico a Mercado Libre oficial con sección de Preguntas y Opiniones
+ * Diseño idéntico a Mercado Libre oficial con sección de Preguntas, Opiniones, Pulgar SVG Oficial y Efecto Lupa Zoom
  */
 
 require_once dirname(dirname(__DIR__)) . '/config.php';
@@ -64,11 +64,7 @@ foreach ($imagenes_raw as $img) {
         $lista_imagenes[] = $img;
     } else {
         $img_clean = ltrim($img, '/');
-        if ($is_localhost) {
-            $lista_imagenes[] = "{$base_landing_url}/landings/{$landing_slug}/{$img_clean}";
-        } else {
-            $lista_imagenes[] = "{$base_landing_url}/landings/{$landing_slug}/{$img_clean}";
-        }
+        $lista_imagenes[] = "{$base_landing_url}/landings/{$landing_slug}/{$img_clean}";
     }
 }
 
@@ -87,7 +83,7 @@ $imagen_producto = $lista_imagenes[0];
 $precio_formateado = number_format($precio, 0, ',', '.');
 $precio_cuotas = number_format(round($precio / 12), 0, ',', '.');
 
-// ─── Reseñas Auténticas con Fotos Reales ───
+// ─── Reseñas Auténticas con Fotos Reales para Todos los Productos ───
 $resenas_con_fotos = [
     'dji-osmo-pocket-3' => [
         [
@@ -134,7 +130,7 @@ $resenas_con_fotos = [
     'airpods-max-wireless' => [
         [
             'img' => 'img_reviews/airpods_rev_1.jpg',
-            'img2' => '',
+            'img2' => 'img_reviews/airpods_rev_2.jpg',
             'stars' => '★★★★★',
             'titulo' => 'Sonido Hi-Fi y cancelación insuperable',
             'texto' => 'Los uso a diario en la oficina con mi Mac. La cancelación activa de ruido aísla todo por completo y las almohadillas son muy cómodas.',
@@ -143,7 +139,7 @@ $resenas_con_fotos = [
             'likes' => 38
         ],
         [
-            'img' => 'img_reviews/airpods_rev_1.jpg',
+            'img' => 'img_reviews/airpods_rev_2.jpg',
             'img2' => '',
             'stars' => '★★★★★',
             'titulo' => 'Acabados premium en aluminio',
@@ -151,30 +147,110 @@ $resenas_con_fotos = [
             'ubicacion' => 'Medellín, Colombia',
             'fecha' => 'Hace 1 mes',
             'likes' => 24
+        ],
+        [
+            'img' => 'img_reviews/airpods_rev_3.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Comodidad total para largas sesiones',
+            'texto' => 'La malla de la diadema distribuye el peso perfectamente. Excelente compra 100% original.',
+            'ubicacion' => 'Bogotá, Colombia',
+            'fecha' => 'Hace 1 mes',
+            'likes' => 19
+        ],
+        [
+            'img' => 'img_reviews/airpods_rev_4.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Graves profundos y nitidez cristalina',
+            'texto' => 'Se conecta automáticamente con todos los dispositivos del ecosistema. Recomendadísimo.',
+            'ubicacion' => 'Cali, Colombia',
+            'fecha' => 'Hace 2 meses',
+            'likes' => 31
         ]
     ],
     'dyson-airwrap-complete' => [
         [
             'img' => 'img_reviews/dyson_rev_1.jpg',
-            'img2' => '',
+            'img2' => 'img_reviews/dyson_rev_2.jpg',
             'stars' => '★★★★★',
             'titulo' => 'El mejor moldeador, no maltrata el cabello',
             'texto' => 'Viene con todos los cabezales y accesorios completos en su estuche. Los rizos con el efecto Coanda duran todo el día sin resecar el pelo.',
             'ubicacion' => 'Colombia',
             'fecha' => 'Hace 1 mes',
             'likes' => 52
+        ],
+        [
+            'img' => 'img_reviews/dyson_rev_2.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Ahorra muchísimo tiempo al arreglarse',
+            'texto' => 'Seca y peina al mismo tiempo dejando un acabado de peluquería brillante y sin frizz.',
+            'ubicacion' => 'Medellín, Colombia',
+            'fecha' => 'Hace 1 mes',
+            'likes' => 41
+        ],
+        [
+            'img' => 'img_reviews/dyson_rev_3.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Estuche de almacenamiento de lujo',
+            'texto' => 'Impecable presentación, todos los barriles y cepillos encajan a la perfección.',
+            'ubicacion' => 'Bogotá, Colombia',
+            'fecha' => 'Hace 2 meses',
+            'likes' => 26
+        ],
+        [
+            'img' => 'img_reviews/dyson_rev_4.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => '100% original y motor digital potentísimo',
+            'texto' => 'La potencia del flujo de aire es asombrosa, cuida el cuero cabelludo y el envío fue en 24h.',
+            'ubicacion' => 'Barranquilla, Colombia',
+            'fecha' => 'Hace 3 meses',
+            'likes' => 33
         ]
     ],
     'smartwatch-ultra-titanium' => [
         [
             'img' => 'img_reviews/smartwatch_rev_1.jpg',
-            'img2' => '',
+            'img2' => 'img_reviews/smartwatch_rev_2.jpg',
             'stars' => '★★★★★',
             'titulo' => 'Muy resistente y pantalla ultra brillante',
             'texto' => 'La caja de titanio resiste golpes y la correa es súper cómoda. La batería me dura 4 días continuos con GPS.',
             'ubicacion' => 'Colombia',
             'fecha' => 'Hace 3 semanas',
-            'likes' => 31
+            'likes' => 45
+        ],
+        [
+            'img' => 'img_reviews/smartwatch_rev_2.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Sensores de frecuencia y oxígeno muy precisos',
+            'texto' => 'Lo utilizo para entrenamientos y natación. La resistencia al agua IP68 y la pantalla AMOLED son espectaculares.',
+            'ubicacion' => 'Medellín, Colombia',
+            'fecha' => 'Hace 1 mes',
+            'likes' => 28
+        ],
+        [
+            'img' => 'img_reviews/smartwatch_rev_3.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Diseño imponente y corona giratoria suave',
+            'texto' => 'Se siente muy sólido en la muñeca, notificaciones al instante y respuesta de llamadas perfecta.',
+            'ubicacion' => 'Bogotá, Colombia',
+            'fecha' => 'Hace 2 meses',
+            'likes' => 22
+        ],
+        [
+            'img' => 'img_reviews/smartwatch_rev_4.jpg',
+            'img2' => '',
+            'stars' => '★★★★★',
+            'titulo' => 'Carga rápida inalámbrica magnética',
+            'texto' => 'Carga de 0 a 100 en menos de 1 hora. El mejor smartwatch calidad-precio.',
+            'ubicacion' => 'Bucaramanga, Colombia',
+            'fecha' => 'Hace 3 meses',
+            'likes' => 19
         ]
     ]
 ];
@@ -314,7 +390,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             overflow: hidden;
         }
 
-        /* GALERIA PRODUCTO */
+        /* GALERIA PRODUCTO CON ZOOM LUPA */
         .product-gallery {
             display: flex;
             padding: 24px;
@@ -354,13 +430,24 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             justify-content: center;
             min-height: 420px;
             max-height: 520px;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            border-radius: 6px;
         }
 
         .main-image {
             max-width: 100%;
             max-height: 500px;
             object-fit: contain;
-            transition: opacity 0.2s ease;
+            transition: transform 0.15s ease-out;
+            transform-origin: center center;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .main-image-container.zoomed .main-image {
+            transform: scale(2.4);
         }
 
         .product-info-wrapper {
@@ -807,6 +894,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             margin: 8px 0 12px 0;
         }
 
+        /* BOTÓN ÚTIL CON EL SVG OFICIAL DE MERCADO LIBRE */
         .ml-rev-useful-btn {
             background: #ffffff;
             border: 1px solid #e0e0e0;
@@ -822,6 +910,10 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             transition: all 0.2s;
             font-family: inherit;
         }
+        .ml-rev-useful-btn svg {
+            color: rgba(0, 0, 0, 0.55);
+            transition: color 0.2s;
+        }
         .ml-rev-useful-btn:hover {
             background-color: #f7f7f7;
         }
@@ -829,6 +921,9 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             border-color: var(--ml-blue);
             color: var(--ml-blue);
             background-color: var(--ml-blue-light);
+        }
+        .ml-rev-useful-btn.liked svg {
+            color: var(--ml-blue);
         }
 
         /* ─── MODAL FLOTANTE (IDÉNTICO A SCREENSHOT 2) ─── */
@@ -1031,7 +1126,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
 
     <!-- PRODUCTO PRINCIPAL -->
     <main class="main-container">
-        <!-- GALERÍA DINÁMICA DE IMÁGENES -->
+        <!-- GALERÍA DINÁMICA DE IMÁGENES CON EFECTO LUPA ZOOM -->
         <div class="product-gallery" style="width: 50%;">
             <div class="gallery-thumbnails">
                 <?php foreach ($lista_imagenes as $idx => $img_url): ?>
@@ -1041,7 +1136,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div class="main-image-container">
+            <div class="main-image-container" id="zoomContainer">
                 <img id="main-product-image" src="<?= htmlspecialchars($imagen_producto) ?>" alt="<?= htmlspecialchars($producto) ?>" class="main-image">
             </div>
         </div>
@@ -1252,9 +1347,10 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                     <p class="ml-rev-comment-text"><?= htmlspecialchars($rev['texto']) ?></p>
 
                     <div>
+                        <!-- BOTÓN ÚTIL CON SVG OFICIAL DE MERCADO LIBRE -->
                         <button class="ml-rev-useful-btn" id="likeBtnList_<?= $idx ?>" onclick="toggleLike(this, <?= $idx ?>)">
                             <span>Útil</span>
-                            <span>👍</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="ui-review-capability-valorizations__likes__like"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.02125 6.25775L5.87824 5.91279L8.37994 0.751802L9.40301 1.24803C10.7777 1.91481 11.4317 3.50825 10.9218 4.94852L10.6452 5.72977L13.4447 5.69542C13.737 5.69184 14.0274 5.74166 14.3018 5.84245C15.546 6.29952 16.184 7.67866 15.727 8.92284L14.5609 12.0968C13.8627 13.9974 11.9079 15.1293 9.91198 14.7887L6.35827 14.1822L5.11866 14.1974L5.13337 15.3972L0.984325 15.4481L0.859204 5.24885L5.00825 5.19795L5.02125 6.25775ZM6.75603 6.85303L8.93573 2.3563C9.72188 2.77187 10.0895 3.7038 9.79057 4.54802L8.93988 6.95078L13.4594 6.89533C13.6056 6.89354 13.7508 6.91845 13.888 6.96885C14.5101 7.19738 14.8291 7.88695 14.6006 8.50904L13.4345 11.683C12.9358 13.0406 11.5395 13.8491 10.1139 13.6058L6.50639 12.9901L6.39809 12.9816L5.10394 12.9975L5.03705 7.54496L6.75603 6.85303ZM3.91858 14.212L2.16951 14.2334L2.07383 6.43404L3.82306 6.41258L3.91858 14.212Z" fill="currentColor"></path></svg>
                             <span id="likeCounterList_<?= $idx ?>"><?= $rev['likes'] ?></span>
                         </button>
                     </div>
@@ -1294,7 +1390,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                     
                     <button class="ml-rev-useful-btn" id="modalLikeBtn" onclick="toggleModalLike()" style="padding: 6px 16px; font-size: 13px;">
                         <span>Útil</span>
-                        <span>👍</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="ui-review-capability-valorizations__likes__like"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.02125 6.25775L5.87824 5.91279L8.37994 0.751802L9.40301 1.24803C10.7777 1.91481 11.4317 3.50825 10.9218 4.94852L10.6452 5.72977L13.4447 5.69542C13.737 5.69184 14.0274 5.74166 14.3018 5.84245C15.546 6.29952 16.184 7.67866 15.727 8.92284L14.5609 12.0968C13.8627 13.9974 11.9079 15.1293 9.91198 14.7887L6.35827 14.1822L5.11866 14.1974L5.13337 15.3972L0.984325 15.4481L0.859204 5.24885L5.00825 5.19795L5.02125 6.25775ZM6.75603 6.85303L8.93573 2.3563C9.72188 2.77187 10.0895 3.7038 9.79057 4.54802L8.93988 6.95078L13.4594 6.89533C13.6056 6.89354 13.7508 6.91845 13.888 6.96885C14.5101 7.19738 14.8291 7.88695 14.6006 8.50904L13.4345 11.683C12.9358 13.0406 11.5395 13.8491 10.1139 13.6058L6.50639 12.9901L6.39809 12.9816L5.10394 12.9975L5.03705 7.54496L6.75603 6.85303ZM3.91858 14.212L2.16951 14.2334L2.07383 6.43404L3.82306 6.41258L3.91858 14.212Z" fill="currentColor"></path></svg>
                         <span id="modalLikeCounter">0</span>
                     </button>
                 </div>
@@ -1331,6 +1427,28 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             });
             element.classList.add('active');
             document.getElementById('main-product-image').src = newSrc;
+        }
+
+        /* ─── EFECTO DE LUPA ZOOM EN LA GALERÍA PRINCIPAL ─── */
+        const zoomContainer = document.getElementById('zoomContainer');
+        const mainProductImage = document.getElementById('main-product-image');
+
+        if (zoomContainer && mainProductImage) {
+            zoomContainer.addEventListener('mouseenter', () => {
+                zoomContainer.classList.add('zoomed');
+            });
+
+            zoomContainer.addEventListener('mousemove', (e) => {
+                const rect = zoomContainer.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                mainProductImage.style.transformOrigin = `${x}% ${y}%`;
+            });
+
+            zoomContainer.addEventListener('mouseleave', () => {
+                zoomContainer.classList.remove('zoomed');
+                mainProductImage.style.transformOrigin = 'center center';
+            });
         }
 
         /* ─── LÓGICA DEL MODAL DE OPINIONES CON FOTOS ─── */
