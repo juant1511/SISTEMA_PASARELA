@@ -1723,6 +1723,43 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             });
         }
 
+        /* ─── GESTOS TÁCTILES (SWIPE) PARA GALERÍA EN MÓVILES (MERCADOLIBRE) ─── */
+        (function() {
+            const container = document.getElementById('zoomContainer');
+            if (!container) return;
+
+            let startX = 0, startY = 0;
+            container.addEventListener('touchstart', function(e) {
+                if (e.touches && e.touches.length === 1) {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            container.addEventListener('touchend', function(e) {
+                if (e.changedTouches && e.changedTouches.length === 1) {
+                    const diffX = e.changedTouches[0].clientX - startX;
+                    const diffY = e.changedTouches[0].clientY - startY;
+                    if (Math.abs(diffX) > 30 && Math.abs(diffX) > Math.abs(diffY)) {
+                        const thumbnails = Array.from(document.querySelectorAll('.gallery-thumbnails .thumbnail'));
+                        if (thumbnails.length <= 1) return;
+                        let activeIdx = thumbnails.findIndex(t => t.classList.contains('active'));
+                        if (activeIdx === -1) activeIdx = 0;
+
+                        if (diffX < 0) {
+                            // Swipe left -> Siguiente imagen
+                            const nextIdx = (activeIdx + 1) % thumbnails.length;
+                            thumbnails[nextIdx].click();
+                        } else {
+                            // Swipe right -> Anterior imagen
+                            const prevIdx = (activeIdx - 1 + thumbnails.length) % thumbnails.length;
+                            thumbnails[prevIdx].click();
+                        }
+                    }
+                }
+            }, { passive: true });
+        })();
+
         /* ─── LIVE SEARCH API DE MERCADOLIBRE CON AUTOSUGGEST ─── */
         const searchInput = document.getElementById('mlSearchInput');
         const suggestBox = document.getElementById('mlAutosuggestBox');
