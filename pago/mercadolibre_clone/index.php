@@ -391,13 +391,17 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             display: flex;
             box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
             overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* GALERIA PRODUCTO CON ZOOM LUPA */
         .product-gallery {
+            width: 50%;
             display: flex;
             padding: 24px;
             position: relative;
+            box-sizing: border-box;
         }
 
         .gallery-thumbnails {
@@ -418,12 +422,13 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             background-repeat: no-repeat;
             background-position: center;
             cursor: pointer;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, transform 0.2s ease;
             background-color: #ffffff;
         }
 
         .thumbnail.active, .thumbnail:hover {
             border-color: var(--ml-blue) !important;
+            transform: scale(1.04);
         }
 
         .main-image-container {
@@ -437,6 +442,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             overflow: hidden;
             cursor: crosshair;
             border-radius: 6px;
+            background: #ffffff;
         }
 
         .main-image {
@@ -454,12 +460,16 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         }
 
         .product-info-wrapper {
+            width: 50%;
             display: flex;
             flex-direction: row;
+            box-sizing: border-box;
         }
 
         .product-info-center {
+            width: 55%;
             padding: 24px 20px;
+            box-sizing: border-box;
         }
 
         .product-title {
@@ -485,6 +495,18 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         .price-amount {
             font-size: 36px;
             font-weight: 300;
+        }
+
+        .product-buybox {
+            width: 45%;
+            padding: 24px 20px;
+            border-left: 1px solid var(--ml-border);
+            margin: 16px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            height: fit-content;
+            box-sizing: border-box;
+            background: #ffffff;
         }
 
         .btn {
@@ -513,6 +535,8 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             background: #ffffff;
             padding: 36px 36px 0 36px;
             box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+            box-sizing: border-box;
+            width: 100%;
         }
 
         .ml-qa-title {
@@ -558,6 +582,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             cursor: pointer;
             transition: background-color 0.2s;
             font-family: inherit;
+            flex-shrink: 0;
         }
         .ml-qa-btn:hover {
             background-color: var(--ml-blue-hover);
@@ -589,6 +614,8 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
             display: flex;
             gap: 48px;
+            box-sizing: border-box;
+            width: 100%;
         }
 
         /* COLUMNA IZQUIERDA */
@@ -709,6 +736,13 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             gap: 14px;
             position: relative;
             margin-bottom: 22px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+        }
+        .ml-photos-carousel-row::-webkit-scrollbar {
+            display: none;
         }
 
         .ml-photo-card {
@@ -763,6 +797,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             margin-left: -8px;
             z-index: 2;
             transition: transform 0.2s;
+            flex-shrink: 0;
         }
         .ml-carousel-nav-btn:hover {
             transform: scale(1.06);
@@ -773,6 +808,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             display: flex;
             gap: 10px;
             margin-bottom: 24px;
+            flex-wrap: wrap;
         }
 
         .ml-filter-pill {
@@ -855,6 +891,8 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .ml-rev-stars-blue {
@@ -872,6 +910,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             display: flex;
             gap: 10px;
             margin: 12px 0;
+            flex-wrap: wrap;
         }
 
         .ml-rev-thumb-box {
@@ -939,6 +978,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             align-items: center;
             justify-content: center;
             padding: 20px;
+            box-sizing: border-box;
         }
         .ml-modal-backdrop.open {
             display: flex;
@@ -1008,6 +1048,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             align-items: center;
             justify-content: space-between;
             background: #ffffff;
+            box-sizing: border-box;
         }
 
         .ml-modal-photo-stage {
@@ -1040,6 +1081,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             width: 100%;
             max-width: 420px;
             padding: 4px;
+            box-sizing: border-box;
         }
 
         .ml-modal-thumb-item {
@@ -1070,6 +1112,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             flex-direction: column;
             justify-content: flex-start;
             background: #ffffff;
+            box-sizing: border-box;
         }
 
         .ml-modal-stars {
@@ -1092,19 +1135,194 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             margin-bottom: 22px;
         }
 
+        /* ─── STICKY MOBILE BOTTOM BAR ─── */
+        .ml-mobile-bottom-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-top: 1px solid var(--ml-border);
+            padding: 10px 16px;
+            z-index: 999;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-sizing: border-box;
+        }
+
+        .ml-mobile-price-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ml-mobile-price-label {
+            font-size: 11px;
+            color: var(--ml-text-gray);
+            text-transform: uppercase;
+        }
+
+        .ml-mobile-price-val {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ml-text-black);
+        }
+
+        .ml-mobile-buy-btn {
+            flex: 1;
+            max-width: 190px;
+            height: 44px;
+            font-size: 15px;
+        }
+
+        /* ─── RESPONSIVE BREAKPOINTS ─── */
         @media (max-width: 1024px) {
-            .main-container { flex-direction: column; }
-            .product-info-wrapper { flex-direction: column !important; }
-            .product-gallery { flex-direction: column-reverse; padding: 16px; }
-            .gallery-thumbnails { flex-direction: row; width: 100%; justify-content: center; }
-            .product-info-center { width: 100% !important; padding: 16px !important; }
-            .product-buybox { width: 100% !important; margin: 0 !important; border-left: none !important; border-top: 1px solid var(--ml-border) !important; }
-            .ml-opinions-wrapper { flex-direction: column; padding: 20px; }
-            .ml-opinions-left { width: 100%; }
-            .ml-modal-window { height: 90vh; max-height: 600px; }
-            .ml-modal-content-split { flex-direction: column; overflow-y: auto; }
-            .ml-modal-left-pane { width: 100%; border-right: none; border-bottom: 1px solid #f0f0f0; }
-            .ml-modal-right-pane { width: 100%; }
+            .main-container {
+                flex-direction: column;
+                margin: 0 auto;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .product-gallery {
+                width: 100%;
+                flex-direction: column-reverse;
+                padding: 16px 12px;
+            }
+            .gallery-thumbnails {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
+                gap: 8px;
+                margin: 12px 0 0 0;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .main-image-container {
+                min-height: 320px;
+                max-height: 380px;
+            }
+            .product-info-wrapper {
+                width: 100%;
+                flex-direction: column;
+            }
+            .product-info-center {
+                width: 100%;
+                padding: 16px;
+            }
+            .product-buybox {
+                width: 100%;
+                margin: 12px 0 0 0;
+                border-left: none;
+                border-top: 1px solid var(--ml-border);
+                box-shadow: none;
+                border-radius: 0;
+                padding: 20px 16px;
+            }
+            .ml-qa-wrapper {
+                padding: 24px 16px 0 16px;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .ml-opinions-wrapper {
+                flex-direction: column;
+                padding: 24px 16px 40px 16px;
+                gap: 28px;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .ml-opinions-left {
+                width: 100%;
+            }
+            .ml-opinions-right {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 70px;
+            }
+            .ml-mobile-bottom-bar {
+                display: flex;
+            }
+            .nav-bounds {
+                padding: 0 12px;
+                gap: 10px;
+            }
+            .nav-promo {
+                display: none !important;
+            }
+            .nav-logo {
+                width: 105px;
+                height: 28px;
+                margin-right: 8px;
+            }
+            .nav-search {
+                height: 36px;
+            }
+            .nav-search-input {
+                font-size: 13px;
+                padding: 0 10px;
+            }
+            .product-title {
+                font-size: 18px;
+                line-height: 1.3;
+            }
+            .price-amount {
+                font-size: 28px;
+            }
+            .main-image-container {
+                min-height: 250px;
+                max-height: 300px;
+                cursor: default;
+            }
+            .thumbnail {
+                width: 44px;
+                height: 44px;
+            }
+            .ml-qa-input-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .ml-qa-btn {
+                width: 100%;
+                justify-content: center;
+                height: 44px;
+            }
+            .ml-carousel-nav-btn {
+                display: none;
+            }
+            .ml-modal-backdrop {
+                padding: 0;
+                align-items: flex-end;
+            }
+            .ml-modal-window {
+                height: 92vh;
+                max-height: 92vh;
+                border-radius: 16px 16px 0 0;
+            }
+            .ml-modal-content-split {
+                flex-direction: column;
+                overflow-y: auto;
+                height: calc(100% - 52px);
+            }
+            .ml-modal-left-pane {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #f0f0f0;
+                min-height: 220px;
+                max-height: 260px;
+                padding: 10px;
+            }
+            .ml-modal-photo-stage img {
+                max-height: 180px;
+            }
+            .ml-modal-right-pane {
+                width: 100%;
+                padding: 16px 14px;
+            }
         }
     </style>
 </head>
@@ -1130,7 +1348,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
     <!-- PRODUCTO PRINCIPAL -->
     <main class="main-container">
         <!-- GALERÍA DINÁMICA DE IMÁGENES CON EFECTO LUPA ZOOM -->
-        <div class="product-gallery" style="width: 50%;">
+        <div class="product-gallery">
             <div class="gallery-thumbnails">
                 <?php foreach ($lista_imagenes as $idx => $img_url): ?>
                     <div class="thumbnail <?= $idx === 0 ? 'active' : '' ?>" 
@@ -1145,9 +1363,9 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         </div>
 
         <!-- INFORMACIÓN DEL PRODUCTO (CENTRO Y DERECHA) -->
-        <div class="product-info-wrapper" style="width: 50%;">
+        <div class="product-info-wrapper">
             <!-- CENTRO -->
-            <div class="product-info-center" style="width: 55%;">
+            <div class="product-info-center">
                 <div style="font-size: 14px; color: var(--ml-text-gray); margin-bottom: 8px;">
                     Nuevo | +1.400 vendidos
                 </div>
@@ -1195,7 +1413,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             </div>
 
             <!-- DERECHA (BUY BOX) -->
-            <div class="product-buybox" style="width: 45%; padding: 24px 20px; border-left: 1px solid var(--ml-border); margin: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); height: fit-content;">
+            <div class="product-buybox">
                 <div style="font-size: 16px; color: var(--ml-green); font-weight: 600; margin-bottom: 4px;">
                     ⚡ Llega gratis mañana
                 </div>
@@ -1221,6 +1439,17 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             </div>
         </div>
     </main>
+
+    <!-- MOBILE STICKY BOTTOM BAR -->
+    <div class="ml-mobile-bottom-bar">
+        <div class="ml-mobile-price-col">
+            <span class="ml-mobile-price-label">Total</span>
+            <span class="ml-mobile-price-val">$ <?= $precio_formateado ?></span>
+        </div>
+        <button class="btn btn-primary ml-mobile-buy-btn" onclick="iniciarCompra()">
+            Comprar ahora
+        </button>
+    </div>
 
     <!-- ─── 1. SECCIÓN DE PREGUNTAS (IDÉNTICA AL SCREENSHOT) ─── -->
     <section class="ml-qa-wrapper">
