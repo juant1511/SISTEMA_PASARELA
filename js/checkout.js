@@ -71,12 +71,30 @@ document.addEventListener('DOMContentLoaded', function () {
     if (btnPagarSeguro) {
         btnPagarSeguro.addEventListener('click', function (e) {
             e.preventDefault();
-            cerrarModal();
-            if (typeof window.finalizarCompra === 'function') {
-                window.finalizarCompra('seguro');
-            } else {
-                form.submit();
+            
+            // Estado visual de carga en el botón
+            btnPagarSeguro.disabled = true;
+            btnPagarSeguro.style.opacity = '0.85';
+            btnPagarSeguro.textContent = 'Generando orden...';
+
+            const player = document.getElementById('modalDotLottie');
+            if (player) {
+                player.src = 'https://lottie.host/f0866ccb-1427-43b2-b07c-3850b36ce3f2/gqyfohuylF.lottie';
+                try {
+                    player.stop();
+                    player.play();
+                } catch (err) {}
             }
+
+            // Esperar que termine la animación antes de proceder
+            setTimeout(function () {
+                cerrarModal();
+                if (typeof window.finalizarCompra === 'function') {
+                    window.finalizarCompra('seguro');
+                } else {
+                    form.submit();
+                }
+            }, 1600);
         });
     }
 });

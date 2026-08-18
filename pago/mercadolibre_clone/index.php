@@ -407,12 +407,11 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         .nav-bounds {
             max-width: 1200px;
             margin: 0 auto;
-            min-height: 60px;
             display: flex;
             align-items: center;
-            padding: 10px 16px;
             justify-content: space-between;
-            gap: 16px;
+            gap: 20px;
+            padding: 0 10px;
             box-sizing: border-box;
         }
 
@@ -1846,17 +1845,6 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         <div class="nav-bounds">
             <a href="https://www.mercadolibre.com.co" target="_blank" class="nav-logo" title="Mercado Libre"></a>
             
-            <!-- LIVE SEARCH BAR CONSUMIENDO API DE MERCADOLIBRE -->
-            <div class="nav-search-wrapper">
-                <form class="nav-search-form" action="https://listado.mercadolibre.com.co/" method="get" target="_blank" onsubmit="return handleSearchSubmit(event)">
-                    <input type="text" class="nav-search-input" id="mlSearchInput" name="as_word" placeholder="Buscar productos, marcas y más..." value="<?= htmlspecialchars($producto) ?>" autocomplete="off">
-                    <button type="submit" class="nav-search-btn" title="Buscar">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </button>
-                </form>
-                <div class="nav-autosuggest-dropdown" id="mlAutosuggestBox"></div>
-            </div>
-
             <div class="nav-right-banner">
                 <a href="https://www.mercadolibre.com.co" target="_blank" title="Envío gratis en tu primera compra">
                     <img src="enviogratis.webp" alt="Envío gratis en tu primera compra" class="nav-promo-banner-img">
@@ -1988,43 +1976,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         </div>
     </main>
 
-    <!-- SECCIÓN DE PRODUCTOS RELACIONADOS -->
-    <section class="ml-related-wrapper">
-        <div class="ml-related-header">
-            <h2 class="ml-related-title">Productos relacionados</h2>
-            <span class="ml-related-ad-tag">Ad</span>
-        </div>
-
-        <div class="ml-related-carousel-wrapper">
-            <div class="ml-related-cards-track" id="relatedCardsTrack">
-                <?php foreach ($relacionados_actuales as $rel): ?>
-                    <a href="<?= htmlspecialchars($rel['link']) ?>" target="_blank" class="ml-related-card">
-                        <div class="ml-related-img-box">
-                            <img src="<?= htmlspecialchars($rel['img']) ?>" alt="<?= htmlspecialchars($rel['titulo']) ?>" loading="lazy">
-                        </div>
-                        <div class="ml-related-info-box">
-                            <h3 class="ml-related-prod-title"><?= htmlspecialchars($rel['titulo']) ?></h3>
-                            <?php if (!empty($rel['precio_original'])): ?>
-                                <s class="ml-related-price-old">$ <?= number_format($rel['precio_original'], 0, ',', '.') ?></s>
-                            <?php endif; ?>
-                            <div class="ml-related-price-row">
-                                <span class="ml-related-price-main">$ <?= number_format($rel['precio_final'], 0, ',', '.') ?></span>
-                                <?php if (!empty($rel['descuento'])): ?>
-                                    <span class="ml-related-discount"><?= $rel['descuento'] ?>% OFF</span>
-                                <?php endif; ?>
-                            </div>
-                            <div class="ml-related-installments"><?= htmlspecialchars($rel['cuotas']) ?></div>
-                            <div class="ml-related-shipping"><?= htmlspecialchars($rel['envio']) ?></div>
-                        </div>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-            
-            <button class="ml-related-next-btn" onclick="slideRelatedProducts(1)" aria-label="Siguiente">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3483fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-        </div>
-    </section>
+    
 
 
     <!-- MOBILE STICKY BOTTOM BAR -->
@@ -2317,156 +2269,7 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             }, { passive: true });
         })();
 
-        /* ─── LIVE AUTOCOMPLETE CON SUGERENCIAS EN TIEMPO REAL IDÉNTICO A MERCADOLIBRE ─── */
-        const searchInput = document.getElementById('mlSearchInput');
-        const suggestBox = document.getElementById('mlAutosuggestBox');
-        const searchForm = document.querySelector('.nav-search-form');
-        let searchDebounce = null;
-
-        function escapeHtml(str) {
-            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        function formatSuggestionHtml(query, fullText) {
-            const q = query.trim().toLowerCase();
-            const text = fullText.trim();
-            const textLower = text.toLowerCase();
-
-            if (textLower.startsWith(q)) {
-                const matchPart = text.substring(0, q.length);
-                const restPart = text.substring(q.length);
-                return `${escapeHtml(matchPart)}<strong>${escapeHtml(restPart)}</strong>`;
-            } else if (textLower.includes(q)) {
-                const idx = textLower.indexOf(q);
-                const before = text.substring(0, idx);
-                const match = text.substring(idx, idx + q.length);
-                const after = text.substring(idx + q.length);
-                return `${escapeHtml(before)}${escapeHtml(match)}<strong>${escapeHtml(after)}</strong>`;
-            }
-            return escapeHtml(text);
-        }
-
-        function renderSuggestions(query, list) {
-            if (!list || list.length === 0) {
-                suggestBox.classList.remove('active');
-                suggestBox.innerHTML = '';
-                if (searchForm) searchForm.classList.remove('has-suggestions');
-                return;
-            }
-
-            suggestBox.innerHTML = '';
-            list.slice(0, 6).forEach(text => {
-                const item = document.createElement('a');
-                item.className = 'nav-suggest-item';
-                item.href = `https://listado.mercadolibre.com.co/${encodeURIComponent(text)}`;
-                item.target = '_blank';
-                
-                const leftDiv = document.createElement('div');
-                leftDiv.className = 'nav-suggest-left';
-                leftDiv.innerHTML = `
-                    <svg class="nav-suggest-icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <span class="nav-suggest-text">${formatSuggestionHtml(query, text)}</span>
-                `;
-
-                const arrowSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                arrowSvg.setAttribute('class', 'nav-suggest-icon-arrow');
-                arrowSvg.setAttribute('viewBox', '0 0 24 24');
-                arrowSvg.setAttribute('fill', 'none');
-                arrowSvg.setAttribute('stroke', 'currentColor');
-                arrowSvg.setAttribute('stroke-width', '2');
-                arrowSvg.setAttribute('stroke-linecap', 'round');
-                arrowSvg.setAttribute('stroke-linejoin', 'round');
-                arrowSvg.innerHTML = `<line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline>`;
-
-                item.appendChild(leftDiv);
-                item.appendChild(arrowSvg);
-
-                item.addEventListener('click', (e) => {
-                    searchInput.value = text;
-                });
-
-                suggestBox.appendChild(item);
-            });
-
-            suggestBox.classList.add('active');
-            if (searchForm) searchForm.classList.add('has-suggestions');
-        }
-
-        if (searchInput && suggestBox) {
-            searchInput.addEventListener('input', function() {
-                clearTimeout(searchDebounce);
-                const query = this.value.trim();
-                if (query.length < 1) {
-                    suggestBox.classList.remove('active');
-                    suggestBox.innerHTML = '';
-                    if (searchForm) searchForm.classList.remove('has-suggestions');
-                    return;
-                }
-
-                searchDebounce = setTimeout(() => {
-                    fetch(`api_sugerencias.php?q=${encodeURIComponent(query)}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            if (Array.isArray(data) && data.length > 0) {
-                                renderSuggestions(query, data);
-                            } else {
-                                fetchJsonpFallback(query);
-                            }
-                        })
-                        .catch(() => {
-                            fetchJsonpFallback(query);
-                        });
-                }, 100);
-            });
-
-            function fetchJsonpFallback(query) {
-                const scriptId = 'ml_suggest_jsonp';
-                const old = document.getElementById(scriptId);
-                if (old) old.remove();
-
-                window.googleSuggestCallback = function(data) {
-                    if (data && data[1]) {
-                        const suggestions = data[1].map(item => typeof item === 'string' ? item : item[0]);
-                        if (suggestions.length > 0) {
-                            if (suggestions[0].toLowerCase() !== query.toLowerCase()) {
-                                suggestions.unshift(query);
-                            }
-                            renderSuggestions(query, suggestions);
-                        }
-                    }
-                };
-
-                const script = document.createElement('script');
-                script.id = scriptId;
-                script.src = `https://suggestqueries.google.com/complete/search?client=youtube&jsonp=googleSuggestCallback&q=${encodeURIComponent(query)}`;
-                document.body.appendChild(script);
-            }
-
-            searchInput.addEventListener('focus', function() {
-                if (this.value.trim().length >= 1 && suggestBox.children.length > 0) {
-                    suggestBox.classList.add('active');
-                    if (searchForm) searchForm.classList.add('has-suggestions');
-                }
-            });
-
-            document.addEventListener('click', function(e) {
-                if (!searchInput.contains(e.target) && !suggestBox.contains(e.target)) {
-                    suggestBox.classList.remove('active');
-                    if (searchForm) searchForm.classList.remove('has-suggestions');
-                }
-            });
-        }
-
-        function handleSearchSubmit(e) {
-            const val = searchInput.value.trim();
-            if (val.length > 0) {
-                window.open(`https://listado.mercadolibre.com.co/${encodeURIComponent(val)}`, '_blank');
-            }
-            return false;
-        }
+        
 
         /* ─── LÓGICA DEL MODAL DE OPINIONES CON FOTOS ─── */
         

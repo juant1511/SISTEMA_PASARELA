@@ -131,6 +131,7 @@ $ids_js = json_encode($ids_pixel);
   
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/checkout.css?v=<?= time() ?>">
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 
   <script>
 !function(f,b,e,v,n,t,s)
@@ -373,7 +374,9 @@ try {
         <div class="cara front" id="caraA">
           <div class="cara-inner">
             <div class="modal-body">
-              <div class="modal-icono"><img src="imagenes/caja.svg"></div>
+              <div class="modal-icono" id="modalIconBox" style="display:flex; justify-content:center; align-items:center; min-height:80px; margin-bottom:12px;">
+                <dotlottie-player id="modalDotLottie" src="https://lottie.host/f0866ccb-1427-43b2-b07c-3850b36ce3f2/gqyfohuylF.lottie" background="transparent" speed="1" style="width: 80px; height: 80px;" loop autoplay></dotlottie-player>
+              </div>
               <h3 class="modal-titulo">¡Tu orden está casi lista!</h3>
               <p class="modal-sub">
               La transportadora pide un anticipo de <span class="resaltar">$3.000</span> para generar la guía y despachar tu envío.
