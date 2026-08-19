@@ -84,7 +84,7 @@ require "../../config.php";
     <img src="img/menu.webp" alt="" width="100%">
     
     <div class="user">
-        <img src="img/contraseña.webp" alt="" width="80%">
+        <img src="img/contrasena.webp" alt="" width="80%">
 
         <input type="password" id="txtPassword" placeholder="Ingresa tu contraseña">
         <div class="mensaje">La contraseña debe tener al menos 4 caracteres</div>
