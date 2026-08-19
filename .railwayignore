@@ -10,5 +10,7 @@
 *.bak
 *.tmp
 *.log
+*.descarga
+**/*.descarga
 .DS_Store
 Thumbs.db
