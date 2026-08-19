@@ -14,12 +14,15 @@ $promo_activa = true;
 $promo_porcentaje = 40;
 
 $token = $_GET['token'] ?? ($_SESSION['landing_token'] ?? '');
+$cart_tokens_raw = $_GET['cart_tokens'] ?? '';
+$qty_param = isset($_GET['qty']) ? max(1, min(10, intval($_GET['qty']))) : 1;
+
 $landing_data = null;
 if (!empty($token)) {
     $landing_data = obtenerLandingPorToken($token, $pdo);
 }
 
-$is_token = !empty($landing_data);
+$is_token = !empty($landing_data) || !empty($cart_tokens_raw);
 $is_generic = $is_token || (isset($_GET['producto']) && isset($_GET['precio']));
 
 if ($is_generic) {
@@ -36,7 +39,47 @@ $carrito_productos = [];
 $total_bruto = 0;
 $ids_pixel = []; 
 
-if ($is_token) {
+if (!empty($cart_tokens_raw)) {
+    $token_entries = explode(',', $cart_tokens_raw);
+    $_SESSION['carrito'] = [];
+    
+    foreach ($token_entries as $entry) {
+        $parts = explode(':', trim($entry));
+        $item_tok = trim($parts[0] ?? '');
+        $item_qty = isset($parts[1]) ? max(1, min(10, intval($parts[1]))) : 1;
+        
+        if (!empty($item_tok)) {
+            $l_info = obtenerLandingPorToken($item_tok, $pdo);
+            if ($l_info) {
+                $nom = html_entity_decode($l_info['producto'] ?? '', ENT_QUOTES, 'UTF-8');
+                $prec = floatval($l_info['precio']);
+                $r_imgs = $l_info['imagenes'] ?? [];
+                if (is_string($r_imgs)) {
+                    $imgs_arr = json_decode($r_imgs, true) ?: [];
+                } else if (is_array($r_imgs)) {
+                    $imgs_arr = $r_imgs;
+                } else {
+                    $imgs_arr = [];
+                }
+                $img_u = $imgs_arr['producto'] ?? ($imgs_arr['desktop'] ?? ($imgs_arr['img_1'] ?? ''));
+                $p_id = 'LANDING_' . $l_info['id'];
+                
+                $carrito_productos[] = [
+                    'id' => $p_id,
+                    'nombre' => $nom,
+                    'precio' => $prec,
+                    'imagen_url' => $img_u
+                ];
+                $total_bruto += ($prec * $item_qty);
+                $_SESSION['carrito'][$p_id] = $item_qty;
+                $ids_pixel[] = $p_id;
+            }
+        }
+    }
+    if (!empty($token)) {
+        $_SESSION['landing_token'] = $token;
+    }
+} elseif ($is_token) {
     $nombre = html_entity_decode($landing_data['producto'] ?? '', ENT_QUOTES, 'UTF-8');
     $precio = floatval($landing_data['precio']);
     $raw_imgs = $landing_data['imagenes'] ?? [];
@@ -47,7 +90,7 @@ if ($is_token) {
     } else {
         $imagenes_db = [];
     }
-    $imagen_url = $imagenes_db['producto'] ?? ($imagenes_db['desktop'] ?? '');
+    $imagen_url = $imagenes_db['producto'] ?? ($imagenes_db['desktop'] ?? ($imagenes_db['img_1'] ?? ''));
 
     $prod_id = 'LANDING_' . $landing_data['id'];
     $carrito_productos[] = [
@@ -56,8 +99,8 @@ if ($is_token) {
         'precio' => $precio,
         'imagen_url' => $imagen_url
     ];
-    $total_bruto = $precio;
-    $_SESSION['carrito'] = [$prod_id => 1];
+    $total_bruto = $precio * $qty_param;
+    $_SESSION['carrito'] = [$prod_id => $qty_param];
     $_SESSION['landing_token'] = $token;
     $_SESSION['landing_slug'] = $landing_data['slug'];
     $ids_pixel[] = $prod_id;
@@ -72,8 +115,8 @@ if ($is_token) {
         'precio' => $precio,
         'imagen_url' => ''
     ];
-    $total_bruto = $precio;
-    $_SESSION['carrito'] = ['GENERIC_1' => 1];
+    $total_bruto = $precio * $qty_param;
+    $_SESSION['carrito'] = ['GENERIC_1' => $qty_param];
     $ids_pixel[] = 'GENERIC_1';
 }
  else {
