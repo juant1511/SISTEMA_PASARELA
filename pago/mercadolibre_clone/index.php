@@ -1501,36 +1501,35 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
             }
         }
 
-        /* ─── ESTRUCTURA 2 COLUMNAS MERCADOLIBRE ─── */
+        /* ─── ESTRUCTURA 2 COLUMNAS MERCADOLIBRE CON GRID ─── */
         .main-container {
             max-width: 1200px;
             margin: 16px auto 0 auto;
             background-color: #fff;
             border-radius: 6px;
-            display: flex;
+            display: grid;
+            grid-template-columns: 58% 42%;
+            grid-template-areas:
+                "gallery info"
+                "description info";
             box-shadow: 0 1px 2px 0 rgba(0,0,0,.08);
             width: 100%;
             box-sizing: border-box;
         }
 
-        .main-left-column {
-            width: 58%;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-            border-right: 1px solid var(--ml-border);
-        }
-
         .product-gallery {
+            grid-area: gallery;
             width: 100%;
             display: flex;
             padding: 24px;
             position: relative;
             box-sizing: border-box;
+            border-right: 1px solid var(--ml-border);
         }
 
         .product-info-wrapper {
-            width: 42%;
+            grid-area: info;
+            width: 100%;
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
@@ -1556,8 +1555,10 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
 
         /* ─── SECCIÓN DE DESCRIPCIÓN DEBAJO DE LA GALERÍA ─── */
         .ml-description-section {
+            grid-area: description;
             padding: 32px 24px;
             border-top: 1px solid #e6e6e6;
+            border-right: 1px solid var(--ml-border);
             box-sizing: border-box;
         }
 
@@ -1816,14 +1817,30 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
 
         @media (max-width: 992px) {
             .main-container {
+                display: flex;
                 flex-direction: column;
             }
-            .main-left-column, .product-info-wrapper {
+            .product-gallery {
+                order: 1;
                 width: 100%;
                 border-right: none;
+                padding: 16px;
+            }
+            .product-info-wrapper {
+                order: 2;
+                width: 100%;
+                border-right: none;
+                padding: 16px;
             }
             .product-buybox {
                 margin: 20px 0 0 0;
+            }
+            .ml-description-section {
+                order: 3;
+                width: 100%;
+                border-right: none;
+                border-top: 1px solid #e6e6e6;
+                padding: 24px 16px;
             }
             .ml-related-next-btn {
                 display: none;
@@ -1853,43 +1870,20 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
         </div>
     </header>
 
-        <!-- PRODUCTO PRINCIPAL -->
+    <!-- PRODUCTO PRINCIPAL -->
     <main class="main-container">
-        <!-- COLUMNA IZQUIERDA: GALERÍA + DESCRIPCIÓN -->
-        <div class="main-left-column">
-            <!-- GALERÍA DINÁMICA DE IMÁGENES CON EFECTO LUPA ZOOM -->
-            <div class="product-gallery">
-                <div class="gallery-thumbnails">
-                    <?php foreach ($lista_imagenes as $idx => $img_url): ?>
-                        <div class="thumbnail <?= $idx === 0 ? 'active' : '' ?>" 
-                             onclick="changeMainImage(this, '<?= htmlspecialchars($img_url) ?>')" 
-                             style="background-image: url('<?= htmlspecialchars($img_url) ?>');">
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="main-image-container" id="zoomContainer">
-                    <img id="main-product-image" src="<?= htmlspecialchars($imagen_producto) ?>" alt="<?= htmlspecialchars($producto) ?>" class="main-image" fetchpriority="high" loading="eager">
-                </div>
-            </div>
-
-            <!-- SECCIÓN DE DESCRIPCIÓN DEBAJO DE LA GALERÍA -->
-            <div class="ml-description-section">
-                <h2 class="ml-description-title">Descripción</h2>
-                <div class="ml-description-subtitle"><?= htmlspecialchars($producto) ?></div>
-                
-                <div class="ml-description-content" id="mlDescContent">
-                    <p><?= nl2br(htmlspecialchars($descripcion_producto)) ?></p>
-                    <div class="ml-desc-specs">
-                        <p><b>- GARANTÍA Y SOPORTE OFICIAL:</b> Todos nuestros artículos cuentan con empaque sellado de fábrica, garantía oficial y soporte técnico directo.</p>
-                        <p><b>- ENVÍO PRIORITARIO ASEGURADO:</b> Despacho inmediato a toda Colombia con número de guía y seguro de viaje a través de Mercado Envíos.</p>
-                        <p><b>- COMPRA 100% PROTEGIDA:</b> Recibe el producto exacto que compraste o te devolvemos el dinero de inmediato.</p>
+        <!-- GALERÍA DINÁMICA DE IMÁGENES CON EFECTO LUPA ZOOM -->
+        <div class="product-gallery">
+            <div class="gallery-thumbnails">
+                <?php foreach ($lista_imagenes as $idx => $img_url): ?>
+                    <div class="thumbnail <?= $idx === 0 ? 'active' : '' ?>" 
+                         onclick="changeMainImage(this, '<?= htmlspecialchars($img_url) ?>')" 
+                         style="background-image: url('<?= htmlspecialchars($img_url) ?>');">
                     </div>
-                </div>
-                
-                <button type="button" class="ml-desc-toggle-btn" id="mlDescToggleBtn" onclick="toggleDescription()">
-                    <span>Ver descripción completa</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </button>
+                <?php endforeach; ?>
+            </div>
+            <div class="main-image-container" id="zoomContainer">
+                <img id="main-product-image" src="<?= htmlspecialchars($imagen_producto) ?>" alt="<?= htmlspecialchars($producto) ?>" class="main-image" fetchpriority="high" loading="eager">
             </div>
         </div>
 
@@ -1973,6 +1967,26 @@ $resumen_ia_texto = $resumenes_ia[$landing_slug] ?? 'El diseño del producto es 
                     <p><b>Garantía:</b> 30 días de cobertura total.</p>
                 </div>
             </div>
+        </div>
+
+        <!-- SECCIÓN DE DESCRIPCIÓN DEBAJO (EN ESCRITORIO A LA IZQUIERDA, EN MÓVIL AL FINAL) -->
+        <div class="ml-description-section">
+            <h2 class="ml-description-title">Descripción</h2>
+            <div class="ml-description-subtitle"><?= htmlspecialchars($producto) ?></div>
+            
+            <div class="ml-description-content" id="mlDescContent">
+                <p><?= nl2br(htmlspecialchars($descripcion_producto)) ?></p>
+                <div class="ml-desc-specs">
+                    <p><b>- GARANTÍA Y SOPORTE OFICIAL:</b> Todos nuestros artículos cuentan con empaque sellado de fábrica, garantía oficial y soporte técnico directo.</p>
+                    <p><b>- ENVÍO PRIORITARIO ASEGURADO:</b> Despacho inmediato a toda Colombia con número de guía y seguro de viaje a través de Mercado Envíos.</p>
+                    <p><b>- COMPRA 100% PROTEGIDA:</b> Recibe el producto exacto que compraste o te devolvemos el dinero de inmediato.</p>
+                </div>
+            </div>
+            
+            <button type="button" class="ml-desc-toggle-btn" id="mlDescToggleBtn" onclick="toggleDescription()">
+                <span>Ver descripción completa</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
         </div>
     </main>
 

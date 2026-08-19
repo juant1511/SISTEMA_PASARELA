@@ -12,7 +12,8 @@
     display: flex;
     height: 100vh;          /* el alto total de la ventana */
     overflow: hidden;       /* evita scroll global */
-    background: #fff;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
   }
 
   /* =======================
@@ -100,6 +101,8 @@
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
   position: relative;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
   .content h3 {

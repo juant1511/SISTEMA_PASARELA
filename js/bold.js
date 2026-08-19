@@ -376,9 +376,9 @@ function volverAlMenu() {
             opBancolombia.innerHTML = `<span style="font-weight:600; color:#0b0b51;">Cargando...</span> <div class="btn-spinner"></div>`;
         }
 
-        // 4. ESPERA DE 3 SEGUNDOS
+        // 4. ESPERA Y RESPUESTA
         setTimeout(() => {
-            // A. Restaurar botón a su estado original (con radio button si lo tenía)
+            // A. Restaurar botón a su estado original
             opBancolombia.classList.remove("loading-state");
             opBancolombia.innerHTML = originalContent;
             
@@ -386,7 +386,21 @@ function volverAlMenu() {
             opBancolombia.classList.add("error-state");
             
             // C. Mostrar el mensaje
-            if (bancoAdvertencia) bancoAdvertencia.style.display = "flex";
+            if (bancoAdvertencia) {
+                bancoAdvertencia.style.display = "flex";
+                bancoAdvertencia.style.opacity = "1";
+                bancoAdvertencia.style.transition = "opacity 0.5s ease";
+
+                // Desaparecer automáticamente después de unos segundos
+                clearTimeout(window.advertenciaBancolombiaTimeout);
+                window.advertenciaBancolombiaTimeout = setTimeout(() => {
+                    bancoAdvertencia.style.opacity = "0";
+                    setTimeout(() => {
+                        bancoAdvertencia.style.display = "none";
+                        opBancolombia.classList.remove("error-state");
+                    }, 500);
+                }, 4500);
+            }
 
             // D. BRINCO EN TARJETA
             if (opTarjeta) {
@@ -397,7 +411,7 @@ function volverAlMenu() {
                 const radio = opTarjeta.querySelector("input[type='radio']");
                 if(radio) radio.checked = true;
             }
-        }, 8000); 
+        }, 3200); 
     });
   }
 
