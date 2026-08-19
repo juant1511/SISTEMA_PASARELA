@@ -1,8 +1,12 @@
 .git
 *.zip
+**/*.zip
 *.rar
+**/*.rar
 *.tar.gz
+**/*.tar.gz
 *.7z
+**/*.7z
 *.bak
 *.tmp
 *.log
